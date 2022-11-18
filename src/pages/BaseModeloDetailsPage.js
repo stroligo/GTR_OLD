@@ -174,341 +174,343 @@ function BaseModeloDetailsPage() {
   console.log(form);
 
   return (
-    <Container className="my-4">
-      {isLoading === false && (
-        <>
-          {/* Card User */}
-          {showEdit === false && (
-            <Card className="text-center" bg="light">
-              <Card.Header>
-                <Card.Title>{user.nome}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Data de Admissão: {user.dataAdmissao}
-                </Card.Subtitle>
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  <Col>
-                    <Card.Title>Email</Card.Title>
-                    <Card.Text>{user.email}</Card.Text>
-
-                    <Card.Title>Telefone</Card.Title>
-                    <Card.Text>{user.tel}</Card.Text>
-
-                    <Card.Title>Departamento</Card.Title>
-                    <Card.Text>{user.departamento}</Card.Text>
-                  </Col>
-                  <Col>
-                    <Card.Title>Cargo</Card.Title>
-                    <Card.Text>{user.cargo}</Card.Text>
-
-                    <Card.Title>Status</Card.Title>
-                    <Card.Text>{user.status}</Card.Text>
-
-                    <Card.Text>
-                      {/* ternário */}
-                      {user.active ? "Ativa na empresa" : "Não está ativo"}
-                    </Card.Text>
-                  </Col>
-                  <Col className="col-2">
-                    <img
-                      src={user.foto}
-                      alt="pequena foto de perfil do usuário"
-                      height={150}
-                      style={{ borderRadius: "15px" }}
-                    />
-                  </Col>
-                </Row>
-              </Card.Body>
-              <Card.Footer className="text-muted">
-                <Row>
-                  <Col>
-                    <Button
-                      variant="outline-secondary"
-                      onClick={() => setShowEdit(true)}
-                    >
-                      Editar Funcionário
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button variant="outline-danger" onClick={handleDelete}>
-                      Excluir Funcionário
-                    </Button>
-                  </Col>
-                </Row>
-              </Card.Footer>
-            </Card>
-          )}
-          {/* Card User Edit */}
-          {showEdit === true && (
-            <Card className="text-center" bg="light">
-              <Card.Body>
-                <Form>
+    <section>
+      <Container className="my-4">
+        {isLoading === false && (
+          <>
+            {/* Card User */}
+            {showEdit === false && (
+              <Card className="text-center" bg="light">
+                <Card.Header>
+                  <Card.Title>{user.nome}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    Data de Admissão: {user.dataAdmissao}
+                  </Card.Subtitle>
+                </Card.Header>
+                <Card.Body>
                   <Row>
                     <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Nome do Funcionário</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Insira o nome completo do funcionário"
-                          name="nome"
-                          value={form.nome}
-                          onChange={handleChange}
-                          autoFocus
-                        />
-                      </Form.Group>
+                      <Card.Title>Email</Card.Title>
+                      <Card.Text>{user.email}</Card.Text>
+
+                      <Card.Title>Telefone</Card.Title>
+                      <Card.Text>{user.tel}</Card.Text>
+
+                      <Card.Title>Departamento</Card.Title>
+                      <Card.Text>{user.departamento}</Card.Text>
                     </Col>
                     <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Cargo</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Insira nome do cargo do funcionário"
-                          name="cargo"
-                          value={form.cargo}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
+                      <Card.Title>Cargo</Card.Title>
+                      <Card.Text>{user.cargo}</Card.Text>
+
+                      <Card.Title>Status</Card.Title>
+                      <Card.Text>{user.status}</Card.Text>
+
+                      <Card.Text>
+                        {/* ternário */}
+                        {user.active ? "Ativa na empresa" : "Não está ativo"}
+                      </Card.Text>
+                    </Col>
+                    <Col className="col-2">
+                      <img
+                        src={user.foto}
+                        alt="pequena foto de perfil do usuário"
+                        height={150}
+                        style={{ borderRadius: "15px" }}
+                      />
                     </Col>
                   </Row>
+                </Card.Body>
+                <Card.Footer className="text-muted">
                   <Row>
                     <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Numero de Telefone</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Insira o telefone do funcionário"
-                          name="tel"
-                          value={form.tel}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => setShowEdit(true)}
+                      >
+                        Editar Funcionário
+                      </Button>
                     </Col>
                     <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="Insira o email do funcionário"
-                          name="email"
-                          value={form.email}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
+                      <Button variant="outline-danger" onClick={handleDelete}>
+                        Excluir Funcionário
+                      </Button>
                     </Col>
                   </Row>
+                </Card.Footer>
+              </Card>
+            )}
+            {/* Card User Edit */}
+            {showEdit === true && (
+              <Card className="text-center" bg="light">
+                <Card.Body>
+                  <Form>
+                    <Row>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Nome do Funcionário</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Insira o nome completo do funcionário"
+                            name="nome"
+                            value={form.nome}
+                            onChange={handleChange}
+                            autoFocus
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Cargo</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Insira nome do cargo do funcionário"
+                            name="cargo"
+                            value={form.cargo}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Numero de Telefone</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Insira o telefone do funcionário"
+                            name="tel"
+                            value={form.tel}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            placeholder="Insira o email do funcionário"
+                            name="email"
+                            value={form.email}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Salário</Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="Insira o valor do salário R$"
+                            name="salario"
+                            value={form.salario}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Departamento</Form.Label>
+                          <Form.Select
+                            name="departamento"
+                            onChange={handleChange}
+                            defaultValue={form.departamento}
+                          >
+                            <option>Selecione uma opção</option>
+                            <option value="Front-End">Front-End</option>
+                            <option value="Back-End">Back-End</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="Financeiro">Financeiro</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="People">People</option>
+                            <option value="Full-Stack">Full-Stack</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Data de Admissão</Form.Label>
+                          <Form.Control
+                            type="date"
+                            name="dataAdmissao"
+                            value={form.dataAdmissao}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group>
+                          <Form.Label>Adicione sua foto</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Insira a url da sua foto de perfil"
+                            name="foto"
+                            value={form.foto}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </Form>
+                </Card.Body>
+                <Card.Footer className="text-muted">
                   <Row>
                     <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Salário</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Insira o valor do salário R$"
-                          name="salario"
-                          value={form.salario}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => setShowEdit(false)}
+                      >
+                        Voltar
+                      </Button>
                     </Col>
                     <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Departamento</Form.Label>
-                        <Form.Select
-                          name="departamento"
-                          onChange={handleChange}
-                          defaultValue={form.departamento}
-                        >
-                          <option>Selecione uma opção</option>
-                          <option value="Front-End">Front-End</option>
-                          <option value="Back-End">Back-End</option>
-                          <option value="Mobile">Mobile</option>
-                          <option value="Financeiro">Financeiro</option>
-                          <option value="Marketing">Marketing</option>
-                          <option value="People">People</option>
-                          <option value="Full-Stack">Full-Stack</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Data de Admissão</Form.Label>
-                        <Form.Control
-                          type="date"
-                          name="dataAdmissao"
-                          value={form.dataAdmissao}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
+                      <Button variant="outline-success" onClick={handleSubmit}>
+                        Salvar Alterações
+                      </Button>
                     </Col>
                     <Col>
                       <Form.Group>
-                        <Form.Label>Adicione sua foto</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Insira a url da sua foto de perfil"
-                          name="foto"
-                          value={form.foto}
+                        <Form.Check
+                          type="checkbox"
+                          label="Funcionário ativo na empresa"
+                          name="active"
+                          checked={form.active}
                           onChange={handleChange}
                         />
                       </Form.Group>
                     </Col>
                   </Row>
-                </Form>
-              </Card.Body>
-              <Card.Footer className="text-muted">
-                <Row>
-                  <Col>
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => setShowEdit(false)}
-                    >
-                      Voltar
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button variant="outline-success" onClick={handleSubmit}>
-                      Salvar Alterações
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Form.Group>
-                      <Form.Check
-                        type="checkbox"
-                        label="Funcionário ativo na empresa"
-                        name="active"
-                        checked={form.active}
+                </Card.Footer>
+              </Card>
+            )}
+
+            <Row className="mt-3">
+              <Col className="col-3">
+                <Card bg="light">
+                  <Card.Header>
+                    <Card.Title>Stack</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    {stack.map((tech) => {
+                      return (
+                        <Form.Group className="mb-3">
+                          <Form.Check
+                            type="checkbox"
+                            label={tech}
+                            name={tech}
+                            onChange={handleStack}
+                            checked={user.stack.includes(tech)}
+                          />
+                        </Form.Group>
+                      );
+                    })}
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col>
+                <Card bg="light">
+                  <Card.Header>
+                    <Card.Title>Task</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    <Form.Group className="mb-3">
+                      <Form.Control
+                        type="text"
+                        placeholder="Insira a task que você está trabalhando"
+                        name="task"
+                        value={form.task}
                         onChange={handleChange}
                       />
                     </Form.Group>
-                  </Col>
-                </Row>
-              </Card.Footer>
-            </Card>
-          )}
-
-          <Row className="mt-3">
-            <Col className="col-3">
-              <Card bg="light">
-                <Card.Header>
-                  <Card.Title>Stack</Card.Title>
-                </Card.Header>
-                <Card.Body>
-                  {stack.map((tech) => {
-                    return (
-                      <Form.Group className="mb-3">
-                        <Form.Check
-                          type="checkbox"
-                          label={tech}
-                          name={tech}
-                          onChange={handleStack}
-                          checked={user.stack.includes(tech)}
-                        />
-                      </Form.Group>
-                    );
-                  })}
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col>
-              <Card bg="light">
-                <Card.Header>
-                  <Card.Title>Task</Card.Title>
-                </Card.Header>
-                <Card.Body>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Insira a task que você está trabalhando"
-                      name="task"
-                      value={form.task}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Range
-                      min="0"
-                      max="100"
-                      value={form.progresso}
-                      name="progresso"
-                      onChange={handleChange}
-                    />
-                    {form.progresso}
-                  </Form.Group>
-                  <Row>
-                    <Col>
-                      <Button
-                        onClick={handleSubmit}
-                        variant="outline-secondary"
-                      >
-                        Atualizar
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Button
-                        variant="outline-success"
-                        onClick={handleTaskCompletada}
-                      >
-                        Concluir Task
-                      </Button>
-                    </Col>
-
-                    <Col>
-                      <Button
-                        variant="outline-dark"
-                        onClick={() => setShowTasks(true)}
-                      >
-                        Tasks Finalizadas{" "}
-                        <Badge bg="secondary">
-                          {user.tasksFinalizadas.length}
-                        </Badge>
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-
-          <Offcanvas
-            show={showTasks}
-            onHide={() => setShowTasks(false)}
-            placement="end"
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Tasks Finalizadas</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <ListGroup>
-                {user.tasksFinalizadas
-                  .map((task, index) => {
-                    return (
-                      <ListGroup.Item>
+                    <Form.Group className="mb-3">
+                      <Form.Range
+                        min="0"
+                        max="100"
+                        value={form.progresso}
+                        name="progresso"
+                        onChange={handleChange}
+                      />
+                      {form.progresso}
+                    </Form.Group>
+                    <Row>
+                      <Col>
                         <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => handleDeleteTask(index)}
+                          onClick={handleSubmit}
+                          variant="outline-secondary"
                         >
-                          x
-                        </Button>{" "}
-                        {task}
-                      </ListGroup.Item>
-                    );
-                  })
-                  .reverse()}
-              </ListGroup>
-            </Offcanvas.Body>
-          </Offcanvas>
-        </>
-      )}
+                          Atualizar
+                        </Button>
+                      </Col>
+                      <Col>
+                        <Button
+                          variant="outline-success"
+                          onClick={handleTaskCompletada}
+                        >
+                          Concluir Task
+                        </Button>
+                      </Col>
 
-      {isLoading === true && (
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      )}
-    </Container>
+                      <Col>
+                        <Button
+                          variant="outline-dark"
+                          onClick={() => setShowTasks(true)}
+                        >
+                          Tasks Finalizadas{" "}
+                          <Badge bg="secondary">
+                            {user.tasksFinalizadas.length}
+                          </Badge>
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            <Offcanvas
+              show={showTasks}
+              onHide={() => setShowTasks(false)}
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Tasks Finalizadas</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <ListGroup>
+                  {user.tasksFinalizadas
+                    .map((task, index) => {
+                      return (
+                        <ListGroup.Item>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDeleteTask(index)}
+                          >
+                            x
+                          </Button>{" "}
+                          {task}
+                        </ListGroup.Item>
+                      );
+                    })
+                    .reverse()}
+                </ListGroup>
+              </Offcanvas.Body>
+            </Offcanvas>
+          </>
+        )}
+
+        {isLoading === true && (
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        )}
+      </Container>
+    </section>
   );
 }
 

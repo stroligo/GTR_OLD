@@ -31,7 +31,7 @@ function BaseModelo() {
   }
 
   return (
-    <div>
+    <section>
       <Container>
         <FloatingLabel
           controlId="floatingInput"
@@ -97,7 +97,7 @@ function BaseModelo() {
 
         <ModalCreateUser reload={reload} setReload={setReload} />
       </Container>
-    </div>
+    </section>
   );
 }
 
