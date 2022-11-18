@@ -12,6 +12,10 @@ function NavBar() {
         <Link to="/project">
           <li>Project</li>
         </Link>
+
+        <Link to="/modelo">
+          <li>Modelo da semana</li>
+        </Link>
       </ul>
     </section>
   );
