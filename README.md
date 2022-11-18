@@ -1,6 +1,6 @@
 # Projeto GTR - Gestor do Trabalho Remoto
 
-Ferramenta criada como projeto 2 no curso da IronHack
+Ferramenta criada como PROJETO-2 no curso da IronHack
 
 ## Solução desenvolvida por:
 
