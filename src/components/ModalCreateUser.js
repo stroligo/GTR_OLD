@@ -103,7 +103,7 @@ function ModalCreateUser({ reload, setReload }) {
                 <Form.Group className="mb-3">
                   <Form.Label>Numero de Telefone</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="tel"
                     placeholder="Insira o telefone do funcionário"
                     name="tel"
                     value={form.tel}
@@ -133,6 +133,7 @@ function ModalCreateUser({ reload, setReload }) {
                     placeholder="Insira o valor do salário R$"
                     name="salario"
                     value={form.salario}
+                    min = "0"
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -183,7 +184,7 @@ function ModalCreateUser({ reload, setReload }) {
                 <Form.Group>
                   <Form.Label>Adicione sua foto</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="url"
                     placeholder="Insira a url da sua foto de perfil"
                     name="foto"
                     value={form.foto}
