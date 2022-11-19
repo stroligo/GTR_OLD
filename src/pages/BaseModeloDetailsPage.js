@@ -16,11 +16,15 @@ import {
 } from "react-bootstrap";
 
 function BaseModeloDetailsPage() {
+  const [validated, setValidated] = useState();
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
   const { userID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
   const navigate = useNavigate(); // instanciar o useNavigate()
 
   const [user, setUser] = useState({}); //informações do user que veio da minha API
   const [showEdit, setShowEdit] = useState(false); //controlar a visualização form // true -> form aparece
+
   const [form, setForm] = useState({
     nome: "",
     salario: "",
@@ -51,6 +55,7 @@ function BaseModeloDetailsPage() {
         );
         setUser(response.data);
         setForm(response.data);
+        setValidated(false);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -77,7 +82,7 @@ function BaseModeloDetailsPage() {
     try {
       await axios.delete(`https://ironrest.herokuapp.com/enap92/${userID}`);
       //agora que o usuário está deletado
-      //redirecionaremos ele para a homePage
+      //redirecionaremos ele para modelo
       navigate("/modelo");
       toast.success("Funcionário deletado com sucesso");
     } catch (error) {
@@ -88,13 +93,15 @@ function BaseModeloDetailsPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setValidated(true);
+    if ([...document.querySelectorAll("input")].map(element => element.checkValidity()).reduce((result, element) => result * element))
     try {
       //clonando o form para que possamos fazer as alterações necessárias
       const clone = { ...form };
       delete clone._id;
 
       await axios.put(`https://ironrest.herokuapp.com/enap92/${userID}`, clone);
-
+      setValidated(true);
       toast.success("Alterações salvas");
       setReload(!reload);
       setShowEdit(false);
@@ -244,16 +251,22 @@ function BaseModeloDetailsPage() {
             {showEdit === true && (
               <Card className="text-center" bg="light">
                 <Card.Body>
-                  <Form>
+                  {/* FORMULÁRIO */}
+                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Nome do Funcionário</Form.Label>
+                          <Form.Label
+                            htmlFor="nome">
+                            Nome do Funcionário
+                          </Form.Label>
                           <Form.Control
+                            id="nome"
                             type="text"
                             placeholder="Insira o nome completo do funcionário"
                             name="nome"
                             value={form.nome}
+                            required
                             onChange={handleChange}
                             autoFocus
                           />
@@ -261,8 +274,9 @@ function BaseModeloDetailsPage() {
                       </Col>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Cargo</Form.Label>
+                          <Form.Label htmlFor="cargo">Cargo</Form.Label>
                           <Form.Control
+                            id="cargo"
                             type="text"
                             placeholder="Insira nome do cargo do funcionário"
                             name="cargo"
@@ -275,8 +289,9 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Numero de Telefone</Form.Label>
+                          <Form.Label htmlFor="tel">Numero de Telefone</Form.Label>
                           <Form.Control
+                            id="tel"
                             type="tel"
                             placeholder="Insira o telefone do funcionário"
                             name="tel"
@@ -287,11 +302,13 @@ function BaseModeloDetailsPage() {
                       </Col>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Email</Form.Label>
+                          <Form.Label htmlFor="email">Email</Form.Label>
                           <Form.Control
+                            id="email"
                             type="email"
                             placeholder="Insira o email do funcionário"
                             name="email"
+                            required
                             value={form.email}
                             onChange={handleChange}
                           />
@@ -301,25 +318,22 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Salário</Form.Label>
+                          <Form.Label htmlFor="salario">Salário</Form.Label>
                           <Form.Control
+                            id="salario"
                             type="number"
                             placeholder="Insira o valor do salário R$"
                             name="salario"
-                            min="0"
                             value={form.salario}
+                            min="0"
                             onChange={handleChange}
                           />
                         </Form.Group>
                       </Col>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Departamento</Form.Label>
-                          <Form.Select
-                            name="departamento"
-                            onChange={handleChange}
-                            defaultValue={form.departamento}
-                          >
+                          <Form.Label htmlFor="departamento">Departamento</Form.Label>
+                          <Form.Select id="departamento" name="departamento" onChange={handleChange}>
                             <option>Selecione uma opção</option>
                             <option value="Front-End">Front-End</option>
                             <option value="Back-End">Back-End</option>
@@ -335,15 +349,31 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label>Data de Admissão</Form.Label>
+                          <Form.Label htmlFor="status">Status</Form.Label>
+                          <Form.Select id="status" name="status" onChange={handleChange}>
+                            <option>Selecione uma opção</option>
+                            <option value="Disponível">Disponível</option>
+                            <option value="Alocado">Alocado</option>
+                            <option value="De Férias">De Férias</option>
+                            <option value="De Licença">De Licença</option>
+                          </Form.Select>
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="dataAdmissao">Data de Admissão</Form.Label>
                           <Form.Control
+                            id="dataAdmissao"
                             type="date"
                             name="dataAdmissao"
+                            required
                             value={form.dataAdmissao}
                             onChange={handleChange}
                           />
                         </Form.Group>
                       </Col>
+                    </Row>
+                    <Row>
                       <Col>
                         <Form.Group>
                           <Form.Label>Adicione sua foto</Form.Label>

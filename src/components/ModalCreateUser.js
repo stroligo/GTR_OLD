@@ -4,6 +4,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 function ModalCreateUser({ reload, setReload }) {
+  const [validated, setValidated] = useState(false);
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({
     nome: "",
@@ -21,7 +24,6 @@ function ModalCreateUser({ reload, setReload }) {
     cargo: "",
     tasksFinalizadas: [],
   });
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -31,6 +33,9 @@ function ModalCreateUser({ reload, setReload }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setValidated(true);
+    if ([...document.querySelectorAll("input")].map(element =>  element.checkValidity()).reduce((result, element) => result * element)
+    )
     try {
       await axios.post("https://ironrest.herokuapp.com/enap92", form);
       handleClose(); // fechar o modal
@@ -52,6 +57,7 @@ function ModalCreateUser({ reload, setReload }) {
       });
       toast.success("Funcionário criado com sucesso! :D");
       setReload(!reload);
+      setValidated(false);
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado. Tente novamente.");
@@ -66,20 +72,25 @@ function ModalCreateUser({ reload, setReload }) {
 
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>Formulário de criação</Modal.Title>
+          <Modal.Title>Formulário de criação - Hoje é {date}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/* FORMULÁRIO */}
-          <Form>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Nome do Funcionário</Form.Label>
+                  <Form.Label 
+                    htmlFor="nome">
+                    Nome do Funcionário
+                  </Form.Label>
                   <Form.Control
+                    id="nome"
                     type="text"
                     placeholder="Insira o nome completo do funcionário"
                     name="nome"
                     value={form.nome}
+                    required
                     onChange={handleChange}
                     autoFocus
                   />
@@ -87,8 +98,9 @@ function ModalCreateUser({ reload, setReload }) {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Cargo</Form.Label>
+                  <Form.Label htmlFor="cargo">Cargo</Form.Label>
                   <Form.Control
+                    id="cargo"
                     type="text"
                     placeholder="Insira nome do cargo do funcionário"
                     name="cargo"
@@ -101,8 +113,9 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Numero de Telefone</Form.Label>
+                  <Form.Label htmlFor="tel">Numero de Telefone</Form.Label>
                   <Form.Control
+                    id="tel"
                     type="tel"
                     placeholder="Insira o telefone do funcionário"
                     name="tel"
@@ -113,11 +126,13 @@ function ModalCreateUser({ reload, setReload }) {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label htmlFor="email">Email</Form.Label>
                   <Form.Control
+                    id="email"
                     type="email"
                     placeholder="Insira o email do funcionário"
                     name="email"
+                    required
                     value={form.email}
                     onChange={handleChange}
                   />
@@ -127,8 +142,9 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Salário</Form.Label>
+                  <Form.Label htmlFor="salario">Salário</Form.Label>
                   <Form.Control
+                    id="salario"
                     type="number"
                     placeholder="Insira o valor do salário R$"
                     name="salario"
@@ -140,8 +156,8 @@ function ModalCreateUser({ reload, setReload }) {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Departamento</Form.Label>
-                  <Form.Select name="departamento" onChange={handleChange}>
+                  <Form.Label htmlFor="departamento">Departamento</Form.Label>
+                  <Form.Select id="departamento" name="departamento" onChange={handleChange}>
                     <option>Selecione uma opção</option>
                     <option value="Front-End">Front-End</option>
                     <option value="Back-End">Back-End</option>
@@ -157,8 +173,8 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Status</Form.Label>
-                  <Form.Select name="status" onChange={handleChange}>
+                  <Form.Label htmlFor="status">Status</Form.Label>
+                  <Form.Select id="status" name="status" onChange={handleChange}>
                     <option>Selecione uma opção</option>
                     <option value="Disponível">Disponível</option>
                     <option value="Alocado">Alocado</option>
@@ -169,10 +185,12 @@ function ModalCreateUser({ reload, setReload }) {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Data de Admissão</Form.Label>
+                  <Form.Label htmlFor="dataAdmissao">Data de Admissão</Form.Label>
                   <Form.Control
+                    id="dataAdmissao"
                     type="date"
                     name="dataAdmissao"
+                    required
                     value={form.dataAdmissao}
                     onChange={handleChange}
                   />
