@@ -78,7 +78,7 @@ function BaseModeloDetailsPage() {
       await axios.delete(`https://ironrest.herokuapp.com/enap92/${userID}`);
       //agora que o usuário está deletado
       //redirecionaremos ele para a homePage
-      navigate("/");
+      navigate("/modelo");
       toast.success("Funcionário deletado com sucesso");
     } catch (error) {
       console.log(error);
@@ -211,7 +211,7 @@ function BaseModeloDetailsPage() {
                         {user.active ? "Ativa na empresa" : "Não está ativo"}
                       </Card.Text>
                     </Col>
-                    <Col className="col-2">
+                    <Col className="col-3">
                       <img
                         src={user.foto}
                         alt="pequena foto de perfil do usuário"
@@ -277,7 +277,7 @@ function BaseModeloDetailsPage() {
                         <Form.Group className="mb-3">
                           <Form.Label>Numero de Telefone</Form.Label>
                           <Form.Control
-                            type="text"
+                            type="tel"
                             placeholder="Insira o telefone do funcionário"
                             name="tel"
                             value={form.tel}
@@ -306,6 +306,7 @@ function BaseModeloDetailsPage() {
                             type="number"
                             placeholder="Insira o valor do salário R$"
                             name="salario"
+                            min="0"
                             value={form.salario}
                             onChange={handleChange}
                           />
@@ -347,7 +348,7 @@ function BaseModeloDetailsPage() {
                         <Form.Group>
                           <Form.Label>Adicione sua foto</Form.Label>
                           <Form.Control
-                            type="text"
+                            type="url"
                             placeholder="Insira a url da sua foto de perfil"
                             name="foto"
                             value={form.foto}
@@ -390,15 +391,15 @@ function BaseModeloDetailsPage() {
             )}
 
             <Row className="mt-3">
-              <Col className="col-3">
+              <Col className="col-md-3">
                 <Card bg="light">
                   <Card.Header>
                     <Card.Title>Stack</Card.Title>
                   </Card.Header>
                   <Card.Body>
-                    {stack.map((tech) => {
+                    {stack.map((tech, index) => {
                       return (
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" key={`${index} - ${tech}`}>
                           <Form.Check
                             type="checkbox"
                             label={tech}
@@ -485,7 +486,7 @@ function BaseModeloDetailsPage() {
                   {user.tasksFinalizadas
                     .map((task, index) => {
                       return (
-                        <ListGroup.Item>
+                        <ListGroup.Item key={`${index} - ${task}`}>
                           <Button
                             variant="danger"
                             size="sm"
