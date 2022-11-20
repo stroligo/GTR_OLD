@@ -176,7 +176,7 @@ function ModalCreateUser({ reload, setReload }) {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="status">Status</Form.Label>
-                  <Form.Select id="status" name="status" onChange={handleChange}>
+                  <Form.Select id="status" name="status" onChange={handleChange} defaultValue={form.status}>
                     <option>Selecione uma opção</option>
                     <option value="Disponível">Disponível</option>
                     <option value="Alocado">Alocado</option>
@@ -189,7 +189,7 @@ function ModalCreateUser({ reload, setReload }) {
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="dataAdmissao">Data de Admissão</Form.Label>
                   <Form.Control
-                    id="dataAdmissao"
+                    id="dataAdmissao2"
                     type="date"
                     min={dateMin}
                     max={dateMax}
@@ -198,6 +198,9 @@ function ModalCreateUser({ reload, setReload }) {
                     value={form.dataAdmissao}
                     onChange={handleChange}
                   />
+                  <Form.Control.Feedback type="invalid">
+                     A data de admissão só pode ser cadastrada no maximo 30 dias antes.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
