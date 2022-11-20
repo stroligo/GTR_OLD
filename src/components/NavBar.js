@@ -1,23 +1,31 @@
-import { Link } from "react-router-dom";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
+import { LinkContainer } from "react-router-bootstrap";
+
 function NavBar() {
   return (
-    <section>
-      <ul>
-        <Link to="/">
-          <li>Home</li>
-        </Link>
-        <Link to="/about">
-          <li>About</li>
-        </Link>
-        <Link to="/project">
-          <li>Project</li>
-        </Link>
-
-        <Link to="/modelo">
-          <li>Modelo da semana</li>
-        </Link>
-      </ul>
-    </section>
+    <Navbar as="section" expand="lg">
+      <Container>
+        <LinkContainer to="/">
+          <Navbar.Brand>GTR - Gestão do Trabalho Remoto</Navbar.Brand>
+        </LinkContainer>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse className="justify-content-end" id="navbarScroll">
+          <Nav>
+            <LinkContainer to="/about">
+              <Nav.Link>About</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="project">
+              <Nav.Link>Project</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/modelo">
+              <Nav.Link>Modelo da semana</Nav.Link>
+            </LinkContainer>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
