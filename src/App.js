@@ -1,37 +1,37 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import CssBaseline from "@mui/material/CssBaseline";
 import "./App.css";
 // IMPORT para as rotas
 import { Routes, Route } from "react-router-dom";
 
-import NavBar from "./components/NavBar";
-import PageHome from "./pages/PageHome";
-import PageAbout from "./pages/PageAbout";
-import PageProject from "./pages/PageProject";
-import PageError from "./pages/PageError";
+import PageHome from "./site/PageHome";
+import PageAbout from "./site/PageAbout";
+import PageProject from "./site/PageProject";
+import PageError from "./site/PageError";
 
-import BaseModelo from "./pages/BaseModelo";
-import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
+import Dashboard from "./dashboard/DashboardContent";
+
+import BaseModelo from "./site/BaseModelo";
+import BaseModeloDetailsPage from "./site/BaseModeloDetailsPage";
 
 import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div className="App">
-      <NavBar />
+      <CssBaseline />
       <Toaster />
       <Routes>
         <Route path="/" element={<PageHome />} />
         <Route path="/about" element={<PageAbout />} />
         <Route path="/project" element={<PageProject />} />
 
-        {/* MODELO */}
         <Route path="/modelo" element={<BaseModelo />} />
         <Route
           path="/modelo/user/:userID"
           element={<BaseModeloDetailsPage />}
         />
-
         <Route path="*" element={<PageError />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );

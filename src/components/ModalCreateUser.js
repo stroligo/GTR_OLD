@@ -8,9 +8,11 @@ function ModalCreateUser({ reload, setReload }) {
   const current = new Date();
   const min = new Date();
   const max = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-  min.setFullYear(min.getFullYear()-80) //so podem ser cadastrado servidores com menos de 80 anos
-  max.setDate(current.getDate()+30) //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
+  min.setFullYear(min.getFullYear() - 80); //so podem ser cadastrado servidores com menos de 80 anos
+  max.setDate(current.getDate() + 30); //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
   const dateMin = `${min.getFullYear()}-${min.getMonth() + 1}-${min.getDate()}`;
   const dateMax = `${max.getFullYear()}-${max.getMonth() + 1}-${max.getDate()}`;
   const [show, setShow] = useState(false);
@@ -40,33 +42,37 @@ function ModalCreateUser({ reload, setReload }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setValidated(true);
-    if ([...document.querySelectorAll("input")].map(element =>  element.checkValidity()).reduce((result, element) => result * element))
-    try {
-      await axios.post("https://ironrest.herokuapp.com/enap92", form);
-      handleClose(); // fechar o modal
-      setForm({
-        nome: "",
-        salario: "",
-        email: "",
-        tel: "",
-        departamento: "",
-        dataAdmissao: "",
-        status: "",
-        stack: [],
-        active: true,
-        task: "",
-        progresso: "",
-        foto: "",
-        cargo: "",
-        tasksFinalizadas: [],
-      });
-      toast.success("Funcionário criado com sucesso! :D");
-      setReload(!reload);
-      setValidated(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado. Tente novamente.");
-    }
+    if (
+      [...document.querySelectorAll("input")]
+        .map((element) => element.checkValidity())
+        .reduce((result, element) => result * element)
+    )
+      try {
+        await axios.post("https://ironrest.herokuapp.com/enap92", form);
+        handleClose(); // fechar o modal
+        setForm({
+          nome: "",
+          salario: "",
+          email: "",
+          tel: "",
+          departamento: "",
+          dataAdmissao: "",
+          status: "",
+          stack: [],
+          active: true,
+          task: "",
+          progresso: "",
+          foto: "",
+          cargo: "",
+          tasksFinalizadas: [],
+        });
+        toast.success("Funcionário criado com sucesso! :D");
+        setReload(!reload);
+        setValidated(false);
+      } catch (error) {
+        console.log(error);
+        toast.error("Algo deu errado. Tente novamente.");
+      }
   }
 
   return (
@@ -151,7 +157,7 @@ function ModalCreateUser({ reload, setReload }) {
                     placeholder="Insira o valor do salário R$"
                     name="salario"
                     value={form.salario}
-                    min = "0"
+                    min="0"
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -159,7 +165,11 @@ function ModalCreateUser({ reload, setReload }) {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="departamento">Departamento</Form.Label>
-                  <Form.Select id="departamento" name="departamento" onChange={handleChange}>
+                  <Form.Select
+                    id="departamento"
+                    name="departamento"
+                    onChange={handleChange}
+                  >
                     <option>Selecione uma opção</option>
                     <option value="Front-End">Front-End</option>
                     <option value="Back-End">Back-End</option>
@@ -176,7 +186,11 @@ function ModalCreateUser({ reload, setReload }) {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="status">Status</Form.Label>
-                  <Form.Select id="status" name="status" onChange={handleChange}>
+                  <Form.Select
+                    id="status"
+                    name="status"
+                    onChange={handleChange}
+                  >
                     <option>Selecione uma opção</option>
                     <option value="Disponível">Disponível</option>
                     <option value="Alocado">Alocado</option>
@@ -187,7 +201,9 @@ function ModalCreateUser({ reload, setReload }) {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="dataAdmissao">Data de Admissão</Form.Label>
+                  <Form.Label htmlFor="dataAdmissao">
+                    Data de Admissão
+                  </Form.Label>
                   <Form.Control
                     id="dataAdmissao"
                     type="date"
@@ -204,7 +220,7 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group>
-                  <Form.Label htmlFor="foto" >Adicione sua foto</Form.Label>
+                  <Form.Label htmlFor="foto">Adicione sua foto</Form.Label>
                   <Form.Control
                     id="foto"
                     type="url"

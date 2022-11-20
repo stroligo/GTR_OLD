@@ -1,23 +1,29 @@
+import { Container, Grid, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+
 function NavBar() {
   return (
-    <section>
-      <ul>
-        <Link to="/">
-          <li>Home</li>
-        </Link>
-        <Link to="/about">
-          <li>About</li>
-        </Link>
-        <Link to="/project">
-          <li>Project</li>
-        </Link>
-
-        <Link to="/modelo">
-          <li>Modelo da semana</li>
-        </Link>
-      </ul>
-    </section>
+    <Container maxWidth="xl" sx={{ m: 4 }}>
+      <Grid container spacing={2}>
+        <Grid xs={12} md={8}>
+          <Button variant="contained">
+            <Link to="/">Home </Link>
+          </Button>
+          <Button variant="contained">
+            <Link to="/about">about </Link>
+          </Button>
+          <Button variant="contained">
+            <Link to="/project">project </Link>
+          </Button>
+          <Button variant="contained">
+            <Link to="/modelo">Week Model </Link>
+          </Button>
+          <Button variant="contained">
+            <Link to="/dashboard">Model dashboard </Link>
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 
