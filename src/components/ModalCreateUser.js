@@ -6,7 +6,13 @@ import axios from "axios";
 function ModalCreateUser({ reload, setReload }) {
   const [validated, setValidated] = useState(false);
   const current = new Date();
+  const min = new Date();
+  const max = new Date();
   const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+  min.setFullYear(min.getFullYear()-80) //so podem ser cadastrado servidores com menos de 80 anos
+  max.setDate(current.getDate()+30) //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
+  const dateMin = `${min.getFullYear()}-${min.getMonth() + 1}-${min.getDate()}`;
+  const dateMax = `${max.getFullYear()}-${max.getMonth() + 1}-${max.getDate()}`;
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({
     nome: "",
@@ -34,8 +40,7 @@ function ModalCreateUser({ reload, setReload }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setValidated(true);
-    if ([...document.querySelectorAll("input")].map(element =>  element.checkValidity()).reduce((result, element) => result * element)
-    )
+    if ([...document.querySelectorAll("input")].map(element =>  element.checkValidity()).reduce((result, element) => result * element))
     try {
       await axios.post("https://ironrest.herokuapp.com/enap92", form);
       handleClose(); // fechar o modal
@@ -80,10 +85,7 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label 
-                    htmlFor="nome">
-                    Nome do Funcionário
-                  </Form.Label>
+                  <Form.Label htmlFor="nome">Nome do Funcionário</Form.Label>
                   <Form.Control
                     id="nome"
                     type="text"
@@ -189,6 +191,8 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Control
                     id="dataAdmissao"
                     type="date"
+                    min={dateMin}
+                    max={dateMax}
                     name="dataAdmissao"
                     required
                     value={form.dataAdmissao}
@@ -200,8 +204,9 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group>
-                  <Form.Label>Adicione sua foto</Form.Label>
+                  <Form.Label htmlFor="foto" >Adicione sua foto</Form.Label>
                   <Form.Control
+                    id="foto"
                     type="url"
                     placeholder="Insira a url da sua foto de perfil"
                     name="foto"

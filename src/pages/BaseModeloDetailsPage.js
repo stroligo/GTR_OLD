@@ -17,8 +17,12 @@ import {
 
 function BaseModeloDetailsPage() {
   const [validated, setValidated] = useState();
-  const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+  const min = new Date();
+  const max = new Date();
+  min.setFullYear(min.getFullYear()-80) //so podem ser cadastrado servidores com menos de 80 anos
+  max.setDate(max.getDate()+30) //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
+  const dateMin = `${min.getFullYear()}-${min.getMonth() + 1}-${min.getDate()}`;
+  const dateMax = `${max.getFullYear()}-${max.getMonth() + 1}-${max.getDate()}`;
   const { userID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
   const navigate = useNavigate(); // instanciar o useNavigate()
 
@@ -191,7 +195,7 @@ function BaseModeloDetailsPage() {
                 <Card.Header>
                   <Card.Title>{user.nome}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    Data de Admissão: {user.dataAdmissao}
+                    Data de Admissão: {user.dataAdmissao.split("-").reverse().join("-")}
                   </Card.Subtitle>
                 </Card.Header>
                 <Card.Body>
@@ -365,6 +369,8 @@ function BaseModeloDetailsPage() {
                           <Form.Control
                             id="dataAdmissao"
                             type="date"
+                            min={dateMin}
+                            max={dateMax}
                             name="dataAdmissao"
                             required
                             value={form.dataAdmissao}
@@ -376,8 +382,9 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group>
-                          <Form.Label>Adicione sua foto</Form.Label>
+                          <Form.Label htmlFor="foto">Adicione sua foto</Form.Label>
                           <Form.Control
+                            id="foto"
                             type="url"
                             placeholder="Insira a url da sua foto de perfil"
                             name="foto"
@@ -405,8 +412,9 @@ function BaseModeloDetailsPage() {
                       </Button>
                     </Col>
                     <Col>
-                      <Form.Group>
+                      <Form.Group htmlFor="active">
                         <Form.Check
+                          id="active"
                           type="checkbox"
                           label="Funcionário ativo na empresa"
                           name="active"
@@ -429,8 +437,9 @@ function BaseModeloDetailsPage() {
                   <Card.Body>
                     {stack.map((tech, index) => {
                       return (
-                        <Form.Group className="mb-3" key={`${index} - ${tech}`}>
+                        <Form.Group htmlFor={tech} className="mb-3" key={`${index} - ${tech}`}>
                           <Form.Check
+                            id={tech}
                             type="checkbox"
                             label={tech}
                             name={tech}
@@ -449,8 +458,9 @@ function BaseModeloDetailsPage() {
                     <Card.Title>Task</Card.Title>
                   </Card.Header>
                   <Card.Body>
-                    <Form.Group className="mb-3">
+                    <Form.Group htmlFor="task" className="mb-3">
                       <Form.Control
+                        id="task"
                         type="text"
                         placeholder="Insira a task que você está trabalhando"
                         name="task"
@@ -458,8 +468,9 @@ function BaseModeloDetailsPage() {
                         onChange={handleChange}
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group htmlFor="progresso" className="mb-3">
                       <Form.Range
+                        id="progresso"
                         min="0"
                         max="100"
                         value={form.progresso}
