@@ -274,6 +274,9 @@ function BaseModeloDetailsPage() {
                             onChange={handleChange}
                             autoFocus
                           />
+                          <Form.Control.Feedback type="invalid">
+                             Informe o nome completo
+                          </Form.Control.Feedback>
                         </Form.Group>
                       </Col>
                       <Col>
@@ -337,7 +340,7 @@ function BaseModeloDetailsPage() {
                       <Col>
                         <Form.Group className="mb-3">
                           <Form.Label htmlFor="departamento">Departamento</Form.Label>
-                          <Form.Select id="departamento" name="departamento" onChange={handleChange}>
+                          <Form.Select id="departamento" name="departamento" onChange={handleChange} defaultValue={form.departamento}>
                             <option>Selecione uma opção</option>
                             <option value="Front-End">Front-End</option>
                             <option value="Back-End">Back-End</option>
@@ -354,8 +357,7 @@ function BaseModeloDetailsPage() {
                       <Col>
                         <Form.Group className="mb-3">
                           <Form.Label htmlFor="status">Status</Form.Label>
-                          <Form.Select id="status" name="status" onChange={handleChange}>
-                            <option>Selecione uma opção</option>
+                          <Form.Select id="status" name="status" onChange={handleChange} defaultValue={form.status}>                           <option>Selecione uma opção</option>
                             <option value="Disponível">Disponível</option>
                             <option value="Alocado">Alocado</option>
                             <option value="De Férias">De Férias</option>
@@ -376,7 +378,10 @@ function BaseModeloDetailsPage() {
                             value={form.dataAdmissao}
                             onChange={handleChange}
                           />
-                        </Form.Group>
+                       </Form.Group>
+                       <Form.Control.Feedback type="invalid">
+                         A data de admissão só pode ser realizada no maximo 30 dias antes.
+                       </Form.Control.Feedback>
                       </Col>
                     </Row>
                     <Row>

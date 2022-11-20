@@ -205,7 +205,7 @@ function ModalCreateUser({ reload, setReload }) {
                     Data de Admissão
                   </Form.Label>
                   <Form.Control
-                    id="dataAdmissao"
+                    id="dataAdmissao2"
                     type="date"
                     min={dateMin}
                     max={dateMax}
@@ -214,6 +214,10 @@ function ModalCreateUser({ reload, setReload }) {
                     value={form.dataAdmissao}
                     onChange={handleChange}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    A data de admissão só pode ser cadastrada no maximo 30 dias
+                    antes.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
