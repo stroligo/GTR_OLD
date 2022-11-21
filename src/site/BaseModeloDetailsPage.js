@@ -378,10 +378,10 @@ function BaseModeloDetailsPage() {
                             value={form.dataAdmissao}
                             onChange={handleChange}
                           />
-                       </Form.Group>
-                       <Form.Control.Feedback type="invalid">
-                         A data de admissão só pode ser realizada no maximo 30 dias antes.
-                       </Form.Control.Feedback>
+                          <Form.Control.Feedback type="invalid">
+                            A data de admissão só pode ser realizada no maximo 30 dias antes.
+                          </Form.Control.Feedback>
+                        </Form.Group>
                       </Col>
                     </Row>
                     <Row>

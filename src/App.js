@@ -14,12 +14,14 @@ import BaseModelo from "./site/BaseModelo";
 import BaseModeloDetailsPage from "./site/BaseModeloDetailsPage";
 
 import { Toaster } from "react-hot-toast";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
     <div className="App">
       <CssBaseline />
       <Toaster />
+      <NavBar />
       <Routes>
         <Route path="/" element={<PageHome />} />
         <Route path="/about" element={<PageAbout />} />

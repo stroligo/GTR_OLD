@@ -1,7 +1,9 @@
+
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function ModalCreateUser({ reload, setReload }) {
   const [validated, setValidated] = useState(false);
@@ -205,7 +207,7 @@ function ModalCreateUser({ reload, setReload }) {
                     Data de Admissão
                   </Form.Label>
                   <Form.Control
-                    id="dataAdmissao2"
+                    id="dataAdmissao"
                     type="date"
                     min={dateMin}
                     max={dateMax}
