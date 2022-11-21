@@ -1,5 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Table,
   Container,
@@ -38,8 +36,7 @@ function BaseModelo() {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome / departamento / cargo"
-          className="my-3"
-        >
+          className="my-3">
           <Form.Control
             type="text"
             placeholder="pesquise"

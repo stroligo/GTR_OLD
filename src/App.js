@@ -1,17 +1,15 @@
-import CssBaseline from "@mui/material/CssBaseline";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 // IMPORT para as rotas
 import { Routes, Route } from "react-router-dom";
 
-import PageHome from "./site/PageHome";
-import PageAbout from "./site/PageAbout";
-import PageProject from "./site/PageProject";
-import PageError from "./site/PageError";
+import PageHome from "./pages/PageHome";
+import PageAbout from "./pages/PageAbout";
+import PageProject from "./pages/PageProject";
+import PageError from "./pages/PageError";
 
-import Dashboard from "./dashboard/DashboardContent";
-
-import BaseModelo from "./site/BaseModelo";
-import BaseModeloDetailsPage from "./site/BaseModeloDetailsPage";
+import BaseModelo from "./pages/BaseModelo";
+import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
 
 import { Toaster } from "react-hot-toast";
 import NavBar from "./components/NavBar";
@@ -19,7 +17,6 @@ import NavBar from "./components/NavBar";
 function App() {
   return (
     <div className="App">
-      <CssBaseline />
       <Toaster />
       <NavBar />
       <Routes>
@@ -33,7 +30,6 @@ function App() {
           element={<BaseModeloDetailsPage />}
         />
         <Route path="*" element={<PageError />} />
-        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );
