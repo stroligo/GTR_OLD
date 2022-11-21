@@ -7,6 +7,7 @@ import PageHome from "./pages/PageHome";
 import PageAbout from "./pages/PageAbout";
 import PageProject from "./pages/PageProject";
 import PageError from "./pages/PageError";
+import Tasks from "./pages/Tasks";
 
 import BaseModelo from "./pages/BaseModelo";
 import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<PageHome />} />
         <Route path="/about" element={<PageAbout />} />
         <Route path="/project" element={<PageProject />} />
+        <Route path="/tasks" element={<Tasks />} />
 
         <Route path="/modelo" element={<BaseModelo />} />
         <Route
