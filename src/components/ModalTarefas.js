@@ -1,35 +1,16 @@
-import axios from "axios";
-import toast from "react-hot-toast";
 import { useState } from "react";
-import {
-  Button,
-  Modal,
-  Row,
-  Col,
-  Form,
-  Dropdown,
-  Badge,
-} from "react-bootstrap";
-import { periodicity, week, handleMultiple } from "../const.js";
-import CheckboxList from "./CheckboxList";
 
-const members = [
-  { name: "Arash", id: 1 },
-  { name: "Anderson", id: 2 },
-  { name: "Michela", id: 3 },
-  { name: "Gabriel", id: 4 },
-];
+import { Button, Modal, Row, Col, Form, Badge } from "react-bootstrap";
+import { periodicity, week, taskObject } from "../const.js";
+import CheckboxList from "./CheckboxList";
+import MembersCheckbox from "./MembersCheckbox.js";
+import Tags from "./Tags.js";
+
+// import toast from "react-hot-toast";
 
 function ModalCreateUser({ show, setShow }) {
+  const [form, setForm] = useState(taskObject);
   const [validated, setValidated] = useState(false);
-  const [form, setForm] = useState({
-    nome: "",
-    priority: "1",
-    periodicity: "",
-    periodicityDetails: [],
-    description: "",
-    members: [],
-  });
 
   function handleClose() {
     setShow(false);
@@ -45,26 +26,10 @@ function ModalCreateUser({ show, setShow }) {
     handleChange({ target: { name, value } });
   }
 
-  function handleMember(member) {
-    let exists = form.members.find((item) => item === member);
-    let result;
+  function updateTags(tags) {}
 
-    if (exists) {
-      result = form.members.filter((item) => item !== member);
-    } else {
-      result = [...form.members, member];
-    }
-
-    handleChange({ target: { name: "members", value: result } });
-  }
-
-  function removeMember(member) {
-    handleChange({
-      target: {
-        name: "members",
-        value: form.members.filter((item) => item !== member),
-      },
-    });
+  function updateMember(selected) {
+    handleChange({ target: { name: "membros", value: selected } });
   }
 
   return (
@@ -79,16 +44,16 @@ function ModalCreateUser({ show, setShow }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="priority">Prioridade</Form.Label>
+                  <Form.Label htmlFor="prioridade">Prioridade</Form.Label>
                   <Form.Select
-                    id="priority"
-                    name="priority"
+                    id="prioridade"
+                    name="prioridade"
                     aria-label="prioridade"
-                    value={form.priority}
+                    value={form.prioridade}
                     onChange={handleChange}>
-                    <option value="0">Baixo</option>
-                    <option value="1">Médio</option>
-                    <option value="2">Alto</option>
+                    <option value="Baixo">Baixo</option>
+                    <option value="Médio">Médio</option>
+                    <option value="Alto">Alto</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -100,7 +65,7 @@ function ModalCreateUser({ show, setShow }) {
                       <CheckboxList
                         updateParent={handleCheckbox}
                         options={{
-                          name: "periodicity",
+                          name: "periodicidade",
                           type: "radio",
                           list: periodicity,
                         }}
@@ -108,41 +73,56 @@ function ModalCreateUser({ show, setShow }) {
                     </Col>
                   </Row>
                   <Row>
-                    {form.periodicity === "weekly" && (
+                    {form.periodicidade === "weekly" && (
                       <Col>
                         <CheckboxList
                           updateParent={handleCheckbox}
                           options={{
-                            name: "periodicityDetails",
+                            name: "perioDetalhes",
                             type: "checkbox",
                             list: week,
                           }}
                         />
                       </Col>
                     )}
-                    {form.periodicity === "monthly" && (
+                    {form.periodicidade === "monthly" && (
                       <Col>
-                        <Form.Group className="mb-3">
-                          <Form.Label htmlFor="nome">Dia</Form.Label>
-                          <Form.Control
-                            type="number"
-                            name="periodicityDetails"
-                            placeholder="Dia do mês"
-                            value={
-                              typeof form.periodicityDetails === "string"
-                                ? form.periodicityDetails
-                                : "1"
-                            }
-                            min="1"
-                            max="31"
-                            onChange={handleChange}
-                            autoFocus
-                          />
+                        <Form.Group as={Row} className="mb-3">
+                          <Form.Label column sm="2" htmlFor="perioDetalhes">
+                            Dia
+                          </Form.Label>
+                          <Col sm="10">
+                            <Form.Control
+                              type="number"
+                              id="perioDetalhes"
+                              name="perioDetalhes"
+                              placeholder="Dia do mês"
+                              value={
+                                typeof form.perioDetalhes === "string"
+                                  ? form.perioDetalhes
+                                  : "1"
+                              }
+                              min="1"
+                              max="31"
+                              onChange={handleChange}
+                              autoFocus
+                            />
+                          </Col>
                         </Form.Group>
                       </Col>
                     )}
                   </Row>
                 </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <MembersCheckbox update={updateMember} />
+                {form.membros.map((member) => (
+                  <Badge key={member._id} bg="secondary">
+                    {member.nome}
+                  </Badge>
+                ))}
               </Col>
             </Row>
             <Row>
@@ -162,63 +142,20 @@ function ModalCreateUser({ show, setShow }) {
                 </Form.Group>
               </Col>
               <Col>
-                <Row>
-                  <Col>
-                    <Dropdown>
-                      <Dropdown.Toggle>Membros</Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        {members.map((member) => (
-                          <Dropdown.Item
-                            value={member.id}
-                            key={member.id}
-                            onClick={() => handleMember(member)}>
-                            {member.name} - {member.id}
-                          </Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                    <p>Selecionados:</p>
-                  </Col>
-                  <Col>
-                    <h6>
-                      {form.members.map((member) => (
-                        <Badge key={member.id}>
-                          {member.name} - {member.id}
-                          <Badge onClick={() => removeMember(member)}>x</Badge>
-                        </Badge>
-                      ))}
-                    </h6>
-                  </Col>
-                </Row>
-
-                {/* <Form.Group as={Col} controlId="members_multiselect">
-                  <Form.Label>Membros</Form.Label>
-
-                  <Form.Control
-                    as="select"
-                    name="member"
-                    multiple
-                    value={form.member}
-                    onChange={handleMultipleOptions}>
-                    {members.map((member) => (
-                      <option value={member.id} key={member.id}>
-                        {member.name} - {member.id}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group> */}
+                <Form.Label htmlFor="tags">Tags</Form.Label>
+                <Tags update={updateTags} />
               </Col>
             </Row>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="description">Descrição</Form.Label>
+                  <Form.Label htmlFor="descrição">Descrição</Form.Label>
                   <Form.Control
-                    id="description"
+                    id="descrição"
                     as="textarea"
-                    name="description"
+                    name="descrição"
                     placeholder="Descreva a tarefa"
-                    value={form.description}
+                    value={form.descrição}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -227,85 +164,59 @@ function ModalCreateUser({ show, setShow }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="salario">Salário</Form.Label>
+                  <Form.Label htmlFor="referencia">Referências</Form.Label>
                   <Form.Control
-                    id="salario"
-                    type="number"
-                    placeholder="Insira o valor do salário R$"
-                    name="salario"
-                    value={form.salario}
-                    min="0"
+                    type="text"
+                    id="Referencia"
+                    name="Referencia"
+                    value={form.Referencia}
+                    placeholder="Insira uma referência"
                     onChange={handleChange}
                   />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="departamento">Departamento</Form.Label>
-                  <Form.Select
-                    id="departamento"
-                    name="departamento"
-                    onChange={handleChange}>
-                    <option>Selecione uma opção</option>
-                    <option value="Front-End">Front-End</option>
-                    <option value="Back-End">Back-End</option>
-                    <option value="Mobile">Mobile</option>
-                    <option value="Financeiro">Financeiro</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="People">People</option>
-                    <option value="Full-Stack">Full-Stack</option>
-                  </Form.Select>
+                  <Form.Label htmlFor="inicio">Início</Form.Label>
+                  <Form.Control
+                    type="date"
+                    id="inicio"
+                    name="inicio"
+                    value={form.inicio}
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </Col>
             </Row>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="status">Status</Form.Label>
-                  <Form.Select
-                    id="status"
-                    name="status"
-                    onChange={handleChange}>
-                    <option>Selecione uma opção</option>
-                    <option value="Disponível">Disponível</option>
-                    <option value="Alocado">Alocado</option>
-                    <option value="De Férias">De Férias</option>
-                    <option value="De Licença">De Licença</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label htmlFor="dataAdmissao">
-                    Data de Admissão
+                  <Form.Label htmlFor="tempoestimado">
+                    Minutos Estimados
                   </Form.Label>
                   <Form.Control
-                    id="dataAdmissao"
+                    type="number"
+                    id="tempoestimado"
+                    name="tempoestimado"
+                    value={form.tempoestimado}
+                    onChange={handleChange}
+                    min="5"
+                    placeholder="Tempo em minutos para concluir a tarefa"></Form.Control>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="prazoFinal">Prazo Final</Form.Label>
+                  <Form.Control
                     type="date"
-                    name="dataAdmissao"
-                    required
-                    value={form.dataAdmissao}
+                    id="prazoFinal"
+                    name="prazoFinal"
+                    value={form.prazoFinal}
                     onChange={handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
-                    A data de admissão só pode ser cadastrada no maximo 30 dias
-                    antes.
+                    A data do prazo final não pode uma pretérita.
                   </Form.Control.Feedback>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group>
-                  <Form.Label htmlFor="foto">Adicione sua foto</Form.Label>
-                  <Form.Control
-                    id="foto"
-                    type="url"
-                    placeholder="Insira a url da sua foto de perfil"
-                    name="foto"
-                    value={form.foto}
-                    onChange={handleChange}
-                  />
                 </Form.Group>
               </Col>
             </Row>
@@ -316,7 +227,7 @@ function ModalCreateUser({ show, setShow }) {
             Cancelar
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Salvar Funcionário
+            Adicionar tarefa
           </Button>
         </Modal.Footer>
       </Modal>

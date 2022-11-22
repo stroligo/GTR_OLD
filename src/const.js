@@ -4,6 +4,7 @@ export const periodicity = [
   { label: "Semanal", value: "weekly" },
   { label: "Mensal", value: "monthly" },
 ];
+
 export const week = [
   { label: "Segunda", value: "monday" },
   { label: "Terça", value: "tuesday" },
@@ -13,12 +14,24 @@ export const week = [
   { label: "Sábado", value: "saturday" },
   { label: "Domingo", value: "sunday" },
 ];
-export function handleMultiple(list, value) {
-  let result;
-  if (list.includes(value)) {
-    result = list.filter((item) => item !== value);
-  } else {
-    result = [...list, value];
-  }
-  return result;
-}
+
+let today = new Date();
+let today_formated = new Date(
+  today.getTime() - today.getTimezoneOffset() * 60000
+)
+  .toISOString()
+  .split("T")[0];
+
+export let taskObject = {
+  nome: "",
+  tags: [],
+  prioridade: "Médio",
+  periodicidade: "",
+  perioDetalhes: [],
+  descrição: "",
+  membros: [],
+  Referencia: "",
+  inicio: today_formated,
+  tempoestimado: 5,
+  prazoFinal: today_formated,
+};
