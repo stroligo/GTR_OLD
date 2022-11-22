@@ -1,22 +1,26 @@
+import axios from "axios";
 import { useState } from "react";
-
-import { Button, Modal, Row, Col, Form, Badge } from "react-bootstrap";
-import { periodicity, week, taskObject } from "../const.js";
+import { Badge, Button, Modal, Row, Col, Form } from "react-bootstrap";
+import { toast } from "react-hot-toast";
 import CheckboxList from "./CheckboxList";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
+import { periodicity, week, taskObject } from "../const.js";
 
 // import toast from "react-hot-toast";
 
-function ModalCreateUser({ show, setShow }) {
-  const [form, setForm] = useState(taskObject);
-  const [validated, setValidated] = useState(false);
+function ModalTarefas({ show, setShow, formObj, reload, setReload }) {
+  let [form, setForm] = useState({ ...taskObject, ...formObj });
+  const [validated] = useState(false);
 
   function handleClose() {
     setShow(false);
   }
 
-  function handleSubmit() {}
+  function handleSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
 
   function handleChange({ target }) {
     setForm({ ...form, [target.name]: target.value });
@@ -26,10 +30,58 @@ function ModalCreateUser({ show, setShow }) {
     handleChange({ target: { name, value } });
   }
 
-  function updateTags(tags) {}
+  function updateTags(tags) {
+    handleChange({ target: { name: "tags", value: tags } });
+  }
 
   function updateMember(selected) {
     handleChange({ target: { name: "membros", value: selected } });
+  }
+
+  async function handlePost() {
+    let clone = { ...form };
+    try {
+      await axios.post("https://ironrest.cyclic.app/gtr_task/", clone);
+      toast.success("Tarega criada com sucesso! :D");
+      setReload(!reload);
+      handleClose(); // fechar o modal
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado. Tente novamente.");
+    }
+  }
+
+  async function handlePut() {
+    try {
+      const clone = { ...form };
+      delete clone._id;
+
+      console.log(clone);
+
+      await axios.put(
+        `https://ironrest.cyclic.app/gtr_task/${form._id}`,
+        clone
+      );
+
+      toast.success("Alterações salvas");
+      setReload(!reload);
+      setShow(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado. Tente novamente.");
+    }
+  }
+
+  async function handleDelete(e) {
+    try {
+      await axios.delete(`https://ironrest.cyclic.app/gtr_task/${form._id}`);
+      toast.success("Tarefa deletada com sucesso");
+      setReload(!reload);
+      setShow(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado ao deletar essa tarefa.");
+    }
   }
 
   return (
@@ -64,6 +116,7 @@ function ModalCreateUser({ show, setShow }) {
                     <Col>
                       <CheckboxList
                         updateParent={handleCheckbox}
+                        selected={form.periodicidade}
                         options={{
                           name: "periodicidade",
                           type: "radio",
@@ -73,33 +126,37 @@ function ModalCreateUser({ show, setShow }) {
                     </Col>
                   </Row>
                   <Row>
-                    {form.periodicidade === "weekly" && (
+                    {form.periodicidade === "semanal" && (
                       <Col>
                         <CheckboxList
                           updateParent={handleCheckbox}
+                          selected={form.detalhesPeriodicidade}
                           options={{
-                            name: "perioDetalhes",
+                            name: "detalhesPeriodicidade",
                             type: "checkbox",
                             list: week,
                           }}
                         />
                       </Col>
                     )}
-                    {form.periodicidade === "monthly" && (
+                    {form.periodicidade === "mensal" && (
                       <Col>
                         <Form.Group as={Row} className="mb-3">
-                          <Form.Label column sm="2" htmlFor="perioDetalhes">
+                          <Form.Label
+                            column
+                            sm="2"
+                            htmlFor="detalhesPeriodicidade">
                             Dia
                           </Form.Label>
                           <Col sm="10">
                             <Form.Control
                               type="number"
-                              id="perioDetalhes"
-                              name="perioDetalhes"
+                              id="detalhesPeriodicidade"
+                              name="detalhesPeriodicidade"
                               placeholder="Dia do mês"
                               value={
-                                typeof form.perioDetalhes === "string"
-                                  ? form.perioDetalhes
+                                typeof form.detalhesPeriodicidade === "string"
+                                  ? form.detalhesPeriodicidade
                                   : "1"
                               }
                               min="1"
@@ -117,10 +174,13 @@ function ModalCreateUser({ show, setShow }) {
             </Row>
             <Row>
               <Col>
-                <MembersCheckbox update={updateMember} />
+                <MembersCheckbox
+                  update={updateMember}
+                  selected={form.membros}
+                />
                 {form.membros.map((member) => (
-                  <Badge key={member._id} bg="secondary">
-                    {member.nome}
+                  <Badge key={member} bg="secondary">
+                    {member}
                   </Badge>
                 ))}
               </Col>
@@ -143,7 +203,7 @@ function ModalCreateUser({ show, setShow }) {
               </Col>
               <Col>
                 <Form.Label htmlFor="tags">Tags</Form.Label>
-                <Tags update={updateTags} />
+                <Tags update={updateTags} selected={form.tags} />
               </Col>
             </Row>
             <Row>
@@ -223,16 +283,29 @@ function ModalCreateUser({ show, setShow }) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Adicionar tarefa
-          </Button>
+          {!Object.keys(formObj).length ? (
+            <>
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button variant="primary" onClick={handlePost}>
+                Adicionar tarefa
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="outline-danger" onClick={handleDelete}>
+                Excluir tarefa
+              </Button>
+              <Button variant="primary" onClick={handlePut}>
+                Salvar
+              </Button>
+            </>
+          )}
         </Modal.Footer>
       </Modal>
     </div>
   );
 }
 
-export default ModalCreateUser;
+export default ModalTarefas;

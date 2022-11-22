@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
-export default function CheckboxList({ updateParent, options }) {
-  const [selectedList, setSelectedList] = useState([]);
+export default function CheckboxList({ updateParent, selected = [], options }) {
+  const [selectedList, setSelectedList] = useState(selected);
 
   function handleChange({ target: { name, value } }) {
     if (options.type === "radio") {
