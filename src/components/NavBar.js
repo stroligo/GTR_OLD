@@ -23,7 +23,7 @@ export default function NavBar() {
               <Nav.Link>Modelo da semana</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/tasks">
-              <Nav.Link>Taskss</Nav.Link>
+              <Nav.Link>Tasks</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/taskuser/4062127">
               <Nav.Link>Ver minhas tarefas</Nav.Link>

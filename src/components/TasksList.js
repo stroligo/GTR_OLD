@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-export default function Tasks(id) {
+export default function Tasks() {
   const { matricula } = useParams();
   const [tasks, setTasks] = useState([]);
 
