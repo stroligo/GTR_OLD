@@ -28,7 +28,6 @@ function App() {
         <Route path="/about" element={<PageAbout />} />
         <Route path="/project" element={<PageProject />} />
         <Route path="/tasks" element={<Tasks />} />
-        <Route path="/tasks/:taskID" element={<TaskDetail />} />
 
         <Route path="/modelo" element={<BaseModelo />} />
         <Route
