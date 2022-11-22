@@ -1,4 +1,3 @@
-
 import { Button, Modal, Row, Col, Form } from "react-bootstrap";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -19,20 +18,17 @@ function ModalCreateUser({ reload, setReload }) {
   const dateMax = `${max.getFullYear()}-${max.getMonth() + 1}-${max.getDate()}`;
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({
+    matricula: "",
     nome: "",
-    salario: "",
-    email: "",
-    tel: "",
-    departamento: "",
-    dataAdmissao: "",
-    status: "",
-    stack: [],
-    active: true,
-    task: "",
-    progresso: "0",
     foto: "",
+    email: "",
+    telefone: "",
+    fusoHorario: "",
+    departamento: "",
     cargo: "",
-    tasksFinalizadas: [],
+    status: "",
+    jornada: "",
+    habilidades: [],
   });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -50,23 +46,20 @@ function ModalCreateUser({ reload, setReload }) {
         .reduce((result, element) => result * element)
     )
       try {
-        await axios.post("https://ironrest.herokuapp.com/enap92", form);
+        await axios.post("https://ironrest.cyclic.app/gtr_user", form);
         handleClose(); // fechar o modal
         setForm({
+          matricula: "",
           nome: "",
-          salario: "",
-          email: "",
-          tel: "",
-          departamento: "",
-          dataAdmissao: "",
-          status: "",
-          stack: [],
-          active: true,
-          task: "",
-          progresso: "",
           foto: "",
+          email: "",
+          telefone: "",
+          fusoHorario: "",
+          departamento: "",
           cargo: "",
-          tasksFinalizadas: [],
+          status: "",
+          jornada: "",
+          habilidades: [],
         });
         toast.success("Funcionário criado com sucesso! :D");
         setReload(!reload);
@@ -80,7 +73,7 @@ function ModalCreateUser({ reload, setReload }) {
   return (
     <div>
       <Button variant="success" onClick={handleShow}>
-        + Criar um novo Funcionário
+        + Inserir Novo Servidor
       </Button>
 
       <Modal show={show} onHide={handleClose} size="xl">
@@ -93,11 +86,11 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="nome">Nome do Funcionário</Form.Label>
+                  <Form.Label htmlFor="nome">Nome do Servidor</Form.Label>
                   <Form.Control
                     id="nome"
                     type="text"
-                    placeholder="Insira o nome completo do funcionário"
+                    placeholder="Insira o nome completo do servidor"
                     name="nome"
                     value={form.nome}
                     required
@@ -108,13 +101,13 @@ function ModalCreateUser({ reload, setReload }) {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="cargo">Cargo</Form.Label>
+                  <Form.Label htmlFor="matricula">Matrícula</Form.Label>
                   <Form.Control
-                    id="cargo"
+                    id="matricula"
                     type="text"
-                    placeholder="Insira nome do cargo do funcionário"
-                    name="cargo"
-                    value={form.cargo}
+                    placeholder="Insira matrícula do servidor"
+                    name="matricula"
+                    value={form.matricula}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -123,13 +116,13 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="tel">Numero de Telefone</Form.Label>
+                  <Form.Label htmlFor="telefone">Número de Telefone</Form.Label>
                   <Form.Control
-                    id="tel"
-                    type="tel"
-                    placeholder="Insira o telefone do funcionário"
-                    name="tel"
-                    value={form.tel}
+                    id="telefone"
+                    type="telefone"
+                    placeholder="Insira o telefone do servidor"
+                    name="telefone"
+                    value={form.telefone}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -140,7 +133,7 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Control
                     id="email"
                     type="email"
-                    placeholder="Insira o email do funcionário"
+                    placeholder="Insira o email do servidor"
                     name="email"
                     required
                     value={form.email}
@@ -152,15 +145,16 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="salario">Salário</Form.Label>
+                  <Form.Label htmlFor="cargo">Cargo</Form.Label>
                   <Form.Control
-                    id="salario"
-                    type="number"
-                    placeholder="Insira o valor do salário R$"
-                    name="salario"
-                    value={form.salario}
-                    min="0"
+                    id="cargo"
+                    type="text"
+                    placeholder="Insira o cargo do servidor"
+                    name="cargo"
+                    value={form.cargo}
+                    required
                     onChange={handleChange}
+                    autoFocus
                   />
                 </Form.Group>
               </Col>
@@ -173,13 +167,15 @@ function ModalCreateUser({ reload, setReload }) {
                     onChange={handleChange}
                   >
                     <option>Selecione uma opção</option>
-                    <option value="Front-End">Front-End</option>
-                    <option value="Back-End">Back-End</option>
-                    <option value="Mobile">Mobile</option>
                     <option value="Financeiro">Financeiro</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="People">People</option>
-                    <option value="Full-Stack">Full-Stack</option>
+                    <option value="RecurosHumanos">Recursos Humanos</option>
+                    <option value="Ouvidoria">Ouvidoria</option>
+                    <option value="informática">
+                      Tecnologia da Informação
+                    </option>
+                    <option value="licitações">Licitações</option>
+                    <option value="comunicacao">Comunicação</option>
+                    <option value="areaTecnica">Área Técnica</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -194,26 +190,24 @@ function ModalCreateUser({ reload, setReload }) {
                     onChange={handleChange}
                   >
                     <option>Selecione uma opção</option>
-                    <option value="Disponível">Disponível</option>
-                    <option value="Alocado">Alocado</option>
-                    <option value="De Férias">De Férias</option>
-                    <option value="De Licença">De Licença</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Férias">Férias</option>
+                    <option value="Licença">Licença</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
-              <Col>
+
+              {/* <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="dataAdmissao">
-                    Data de Admissão
-                  </Form.Label>
+                  <Form.Label htmlFor="admissão">Admissão</Form.Label>
                   <Form.Control
-                    id="dataAdmissao"
+                    id="admissão"
                     type="date"
                     min={dateMin}
                     max={dateMax}
-                    name="dataAdmissao"
+                    name="admissão"
                     required
-                    value={form.dataAdmissao}
+                    value={form.jornada}
                     onChange={handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -221,12 +215,40 @@ function ModalCreateUser({ reload, setReload }) {
                     antes.
                   </Form.Control.Feedback>
                 </Form.Group>
+              </Col> */}
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="jornada">Jornada</Form.Label>
+                  <Form.Control
+                    id="jornada"
+                    type="number"
+                    placeholder="Insira jornada do servidor"
+                    name="jornada"
+                    value={form.jornada}
+                    min="0"
+                    onChange={handleChange}
+                  />
+                </Form.Group>
               </Col>
             </Row>
             <Row>
               <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="fusoHorario">Fuso Horário</Form.Label>
+                  <Form.Control
+                    id="fusoHorario"
+                    type="number"
+                    placeholder="Insira fuso horário"
+                    name="fusoHorario"
+                    value={form.fusoHorario}
+                    min="0"
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
                 <Form.Group>
-                  <Form.Label htmlFor="foto">Adicione sua foto</Form.Label>
+                  <Form.Label htmlFor="foto">Adicione foto</Form.Label>
                   <Form.Control
                     id="foto"
                     type="url"

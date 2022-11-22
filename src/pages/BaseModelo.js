@@ -18,7 +18,7 @@ function BaseModelo() {
 
   useEffect(() => {
     async function fetchUsers() {
-      const response = await axios.get("https://ironrest.herokuapp.com/enap92");
+      const response = await axios.get("https://ironrest.cyclic.app/gtr_user");
       setUsers(response.data);
     }
 
@@ -36,7 +36,8 @@ function BaseModelo() {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome / departamento / cargo"
-          className="my-3">
+          className="my-3"
+        >
           <Form.Control
             type="text"
             placeholder="pesquise"
