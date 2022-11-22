@@ -13,6 +13,8 @@ import TaskDetail from "./pages/TaskDetail";
 import BaseModelo from "./pages/BaseModelo";
 import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
 
+import TaskUser from "./pages/TaskUser";
+
 import { Toaster } from "react-hot-toast";
 import NavBar from "./components/NavBar";
 
@@ -33,6 +35,7 @@ function App() {
           path="/modelo/user/:userID"
           element={<BaseModeloDetailsPage />}
         />
+        <Route path="/taskuser/:matricula" element={<TaskUser />} />
         <Route path="*" element={<PageError />} />
       </Routes>
     </div>
