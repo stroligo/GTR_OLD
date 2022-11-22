@@ -83,6 +83,27 @@ function ModalCreateUser({ reload, setReload }) {
         <Modal.Body>
           {/* FORMULÁRIO */}
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            {/* <Row>
+          <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label htmlFor="admissão">Admissão</Form.Label>
+                  <Form.Control
+                    id="admissão"
+                    type="date"
+                    min={dateMin}
+                    max={dateMax}
+                    name="admissão"
+                    required
+                    value={form.jornada}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    A data de admissão só pode ser cadastrada no maximo 30 dias
+                    antes.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col> 
+          </Row> */}
             <Row>
               <Col>
                 <Form.Group className="mb-3">
@@ -197,25 +218,6 @@ function ModalCreateUser({ reload, setReload }) {
                 </Form.Group>
               </Col>
 
-              {/* <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label htmlFor="admissão">Admissão</Form.Label>
-                  <Form.Control
-                    id="admissão"
-                    type="date"
-                    min={dateMin}
-                    max={dateMax}
-                    name="admissão"
-                    required
-                    value={form.jornada}
-                    onChange={handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    A data de admissão só pode ser cadastrada no maximo 30 dias
-                    antes.
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Col> */}
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="jornada">Jornada</Form.Label>
@@ -252,7 +254,7 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Control
                     id="foto"
                     type="url"
-                    placeholder="Insira a url da sua foto de perfil"
+                    placeholder="Insira a url da foto de perfil"
                     name="foto"
                     value={form.foto}
                     onChange={handleChange}

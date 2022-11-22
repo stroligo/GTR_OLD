@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 
 function BaseModelo() {
   const [users, setUsers] = useState([]);
+  const [task, setTask] = useState([]);
+
   const [reload, setReload] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -20,6 +22,7 @@ function BaseModelo() {
     async function fetchUsers() {
       const response = await axios.get("https://ironrest.cyclic.app/gtr_user");
       setUsers(response.data);
+      
     }
 
     fetchUsers();
