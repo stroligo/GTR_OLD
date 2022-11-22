@@ -22,6 +22,12 @@ export default function NavBar() {
             <LinkContainer to="/modelo">
               <Nav.Link>Modelo da semana</Nav.Link>
             </LinkContainer>
+            <LinkContainer to="/tasks">
+              <Nav.Link>Taskss</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/taskuser/4062127">
+              <Nav.Link>Ver minhas tarefas</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>
