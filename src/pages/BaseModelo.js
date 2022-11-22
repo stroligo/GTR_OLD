@@ -13,13 +13,16 @@ import { Link } from "react-router-dom";
 
 function BaseModelo() {
   const [users, setUsers] = useState([]);
+  const [task, setTask] = useState([]);
+
   const [reload, setReload] = useState(false);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function fetchUsers() {
-      const response = await axios.get("https://ironrest.herokuapp.com/enap92");
+      const response = await axios.get("https://ironrest.cyclic.app/gtr_user");
       setUsers(response.data);
+      
     }
 
     fetchUsers();
@@ -36,7 +39,8 @@ function BaseModelo() {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome / departamento / cargo"
-          className="my-3">
+          className="my-3"
+        >
           <Form.Control
             type="text"
             placeholder="pesquise"
