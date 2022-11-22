@@ -8,7 +8,6 @@ import PageAbout from "./pages/PageAbout";
 import PageProject from "./pages/PageProject";
 import PageError from "./pages/PageError";
 import Tasks from "./pages/Tasks";
-import TaskDetail from "./pages/TaskDetail";
 
 import BaseModelo from "./pages/BaseModelo";
 import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
