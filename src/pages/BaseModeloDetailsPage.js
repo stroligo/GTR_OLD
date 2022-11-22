@@ -10,7 +10,6 @@ import {
   Col,
   Form,
   Spinner,
-  Badge,
   Offcanvas,
   ListGroup,
 } from "react-bootstrap";
@@ -19,8 +18,8 @@ function BaseModeloDetailsPage() {
   const [validated, setValidated] = useState();
   const min = new Date();
   const max = new Date();
-  min.setFullYear(min.getFullYear()-80) //so podem ser cadastrado servidores com menos de 80 anos
-  max.setDate(max.getDate()+30) //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
+  min.setFullYear(min.getFullYear() - 80); //so podem ser cadastrado servidores com menos de 80 anos
+  max.setDate(max.getDate() + 30); //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
   const dateMin = `${min.getFullYear()}-${min.getMonth() + 1}-${min.getDate()}`;
   const dateMax = `${max.getFullYear()}-${max.getMonth() + 1}-${max.getDate()}`;
   const { userID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
@@ -30,33 +29,42 @@ function BaseModeloDetailsPage() {
   const [showEdit, setShowEdit] = useState(false); //controlar a visualização form // true -> form aparece
 
   const [form, setForm] = useState({
+    matricula: "",
     nome: "",
-    salario: "",
-    email: "",
-    tel: "",
-    departamento: "",
-    dataAdmissao: "",
-    status: "",
-    stack: [],
-    active: true,
-    task: "",
-    progresso: "",
     foto: "",
+    email: "",
+    telefone: "",
+    fusoHorario: "",
+    departamento: "",
     cargo: "",
+    status: "",
+    jornada: "",
+    habilidades: [],
   });
 
-  const stack = ["React", "JS", "HTML", "CSS", "NodeJS", "MongoDB", "Express"];
+  const habilidade = [
+    "Relatórios",
+    "Planilhas",
+    "Dashboards",
+    "Comunicação",
+    "Programação",
+    "Planejamento",
+    "Indicadores",
+  ];
 
   const [isLoading, setIsLoading] = useState(true);
   const [reload, setReload] = useState(false);
   const [showTasks, setShowTasks] = useState(false);
 
+  console.log("pagdetalhe");
+
   useEffect(() => {
     async function fetchUser() {
       try {
         const response = await axios.get(
-          `https://ironrest.herokuapp.com/enap92/${userID}`
+          `https://ironrest.cyclic.app/gtr_user/${userID}`
         );
+        console.log(response);
         setUser(response.data);
         setForm(response.data);
         setValidated(false);
@@ -84,7 +92,7 @@ function BaseModeloDetailsPage() {
 
   async function handleDelete(e) {
     try {
-      await axios.delete(`https://ironrest.herokuapp.com/enap92/${userID}`);
+      await axios.delete(`https://ironrest.cyclic.app/gtr_user/${userID}`);
       //agora que o usuário está deletado
       //redirecionaremos ele para modelo
       navigate("/modelo");
@@ -98,24 +106,31 @@ function BaseModeloDetailsPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setValidated(true);
-    if ([...document.querySelectorAll("input")].map(element => element.checkValidity()).reduce((result, element) => result * element))
-    try {
-      //clonando o form para que possamos fazer as alterações necessárias
-      const clone = { ...form };
-      delete clone._id;
+    if (
+      [...document.querySelectorAll("input")]
+        .map((element) => element.checkValidity())
+        .reduce((result, element) => result * element)
+    )
+      try {
+        //clonando o form para que possamos fazer as alterações necessárias
+        const clone = { ...form };
+        delete clone._id;
 
-      await axios.put(`https://ironrest.herokuapp.com/enap92/${userID}`, clone);
-      setValidated(true);
-      toast.success("Alterações salvas");
-      setReload(!reload);
-      setShowEdit(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado. Tente novamente.");
-    }
+        await axios.put(
+          `https://ironrest.cyclic.app/gtr_user/${userID}`,
+          clone
+        );
+        setValidated(true);
+        toast.success("Alterações salvas");
+        setReload(!reload);
+        setShowEdit(false);
+      } catch (error) {
+        console.log(error);
+        toast.error("Algo deu errado. Tente novamente.");
+      }
   }
 
-  async function handleStack(e) {
+  async function handlehabilidade(e) {
     //console.log(e.target.checked); -> está clicado ou não
     //console.log(e.target.name); -> qual o nome da tech
     // toda vez que o checkbox é alterado, enviamos essa alteração pra API
@@ -126,15 +141,15 @@ function BaseModeloDetailsPage() {
       // let newuser = filter: clone = clone.filter( el => el !== e.target.name);
 
       if (e.target.checked === true) {
-        clone.stack.push(e.target.name);
+        clone.habilidade.push(e.target.name);
       }
 
       if (e.target.checked === false) {
-        const index = clone.stack.indexOf(e.target.name); //acho o index do elemento que eu cliquei
-        clone.stack.splice(index, 1); //retiro o elemento da array
+        const index = clone.habilidade.indexOf(e.target.name); //acho o index do elemento que eu cliquei
+        clone.habilidade.splice(index, 1); //retiro o elemento da array
       }
 
-      await axios.put(`https://ironrest.herokuapp.com/enap92/${userID}`, clone);
+      await axios.put(`https://ironrest.cyclic.app/gtr_user/${userID}`, clone);
       setReload(!reload);
     } catch (error) {
       console.log(error);
@@ -159,7 +174,7 @@ function BaseModeloDetailsPage() {
       clone.task = "";
       clone.progresso = "0";
 
-      await axios.put(`https://ironrest.herokuapp.com/enap92/${userID}`, clone);
+      await axios.put(`https://ironrest.cyclic.app/gtr_user/${userID}`, clone);
       setReload(!reload);
     } catch (error) {
       console.log(error);
@@ -174,11 +189,11 @@ function BaseModeloDetailsPage() {
 
       clone.tasksFinalizadas.splice(index, 1);
 
-      await axios.put(`https://ironrest.herokuapp.com/enap92/${userID}`, clone);
+      await axios.put(`https://ironrest.cyclic.app/gtr_user/${userID}`, clone);
       setReload(!reload);
     } catch (error) {
       console.log(error);
-      toast.error("Task não foi excluída");
+      toast.error("Habilidade não foi excluída");
     }
   }
 
@@ -195,7 +210,7 @@ function BaseModeloDetailsPage() {
                 <Card.Header>
                   <Card.Title>{user.nome}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    Data de Admissão: {user.dataAdmissao.split("-").reverse().join("-")}
+                    Matrícula: {user.matricula}
                   </Card.Subtitle>
                 </Card.Header>
                 <Card.Body>
@@ -204,23 +219,15 @@ function BaseModeloDetailsPage() {
                       <Card.Title>Email</Card.Title>
                       <Card.Text>{user.email}</Card.Text>
 
+                      <Card.Title>Cargo</Card.Title>
+                      <Card.Text>{user.cargo}</Card.Text>
+                    </Col>
+                    <Col>
                       <Card.Title>Telefone</Card.Title>
-                      <Card.Text>{user.tel}</Card.Text>
+                      <Card.Text>{user.telefone}</Card.Text>
 
                       <Card.Title>Departamento</Card.Title>
                       <Card.Text>{user.departamento}</Card.Text>
-                    </Col>
-                    <Col>
-                      <Card.Title>Cargo</Card.Title>
-                      <Card.Text>{user.cargo}</Card.Text>
-
-                      <Card.Title>Status</Card.Title>
-                      <Card.Text>{user.status}</Card.Text>
-
-                      <Card.Text>
-                        {/* ternário */}
-                        {user.active ? "Ativa na empresa" : "Não está ativo"}
-                      </Card.Text>
                     </Col>
                     <Col className="col-3">
                       <img
@@ -256,38 +263,38 @@ function BaseModeloDetailsPage() {
               <Card className="text-center" bg="light">
                 <Card.Body>
                   {/* FORMULÁRIO */}
-                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                  <Form
+                    noValidate
+                    validated={validated}
+                    onSubmit={handleSubmit}
+                  >
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label
-                            htmlFor="nome">
-                            Nome do Funcionário
+                          <Form.Label htmlFor="nome">
+                            Nome do Servidor
                           </Form.Label>
                           <Form.Control
                             id="nome"
                             type="text"
-                            placeholder="Insira o nome completo do funcionário"
+                            placeholder="Insira o nome completo do servidor"
                             name="nome"
                             value={form.nome}
                             required
                             onChange={handleChange}
                             autoFocus
                           />
-                          <Form.Control.Feedback type="invalid">
-                             Informe o nome completo
-                          </Form.Control.Feedback>
                         </Form.Group>
                       </Col>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="cargo">Cargo</Form.Label>
+                          <Form.Label htmlFor="matricula">Matrícula</Form.Label>
                           <Form.Control
-                            id="cargo"
+                            id="matricula"
                             type="text"
-                            placeholder="Insira nome do cargo do funcionário"
-                            name="cargo"
-                            value={form.cargo}
+                            placeholder="Insira matrícula do servidor"
+                            name="matricula"
+                            value={form.matricula}
                             onChange={handleChange}
                           />
                         </Form.Group>
@@ -296,13 +303,15 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="tel">Numero de Telefone</Form.Label>
+                          <Form.Label htmlFor="telefone">
+                            Número de Telefone
+                          </Form.Label>
                           <Form.Control
-                            id="tel"
-                            type="tel"
-                            placeholder="Insira o telefone do funcionário"
-                            name="tel"
-                            value={form.tel}
+                            id="telefone"
+                            type="telefone"
+                            placeholder="Insira o telefone do servidor"
+                            name="telefone"
+                            value={form.telefone}
                             onChange={handleChange}
                           />
                         </Form.Group>
@@ -313,7 +322,7 @@ function BaseModeloDetailsPage() {
                           <Form.Control
                             id="email"
                             type="email"
-                            placeholder="Insira o email do funcionário"
+                            placeholder="Insira o email do servidor"
                             name="email"
                             required
                             value={form.email}
@@ -325,30 +334,41 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="salario">Salário</Form.Label>
+                          <Form.Label htmlFor="cargo">Cargo</Form.Label>
                           <Form.Control
-                            id="salario"
-                            type="number"
-                            placeholder="Insira o valor do salário R$"
-                            name="salario"
-                            value={form.salario}
-                            min="0"
+                            id="cargo"
+                            type="text"
+                            placeholder="Insira o cargo do servidor"
+                            name="cargo"
+                            value={form.cargo}
+                            required
                             onChange={handleChange}
+                            autoFocus
                           />
                         </Form.Group>
                       </Col>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="departamento">Departamento</Form.Label>
-                          <Form.Select id="departamento" name="departamento" onChange={handleChange} defaultValue={form.departamento}>
+                          <Form.Label htmlFor="departamento">
+                            Departamento
+                          </Form.Label>
+                          <Form.Select
+                            id="departamento"
+                            name="departamento"
+                            onChange={handleChange}
+                          >
                             <option>Selecione uma opção</option>
-                            <option value="Front-End">Front-End</option>
-                            <option value="Back-End">Back-End</option>
-                            <option value="Mobile">Mobile</option>
                             <option value="Financeiro">Financeiro</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="People">People</option>
-                            <option value="Full-Stack">Full-Stack</option>
+                            <option value="RecurosHumanos">
+                              Recursos Humanos
+                            </option>
+                            <option value="Ouvidoria">Ouvidoria</option>
+                            <option value="informática">
+                              Tecnologia da Informação
+                            </option>
+                            <option value="licitações">Licitações</option>
+                            <option value="comunicacao">Comunicação</option>
+                            <option value="areaTecnica">Área Técnica</option>
                           </Form.Select>
                         </Form.Group>
                       </Col>
@@ -357,41 +377,58 @@ function BaseModeloDetailsPage() {
                       <Col>
                         <Form.Group className="mb-3">
                           <Form.Label htmlFor="status">Status</Form.Label>
-                          <Form.Select id="status" name="status" onChange={handleChange} defaultValue={form.status}>                           <option>Selecione uma opção</option>
-                            <option value="Disponível">Disponível</option>
-                            <option value="Alocado">Alocado</option>
-                            <option value="De Férias">De Férias</option>
-                            <option value="De Licença">De Licença</option>
+                          <Form.Select
+                            id="status"
+                            name="status"
+                            onChange={handleChange}
+                          >
+                            <option>Selecione uma opção</option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Férias">Férias</option>
+                            <option value="Licença">Licença</option>
                           </Form.Select>
                         </Form.Group>
                       </Col>
+
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="dataAdmissao">Data de Admissão</Form.Label>
+                          <Form.Label htmlFor="jornada">Jornada</Form.Label>
                           <Form.Control
-                            id="dataAdmissao"
-                            type="date"
-                            min={dateMin}
-                            max={dateMax}
-                            name="dataAdmissao"
-                            required
-                            value={form.dataAdmissao}
+                            id="jornada"
+                            type="number"
+                            placeholder="Insira jornada do servidor"
+                            name="jornada"
+                            value={form.jornada}
+                            min="0"
                             onChange={handleChange}
                           />
-                          <Form.Control.Feedback type="invalid">
-                            A data de admissão só pode ser realizada no maximo 30 dias antes.
-                          </Form.Control.Feedback>
                         </Form.Group>
                       </Col>
                     </Row>
                     <Row>
                       <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="fusoHorario">
+                            Fuso Horário
+                          </Form.Label>
+                          <Form.Control
+                            id="fusoHorario"
+                            type="number"
+                            placeholder="Insira fuso horário"
+                            name="fusoHorario"
+                            value={form.fusoHorario}
+                            min="0"
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col>
                         <Form.Group>
-                          <Form.Label htmlFor="foto">Adicione sua foto</Form.Label>
+                          <Form.Label htmlFor="foto">Adicione foto</Form.Label>
                           <Form.Control
                             id="foto"
                             type="url"
-                            placeholder="Insira a url da sua foto de perfil"
+                            placeholder="Insira a url da foto de perfil"
                             name="foto"
                             value={form.foto}
                             onChange={handleChange}
@@ -416,18 +453,6 @@ function BaseModeloDetailsPage() {
                         Salvar Alterações
                       </Button>
                     </Col>
-                    <Col>
-                      <Form.Group htmlFor="active">
-                        <Form.Check
-                          id="active"
-                          type="checkbox"
-                          label="Funcionário ativo na empresa"
-                          name="active"
-                          checked={form.active}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                    </Col>
                   </Row>
                 </Card.Footer>
               </Card>
@@ -437,19 +462,22 @@ function BaseModeloDetailsPage() {
               <Col className="col-md-3">
                 <Card bg="light">
                   <Card.Header>
-                    <Card.Title>Stack</Card.Title>
+                    <Card.Title>Habilidades</Card.Title>
                   </Card.Header>
                   <Card.Body>
-                    {stack.map((tech, index) => {
+                    {habilidade.map((tech, index) => {
                       return (
-                        <Form.Group htmlFor={tech} className="mb-3" key={`${index} - ${tech}`}>
+                        <Form.Group
+                          htmlFor={tech}
+                          className="mb-3"
+                          key={`${index} - ${tech}`}
+                        >
                           <Form.Check
                             id={tech}
                             type="checkbox"
                             label={tech}
                             name={tech}
-                            onChange={handleStack}
-                            checked={user.stack.includes(tech)}
+                            onChange={handlehabilidade}
                           />
                         </Form.Group>
                       );
@@ -460,60 +488,35 @@ function BaseModeloDetailsPage() {
               <Col>
                 <Card bg="light">
                   <Card.Header>
-                    <Card.Title>Task</Card.Title>
+                    <Card.Title>Disponibilidade</Card.Title>
                   </Card.Header>
                   <Card.Body>
-                    <Form.Group htmlFor="task" className="mb-3">
+                    <Form.Group htmlFor="jornada" className="mb-3">
+                      <Form.Label htmlFor="jornada">Jornada</Form.Label>
                       <Form.Control
-                        id="task"
-                        type="text"
-                        placeholder="Insira a task que você está trabalhando"
-                        name="task"
-                        value={form.task}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group htmlFor="progresso" className="mb-3">
-                      <Form.Range
-                        id="progresso"
+                        id="jornada"
+                        type="number"
+                        placeholder="Insira jornada do servidor"
+                        name="jornada"
+                        value={form.jornada}
                         min="0"
-                        max="100"
-                        value={form.progresso}
-                        name="progresso"
                         onChange={handleChange}
                       />
-                      {form.progresso}
                     </Form.Group>
-                    <Row>
-                      <Col>
-                        <Button
-                          onClick={handleSubmit}
-                          variant="outline-secondary"
-                        >
-                          Atualizar
-                        </Button>
-                      </Col>
-                      <Col>
-                        <Button
-                          variant="outline-success"
-                          onClick={handleTaskCompletada}
-                        >
-                          Concluir Task
-                        </Button>
-                      </Col>
-
-                      <Col>
-                        <Button
-                          variant="outline-dark"
-                          onClick={() => setShowTasks(true)}
-                        >
-                          Tasks Finalizadas{" "}
-                          <Badge bg="secondary">
-                            {user.tasksFinalizadas.length}
-                          </Badge>
-                        </Button>
-                      </Col>
-                    </Row>
+                    <Form.Group className="mb-3">
+                      <Form.Label htmlFor="fusoHorario">
+                        Fuso Horário
+                      </Form.Label>
+                      <Form.Control
+                        id="fusoHorario"
+                        type="number"
+                        placeholder="Insira fuso horário"
+                        name="fusoHorario"
+                        value={form.fusoHorario}
+                        min="0"
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
                   </Card.Body>
                 </Card>
               </Col>
@@ -528,24 +531,7 @@ function BaseModeloDetailsPage() {
                 <Offcanvas.Title>Tasks Finalizadas</Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <ListGroup>
-                  {user.tasksFinalizadas
-                    .map((task, index) => {
-                      return (
-                        <ListGroup.Item key={`${index} - ${task}`}>
-                          <Button
-                            variant="danger"
-                            size="sm"
-                            onClick={() => handleDeleteTask(index)}
-                          >
-                            x
-                          </Button>{" "}
-                          {task}
-                        </ListGroup.Item>
-                      );
-                    })
-                    .reverse()}
-                </ListGroup>
+                <ListGroup></ListGroup>
               </Offcanvas.Body>
             </Offcanvas>
           </>
