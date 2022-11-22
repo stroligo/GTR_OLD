@@ -21,7 +21,7 @@ function reduceKeys(list) {
   return result;
 }
 
-export default function MembersCheckbox({ update }) {
+export default function MembersCheckbox({ update, selected: list = [] }) {
   const [members, setMembers] = useState([]);
   const [selected, setSelected] = useState([]);
 
@@ -29,9 +29,21 @@ export default function MembersCheckbox({ update }) {
     (async () => {
       let response = await axios("https://ironrest.cyclic.app/gtr_user");
       let data = reduceKeys(response.data);
+
+      if (list.length) {
+        // contém matrículas
+        console.log(list);
+
+        let sel = [];
+        for (let member of data) {
+          list.includes("" + member.matricula) && sel.push(member);
+        }
+        setSelected(sel);
+      }
+
       setMembers(data);
     })();
-  }, []);
+  }, [list]);
 
   function handleChange(member) {
     let result;
@@ -41,7 +53,7 @@ export default function MembersCheckbox({ update }) {
     else result = [...selected, member];
 
     setSelected(result);
-    update(result);
+    update(result.map((item) => "" + item.matricula));
   }
 
   return (

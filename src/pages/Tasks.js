@@ -1,23 +1,34 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Table, Container, Button, Col, Row } from "react-bootstrap";
 import ModalTarefas from "../components/ModalTarefas";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [formObj, setFormObj] = useState({});
+  const [modalKey, setModalKey] = useState(0);
 
   useEffect(() => {
     (async () => {
       let response = await axios("https://ironrest.cyclic.app/gtr_task");
       setTasks(response.data);
     })();
-  }, []);
+  }, [reload]);
 
   function handleModal() {
+    setFormObj({});
+    setModalKey(modalKey + 1); // force modal reload
     setShowModal(true);
   }
+
+  function handleEditTask(task) {
+    setFormObj(task);
+    setModalKey(modalKey + 1); // force modal reload
+    setShowModal(true);
+  }
+
   return (
     <div>
       <Container>
@@ -51,51 +62,36 @@ export default function Tasks() {
                 <td>{task.status}</td>
                 <td>{task.nome}</td>
                 <td>{task.prioridade}</td>
-                <td>{task.peridiciodade}</td>
+                <td>{task.periodicidade}</td>
                 <td>{task.Referencia}</td>
-                <td>{task.membros}</td>
-                <td>{task.inicio}</td>
+                <td>{task.membros.join(", ")}</td>
+                <td>{new Date(task.inicio + " 00:00").toLocaleDateString()}</td>
                 <td>{task.tempoestimado}</td>
-                <td>{task.PrazoFinal}</td>
-                <td>{task.tags}</td>
                 <td>
-                  <Link to={`/tasks/${task._id}`}>
-                    <Button variant="outline-secondary" size="sm">
-                      Detalhes
-                    </Button>
-                  </Link>
+                  {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
+                </td>
+                <td>{task.tags.join(", ")}</td>
+                <td>
+                  <Button
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={() => handleEditTask(task)}>
+                    Detalhes
+                  </Button>
                 </td>
               </tr>
             ))}
-            {/* {users.map((user) => {
-              return (
-                <tr key={user._id}>
-                  <td>{user.nome}</td>
-                  <td>{user.task}</td>
-                  <td>
-                    <ProgressBar
-                      animated
-                      now={user.progresso}
-                      label={`${user.progresso}%`}
-                    />
-                  </td>
-                  <td>{user.status}</td>
-                  <td>{user.departamento}</td>
-                  <td>
-                    <Link to={`/user/${user._id}`}>
-                      <Button variant="outline-secondary" size="sm">
-                        Detalhes
-                      </Button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })} */}
           </tbody>
         </Table>
 
-        <ModalTarefas show={showModal} setShow={setShowModal} />
-        {/* reload={reload} setReload={setReload} */}
+        <ModalTarefas
+          show={showModal}
+          setShow={setShowModal}
+          reload={reload}
+          setReload={setReload}
+          formObj={formObj}
+          key={modalKey}
+        />
       </Container>
     </div>
   );

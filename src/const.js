@@ -1,18 +1,18 @@
 export const periodicity = [
-  { label: "Única", value: "once" },
-  { label: "Diária", value: "daily" },
-  { label: "Semanal", value: "weekly" },
-  { label: "Mensal", value: "monthly" },
+  { label: "Única", value: "unica" },
+  { label: "Diária", value: "diaria" },
+  { label: "Semanal", value: "semanal" },
+  { label: "Mensal", value: "mensal" },
 ];
 
 export const week = [
-  { label: "Segunda", value: "monday" },
-  { label: "Terça", value: "tuesday" },
-  { label: "Quarta", value: "wednesday" },
-  { label: "Quinta", value: "thursday" },
-  { label: "Sexta", value: "friday" },
-  { label: "Sábado", value: "saturday" },
-  { label: "Domingo", value: "sunday" },
+  { label: "Segunda", value: "segunda" },
+  { label: "Terça", value: "terça" },
+  { label: "Quarta", value: "quarta" },
+  { label: "Quinta", value: "quinta" },
+  { label: "Sexta", value: "sexta" },
+  { label: "Sábado", value: "sabado" },
+  { label: "Domingo", value: "domingo" },
 ];
 
 let today = new Date();
@@ -26,12 +26,13 @@ export let taskObject = {
   nome: "",
   tags: [],
   prioridade: "Médio",
-  periodicidade: "",
-  perioDetalhes: [],
+  periodicidade: "unica",
+  detalhesPeriodicidade: [],
   descrição: "",
   membros: [],
   Referencia: "",
   inicio: today_formated,
   tempoestimado: 5,
   prazoFinal: today_formated,
+  status: "Ativo",
 };
