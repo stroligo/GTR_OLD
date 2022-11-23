@@ -8,7 +8,6 @@ import PageAbout from "./pages/PageAbout";
 import PageProject from "./pages/PageProject";
 import PageError from "./pages/PageError";
 import Tasks from "./pages/Tasks";
-import TaskDetail from "./pages/TaskDetail";
 
 import BaseModelo from "./pages/BaseModelo";
 import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
@@ -28,7 +27,6 @@ function App() {
         <Route path="/about" element={<PageAbout />} />
         <Route path="/project" element={<PageProject />} />
         <Route path="/tasks" element={<Tasks />} />
-        <Route path="/tasks/:taskID" element={<TaskDetail />} />
 
         <Route path="/modelo" element={<BaseModelo />} />
         <Route

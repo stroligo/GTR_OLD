@@ -7,10 +7,17 @@ import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
 import { periodicity, week, taskObject } from "../const.js";
 
-// import toast from "react-hot-toast";
-
-function ModalTarefas({ show, setShow, formObj, reload, setReload }) {
-  let [form, setForm] = useState({ ...taskObject, ...formObj });
+function ModalTarefas({
+  show,
+  setShow,
+  formObj,
+  reload,
+  setReload,
+  currentMembers,
+  allMembers,
+}) {
+  const [members, setMembers] = useState(currentMembers);
+  const [form, setForm] = useState({ ...taskObject, ...formObj });
   const [validated] = useState(false);
 
   function handleClose() {
@@ -35,7 +42,13 @@ function ModalTarefas({ show, setShow, formObj, reload, setReload }) {
   }
 
   function updateMember(selected) {
-    handleChange({ target: { name: "membros", value: selected } });
+    setMembers(selected);
+    handleChange({
+      target: {
+        name: "membros",
+        value: selected.map((item) => "" + item.matricula),
+      },
+    });
   }
 
   async function handlePost() {
@@ -55,8 +68,6 @@ function ModalTarefas({ show, setShow, formObj, reload, setReload }) {
     try {
       const clone = { ...form };
       delete clone._id;
-
-      console.log(clone);
 
       await axios.put(
         `https://ironrest.cyclic.app/gtr_task/${form._id}`,
@@ -176,11 +187,12 @@ function ModalTarefas({ show, setShow, formObj, reload, setReload }) {
               <Col>
                 <MembersCheckbox
                   update={updateMember}
-                  selected={form.membros}
+                  allMembers={allMembers}
+                  selected={members}
                 />
-                {form.membros.map((member) => (
-                  <Badge key={member} bg="secondary">
-                    {member}
+                {members.map((member) => (
+                  <Badge key={member._id} bg="secondary">
+                    {member.nome}
                   </Badge>
                 ))}
               </Col>

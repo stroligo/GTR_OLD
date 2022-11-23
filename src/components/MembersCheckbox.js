@@ -1,50 +1,9 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 
-const keys = ["_id", "matricula", "nome"];
-function reduceKeys(list) {
-  let result = [];
-
-  for (let i = 0; i < list.length; i++) {
-    let obj = {};
-
-    for (let key of keys) {
-      obj[key] = list[i][key];
-    }
-
-    result.push(obj);
-  }
-
-  return result;
-}
-
-export default function MembersCheckbox({ update, selected: list = [] }) {
-  const [members, setMembers] = useState([]);
-  const [selected, setSelected] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      let response = await axios("https://ironrest.cyclic.app/gtr_user");
-      let data = reduceKeys(response.data);
-
-      if (list.length) {
-        // contém matrículas
-        console.log(list);
-
-        let sel = [];
-        for (let member of data) {
-          list.includes("" + member.matricula) && sel.push(member);
-        }
-        setSelected(sel);
-      }
-
-      setMembers(data);
-    })();
-  }, [list]);
-
+export default function MembersCheckbox({ update, selected, allMembers }) {
   function handleChange(member) {
     let result;
 
@@ -52,15 +11,14 @@ export default function MembersCheckbox({ update, selected: list = [] }) {
       result = selected.filter((item) => item !== member);
     else result = [...selected, member];
 
-    setSelected(result);
-    update(result.map((item) => "" + item.matricula));
+    update(result);
   }
 
   return (
     <Dropdown autoClose="outside" style={{ display: "inline-block" }}>
       <Dropdown.Toggle>Membros</Dropdown.Toggle>
       <Dropdown.Menu>
-        {members.map((member) => (
+        {allMembers.map((member) => (
           <Dropdown.Item key={member._id} onClick={() => handleChange(member)}>
             <Form.Check
               name="members"
