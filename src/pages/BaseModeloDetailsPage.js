@@ -16,12 +16,6 @@ import {
 
 function BaseModeloDetailsPage() {
   const [validated, setValidated] = useState();
-  const min = new Date();
-  const max = new Date();
-  min.setFullYear(min.getFullYear() - 80); //so podem ser cadastrado servidores com menos de 80 anos
-  max.setDate(max.getDate() + 30); //só podem se cadastrados servidores com no maximo 30 dias de antecedencia
-  const dateMin = `${min.getFullYear()}-${min.getMonth() + 1}-${min.getDate()}`;
-  const dateMax = `${max.getFullYear()}-${max.getMonth() + 1}-${max.getDate()}`;
   const { userID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
   const navigate = useNavigate(); // instanciar o useNavigate()
 
@@ -62,7 +56,7 @@ function BaseModeloDetailsPage() {
     async function fetchUser() {
       try {
         const response = await axios.get(
-          `https://ironrest.cyclic.app/gtr_user/${userID}`
+          `https://ironrest.cyclic.app/findOne/gtr_user?_id=${userID}`
         );
         console.log(response);
         setUser(response.data);
@@ -120,7 +114,7 @@ function BaseModeloDetailsPage() {
           `https://ironrest.cyclic.app/gtr_user/${userID}`,
           clone
         );
-        setValidated(true);
+        setValidated(false);
         toast.success("Alterações salvas");
         setReload(!reload);
         setShowEdit(false);
@@ -154,46 +148,6 @@ function BaseModeloDetailsPage() {
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado. Tente novamente.");
-    }
-  }
-
-  async function handleTaskCompletada(e) {
-    e.preventDefault();
-
-    if (!form.task) {
-      // se form.task for uma string vazia ela é false -> então eu nego -> true
-      toast.error("Por favor, adicione uma task primeiro");
-      return;
-    }
-
-    try {
-      const clone = { ...user };
-      delete clone._id;
-
-      clone.tasksFinalizadas.push(clone.task);
-      clone.task = "";
-      clone.progresso = "0";
-
-      await axios.put(`https://ironrest.cyclic.app/gtr_user/${userID}`, clone);
-      setReload(!reload);
-    } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado. Tente novamente.");
-    }
-  }
-
-  async function handleDeleteTask(index) {
-    try {
-      const clone = { ...user };
-      delete clone._id;
-
-      clone.tasksFinalizadas.splice(index, 1);
-
-      await axios.put(`https://ironrest.cyclic.app/gtr_user/${userID}`, clone);
-      setReload(!reload);
-    } catch (error) {
-      console.log(error);
-      toast.error("Habilidade não foi excluída");
     }
   }
 
