@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Tags from "./Tags";
 
 function ModalCreateUser({ reload, setReload }) {
   const [validated, setValidated] = useState(false);
@@ -32,6 +33,10 @@ function ModalCreateUser({ reload, setReload }) {
   });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  function updateTags(tags) {
+    handleChange({ target: { name: "habilidades", value: tags } });
+  }
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -198,8 +203,7 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Select
                     id="departamento"
                     name="departamento"
-                    onChange={handleChange}
-                  >
+                    onChange={handleChange}>
                     <option>Selecione uma opção</option>
                     <option value="Financeiro">Financeiro</option>
                     <option value="RecurosHumanos">Recursos Humanos</option>
@@ -221,8 +225,7 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Select
                     id="status"
                     name="status"
-                    onChange={handleChange}
-                  >
+                    onChange={handleChange}>
                     <option>Selecione uma opção</option>
                     <option value="Ativo">Ativo</option>
                     <option value="Férias">Férias</option>
@@ -249,21 +252,8 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="habilidades">Habilidades</Form.Label>
-                  <Form.Select
-                    id="habilidades"
-                    name="habilidades"
-                    onChange={handleChange}
-                  >
-                    <option>Selecione uma opção</option>
-                    <option value="relatorios">Relatórios</option>
-                    <option value="planilhas">Planilhas</option>
-                    <option value="dashboards">Dashboards</option>
-                    <option value="comunicacao">Comunicação</option>
-                    <option value="programacao">Programação</option>
-                    <option value="planejamento">Planejamento</option>
-                    <option value="indicadores">Indicadores</option>
-                  </Form.Select>
+                  <Form.Label htmlFor="tags">Habilidades</Form.Label>
+                  <Tags update={updateTags} selected={form.tags} />
                 </Form.Group>
               </Col>
             </Row>

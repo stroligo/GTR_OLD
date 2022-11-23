@@ -11,6 +11,7 @@ import {
   Form,
   Spinner,
 } from "react-bootstrap";
+import Tags from "../components/Tags";
 
 function BaseModeloDetailsPage() {
   const [validated, setValidated] = useState();
@@ -72,6 +73,10 @@ function BaseModeloDetailsPage() {
 
   function handleChange({ target }) {
     setForm({ ...form, [target.name]: target.value });
+  }
+
+  function updateTags(tags) {
+    handleChange({ target: { name: "habilidades", value: tags } });
   }
 
   /* 
@@ -170,16 +175,14 @@ function BaseModeloDetailsPage() {
                     <Col>
                       <Button
                         variant="outline-secondary"
-                        onClick={() => navigate("/modelo")}
-                      >
+                        onClick={() => navigate("/modelo")}>
                         Voltar
                       </Button>
                     </Col>
                     <Col>
                       <Button
                         variant="outline-success"
-                        onClick={() => setShowEdit(true)}
-                      >
+                        onClick={() => setShowEdit(true)}>
                         Editar Funcionário
                       </Button>
                     </Col>
@@ -200,8 +203,7 @@ function BaseModeloDetailsPage() {
                   <Form
                     noValidate
                     validated={validated}
-                    onSubmit={handleSubmit}
-                  >
+                    onSubmit={handleSubmit}>
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
@@ -285,8 +287,7 @@ function BaseModeloDetailsPage() {
                           <Form.Select
                             id="status"
                             name="status"
-                            onChange={handleChange}
-                          >
+                            onChange={handleChange}>
                             <option>Selecione uma opção</option>
                             <option value="Ativo">Ativo</option>
                             <option value="Férias">Férias</option>
@@ -343,14 +344,10 @@ function BaseModeloDetailsPage() {
                       </Col>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="jornada">Habilidades</Form.Label>
-                          <Form.Control
-                            id="habilidades"
-                            type="text"
-                            placeholder="Insira Habilidades do servidor"
-                            name="habilidades"
-                            value={form.habilidades}
-                            onChange={handleChange}
+                          <Form.Label htmlFor="tags">Habilidades</Form.Label>
+                          <Tags
+                            update={updateTags}
+                            selected={form.habilidades}
                           />
                         </Form.Group>
                       </Col>
@@ -362,8 +359,7 @@ function BaseModeloDetailsPage() {
                     <Col>
                       <Button
                         variant="outline-danger"
-                        onClick={() => setShowEdit(false)}
-                      >
+                        onClick={() => setShowEdit(false)}>
                         Voltar
                       </Button>
                     </Col>
