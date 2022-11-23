@@ -72,6 +72,7 @@ export default function Tasks() {
               <th>Minutos Estimados</th>
               <th>Prazo Final</th>
               <th>Tags</th>
+              <th>Editar</th>
               <th>Detalhes</th>
             </tr>
           </thead>
@@ -100,6 +101,11 @@ export default function Tasks() {
                     variant="outline-secondary"
                     size="sm"
                     onClick={() => handleEditTask(task)}>
+                    Editar
+                  </Button>
+                </td>
+                <td>
+                  <Button variant="outline-secondary" size="sm">
                     Detalhes
                   </Button>
                 </td>
