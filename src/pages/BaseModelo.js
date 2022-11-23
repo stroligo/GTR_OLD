@@ -20,9 +20,8 @@ function BaseModelo() {
     async function fetchUsers() {
       const response = await axios.get("https://ironrest.cyclic.app/gtr_user");
       setUsers(response.data);
-      
-    }
 
+    }
     fetchUsers();
     console.log("Dentro do useEffect da home!!");
   }, [reload]);
