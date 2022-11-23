@@ -52,11 +52,10 @@ function BaseModelo() {
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Task</th>
-              <th>Progresso</th>
+              <th>Matrícula</th>
               <th>Status</th>
               <th>Departamento</th>
-              <th>Action</th>
+              <th>Detalhes</th>
             </tr>
           </thead>
           <tbody>
@@ -74,14 +73,7 @@ function BaseModelo() {
                 return (
                   <tr key={user._id}>
                     <td>{user.nome}</td>
-                    <td>{user.task}</td>
-                    <td>
-                      <ProgressBar
-                        animated
-                        now={user.progresso}
-                        label={`${user.progresso}%`}
-                      />
-                    </td>
+                    <td>{user.matricula}</td>
                     <td>{user.status}</td>
                     <td>{user.departamento}</td>
                     <td>
