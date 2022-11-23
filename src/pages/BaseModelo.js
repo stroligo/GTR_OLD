@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 
 function BaseModelo() {
   const [users, setUsers] = useState([]);
-  const [task, setTask] = useState([]);
 
   const [reload, setReload] = useState(false);
   const [search, setSearch] = useState("");
