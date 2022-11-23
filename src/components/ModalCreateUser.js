@@ -83,18 +83,18 @@ function ModalCreateUser({ reload, setReload }) {
         <Modal.Body>
           {/* FORMULÁRIO */}
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            {/* <Row>
+             <Row>
           <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="admissão">Admissão</Form.Label>
+                  <Form.Label htmlFor="admissao">Admissão</Form.Label>
                   <Form.Control
-                    id="admissão"
+                    id="admissao"
                     type="date"
                     min={dateMin}
                     max={dateMax}
-                    name="admissão"
+                    name="admissao"
                     required
-                    value={form.jornada}
+                    value={form.admissao}
                     onChange={handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -103,7 +103,7 @@ function ModalCreateUser({ reload, setReload }) {
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col> 
-          </Row> */}
+          </Row> 
             <Row>
               <Col>
                 <Form.Group className="mb-3">
