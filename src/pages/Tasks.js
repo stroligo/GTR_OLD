@@ -13,6 +13,12 @@ import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefas";
 import { filterByKeys } from "../const";
 
+const priorities = {
+  Alto: 2,
+  Médio: 1,
+  Baixo: 0,
+};
+
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [tasksSearch, setTaskSearch] = useState("");
@@ -102,10 +108,14 @@ export default function Tasks() {
             {tasks
               .filter((task) => filterByKeys(task, ["status"], tasksSearch))
               .sort((task1, task2) => {
-                let first = task1.prazoFinal.localeCompare(task2.prazoFinal);
-                if (first === 0)
-                  return task1.inicio.localeCompare(task2.inicio);
-                return first;
+                let first =
+                  priorities[task2.prioridade] - priorities[task1.prioridade];
+                if (first !== 0) return first;
+
+                let second = task1.prazoFinal.localeCompare(task2.prazoFinal);
+                if (second !== 0) return second;
+
+                return task1.inicio.localeCompare(task2.inicio);
               })
               .map((task) => (
                 <tr key={task._id}>
