@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefas";
-import { removeAccents } from "../const";
+import { filterByKeys } from "../const";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -100,14 +100,7 @@ export default function Tasks() {
           </thead>
           <tbody>
             {tasks
-              .filter((task) => {
-                if (!tasksSearch.length) return true;
-                return ["status"].find((key) =>
-                  removeAccents(task[key].toLowerCase()).includes(
-                    removeAccents(tasksSearch.toLowerCase())
-                  )
-                );
-              })
+              .filter((task) => filterByKeys(task, ["status"], tasksSearch))
               .sort((task1, task2) => {
                 let first = task1.prazoFinal.localeCompare(task2.prazoFinal);
                 if (first === 0)
