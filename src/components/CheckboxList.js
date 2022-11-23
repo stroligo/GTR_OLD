@@ -18,7 +18,7 @@ export default function CheckboxList({ updateParent, selected = [], options }) {
       result = [...selectedList, value];
     }
     setSelectedList(result);
-    updateParent(name, selectedList);
+    updateParent(name, result);
   }
 
   return (
