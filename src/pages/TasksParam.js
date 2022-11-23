@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Container, Button, Col, Row } from "react-bootstrap";
 import { toast } from "react-hot-toast";
-import ModalTarefas from "../components/ModalTarefas";
+import ModalTarefas from "../components/ModalTarefasUsers";
 import { useParams } from "react-router-dom";
 
 export default function TasksParam(opcoes) {
@@ -13,7 +13,9 @@ export default function TasksParam(opcoes) {
   const [reload, setReload] = useState(false);
   const [formObj, setFormObj] = useState({});
   const [modalKey, setModalKey] = useState(0);
+  const [edit, setEdit] = useState(false);
   const { matricula } = useParams();
+  let titulo;
   let tarefas;
 
   useEffect(() => {
@@ -43,14 +45,58 @@ export default function TasksParam(opcoes) {
   }
 
   function handleEditTask(task) {
-    setMembers(
+    //setEdit(true);
+     setMembers(
       allMembers.filter((item) => task.membros.includes(item.matricula))
     );
     setFormObj(task);
     setModalKey(modalKey + 1); // force modal reload
     setShowModal(true);
+    
   }
 
+  function aceite() {
+    return (opcoes.op === 1) ? <th>Aceitar</th> : false
+  }
+
+  function aceitar(task) {
+    setEdit("aceita")
+    task.status = "Aceita";
+    handleEditTask(task)
+  }
+
+  function rejeitar(task) {
+    setEdit("rejeitada")
+    task.status = "Rejeitada";
+    handleEditTask(task)
+  }
+  function showButton(task) {
+    if (opcoes.op === 1)
+
+      return (
+        <td>
+          <tr><Button
+            variant="success"
+            size="sm"
+            onClick={() => aceitar(task)}
+          >
+            Aceitar
+          </Button>
+          </tr>
+          <tr>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => rejeitar(task)}
+            >
+              Rejeitar
+            </Button>
+          </tr>
+        </td>
+
+      )
+
+  }
   function botaoAdicionar(condicional) {
     if (condicional) {
       return (
@@ -63,6 +109,7 @@ export default function TasksParam(opcoes) {
   }
 
   if (opcoes.op === 1) {
+    titulo = "Tarefas Atribuidas"
     tarefas = tasks.filter((task) => {
       return (
         task.membros.includes(matricula)
@@ -71,20 +118,21 @@ export default function TasksParam(opcoes) {
   }
 
   if (opcoes.op === 2) {
+    titulo = "Tarefas do Grupo"
     tarefas = tasks.filter((task) => {
       return (
         task.membros.length === 0
       );
     })
   }
+
   return (
     <div>
       <Container>
         <Row>
           <Col>
-            <h3>Tarefas atribuídas</h3>
+            <h3>{titulo}</h3>
           </Col>
-          {botaoAdicionar(opcoes.botaoAdicionar)}
         </Row>
         <Table striped bordered hover>
           <thead>
@@ -100,6 +148,7 @@ export default function TasksParam(opcoes) {
               <th>Prazo Final</th>
               <th>Tags</th>
               <th>Detalhes</th>
+              {aceite()}
             </tr>
           </thead>
           <tbody>
@@ -130,10 +179,13 @@ export default function TasksParam(opcoes) {
                     Detalhes
                   </Button>
                 </td>
+                {showButton(task)}
+
               </tr>
             ))}
           </tbody>
         </Table>
+        {botaoAdicionar(opcoes.botaoAdicionar)}
 
         <ModalTarefas
           key={modalKey}
@@ -144,6 +196,7 @@ export default function TasksParam(opcoes) {
           formObj={formObj}
           currentMembers={members}
           allMembers={allMembers}
+          edit={edit}
         />
       </Container>
     </div>
