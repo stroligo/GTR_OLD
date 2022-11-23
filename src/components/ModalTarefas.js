@@ -44,8 +44,8 @@ function ModalTarefas({
     e.preventDefault();
     e.stopPropagation();
     setShowRepeticao(false);
-    if (isEditing) handlePut();
-    else handlePost();
+    if (isEditing) handlePost();
+    else handlePut();
   }
 
   async function handlePost() {
@@ -204,18 +204,6 @@ function ModalTarefas({
                   />
                 </Form.Group>
               </Col>
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label htmlFor="inicio">Início</Form.Label>
-                  <Form.Control
-                    type="date"
-                    id="inicio"
-                    name="inicio"
-                    value={form.inicio}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Col>
             </Row>
             <Row>
               <Col>
@@ -254,7 +242,7 @@ function ModalTarefas({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          {isEditing() ? (
+          {!isEditing() ? (
             <>
               <Button variant="outline-danger" onClick={handleDelete}>
                 Excluir tarefa
