@@ -32,7 +32,36 @@ export let taskObject = {
   membros: [],
   Referencia: "",
   inicio: today_formated,
-  tempoestimado: 5,
+  tempoestimado: "00:30",
   prazoFinal: today_formated,
   status: "Ativo",
 };
+
+// https://stackoverflow.com/a/37511463
+function removeAccents(string) {
+  return string.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+}
+
+export function filterByKeys(obj, keys, search) {
+  if (!search.length || !obj) return true;
+  search = removeAccents(search).toLowerCase();
+
+  for (let key of keys) {
+    let values = obj[key];
+
+    // eslint-disable-next-line eqeqeq
+    if (values == undefined) return false;
+    if (typeof values === "string") values = [values];
+    if (!Array.isArray(values))
+      throw Error(
+        "Não é possível filtar, pois um dos valores recebidos é de tipo diverso de array e string"
+      );
+
+    for (let str of values) {
+      console.log(str, search);
+      if (removeAccents(str.toLowerCase()).includes(search)) return true;
+    }
+  }
+
+  return false;
+}

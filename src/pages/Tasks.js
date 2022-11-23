@@ -1,11 +1,27 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Table, Container, Button, Col, Row } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Button,
+  Col,
+  Row,
+  FloatingLabel,
+  Form,
+} from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefas";
+import { filterByKeys } from "../const";
+
+const priorities = {
+  Alto: 2,
+  Médio: 1,
+  Baixo: 0,
+};
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
+  const [tasksSearch, setTaskSearch] = useState("");
   const [allMembers, setAllMembers] = useState([]);
   const [members, setMembers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -53,12 +69,24 @@ export default function Tasks() {
       <Container>
         <Row>
           <Col>
-            <h3>Tarefas atribuídas</h3>
+            <h3>Tarefas abertas</h3>
           </Col>
           <Col md="auto">
             <Button onClick={handleModal}>Adicionar</Button>
           </Col>
         </Row>
+        <FloatingLabel
+          controlId="floatingInput"
+          label="Pesquise por status"
+          className="my-3">
+          <Form.Control
+            type="text"
+            placeholder="pesquise"
+            value={tasksSearch}
+            onChange={({ target }) => setTaskSearch(target.value)}
+          />
+        </FloatingLabel>
+
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -73,38 +101,58 @@ export default function Tasks() {
               <th>Prazo Final</th>
               <th>Tags</th>
               <th>Detalhes</th>
+              <th>Editar</th>
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
-              <tr key={task._id}>
-                <td>{task.status}</td>
-                <td>{task.nome}</td>
-                <td>{task.prioridade}</td>
-                <td>{task.periodicidade}</td>
-                <td>{task.Referencia}</td>
-                <td>
-                  {allMembers
-                    .filter((item) => task.membros.includes(item.matricula))
-                    .map((member) => member.nome)
-                    .join(", ")}
-                </td>
-                <td>{new Date(task.inicio + " 00:00").toLocaleDateString()}</td>
-                <td>{task.tempoestimado}</td>
-                <td>
-                  {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
-                </td>
-                <td>{task.tags.join(", ")}</td>
-                <td>
-                  <Button
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={() => handleEditTask(task)}>
-                    Detalhes
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {tasks
+              .filter((task) => filterByKeys(task, ["status"], tasksSearch))
+              .sort((task1, task2) => {
+                let first =
+                  priorities[task2.prioridade] - priorities[task1.prioridade];
+                if (first !== 0) return first;
+
+                let second = task1.prazoFinal.localeCompare(task2.prazoFinal);
+                if (second !== 0) return second;
+
+                return task1.inicio.localeCompare(task2.inicio);
+              })
+              .map((task) => (
+                <tr key={task._id}>
+                  <td>{task.status}</td>
+                  <td>{task.nome}</td>
+                  <td>{task.prioridade}</td>
+                  <td>{task.periodicidade}</td>
+                  <td>{task.Referencia}</td>
+                  <td>
+                    {allMembers
+                      .filter((item) => task.membros.includes(item.matricula))
+                      .map((member) => member.nome)
+                      .join(", ")}
+                  </td>
+                  <td>
+                    {new Date(task.inicio + " 00:00").toLocaleDateString()}
+                  </td>
+                  <td>{task.tempoestimado}</td>
+                  <td>
+                    {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
+                  </td>
+                  <td>{task.tags.join(", ")}</td>
+                  <td>
+                    <Button variant="outline-secondary" size="sm">
+                      Detalhes
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      variant="outline-secondary"
+                      size="sm"
+                      onClick={() => handleEditTask(task)}>
+                      Editar
+                    </Button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
 
