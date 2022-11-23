@@ -1,11 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
-import { Badge, Button, Modal, Row, Col, Form } from "react-bootstrap";
+import {
+  Badge,
+  Button,
+  Modal,
+  Row,
+  Col,
+  Form,
+  Container,
+  FloatingLabel,
+} from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import CheckboxList from "./CheckboxList";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
-import { periodicity, week, taskObject } from "../const.js";
+import { periodicity, week, taskObject } from "./globalfns";
 
 function ModalTarefas({
   show,
@@ -34,18 +43,13 @@ function ModalTarefas({
     setShowRepeticao(false);
   }
 
-  function isEditing(formObj) {
-    if (!formObj) return false;
-    return !!Object.keys(formObj).length;
-  }
-
   /* CRUD */
   function handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
     setShowRepeticao(false);
-    if (isEditing) handlePost();
-    else handlePut();
+    if (formObj && Object.keys(formObj).length) handlePut();
+    else handlePost();
   }
 
   async function handlePost() {
@@ -117,12 +121,24 @@ function ModalTarefas({
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>Formulário de criação de tarefas</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {/* FORMULÁRIO */}
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <FloatingLabel
+              controlId="nome"
+              label="Nome da tarefa"
+              className="flex-grow-1">
+              <Form.Control
+                type="text"
+                id="nome"
+                name="nome"
+                value={form.nome}
+                onChange={handleChange}
+                required
+                autoFocus
+              />
+            </FloatingLabel>
+          </Modal.Header>
+          <Modal.Body>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
@@ -157,27 +173,6 @@ function ModalTarefas({
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="nome">Nome da Tarefa</Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="nome"
-                    name="nome"
-                    placeholder="Insira o nome da tarefa"
-                    value={form.nome}
-                    required
-                    onChange={handleChange}
-                    autoFocus
-                  />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Label htmlFor="tags">Tags</Form.Label>
-                <Tags update={updateTags} selected={form.tags} />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group className="mb-3">
                   <Form.Label htmlFor="descrição">Descrição</Form.Label>
                   <Form.Control
                     id="descrição"
@@ -204,12 +199,16 @@ function ModalTarefas({
                   />
                 </Form.Group>
               </Col>
+              <Col>
+                <Form.Label htmlFor="tags">Tags</Form.Label>
+                <Tags update={updateTags} selected={form.tags} />
+              </Col>
             </Row>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="tempoestimado">
-                    Minutos Estimados
+                    Tempo estimado
                   </Form.Label>
                   <Form.Control
                     type="time"
@@ -239,10 +238,10 @@ function ModalTarefas({
                 </Form.Group>
               </Col>
             </Row>
-          </Form>
-        </Modal.Body>
+          </Modal.Body>
+        </Form>
         <Modal.Footer>
-          {!isEditing() ? (
+          {Object.keys(formObj).length ? (
             <>
               <Button variant="outline-danger" onClick={handleDelete}>
                 Excluir tarefa

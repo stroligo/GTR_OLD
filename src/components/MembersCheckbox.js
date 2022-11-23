@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import { filterByKeys } from "../const";
+import { filterByKeys } from "./globalfns";
 
 export default function MembersCheckbox({ update, selected, allMembers }) {
   const [search, setSearch] = useState("");

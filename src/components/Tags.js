@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, InputGroup, Dropdown, DropdownButton } from "react-bootstrap";
 
 export default function Tags({ update, selected = [] }) {
+  if (typeof selected === "string") selected = [selected];
   const [tags, setTags] = useState(selected);
   const [value, setValue] = useState("");
 

@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefas";
-import { filterByKeys } from "../const";
+import { filterByKeys } from "../components/globalfns";
 
 const priorities = {
   Alto: 2,
