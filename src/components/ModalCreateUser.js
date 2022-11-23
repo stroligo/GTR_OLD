@@ -83,8 +83,8 @@ function ModalCreateUser({ reload, setReload }) {
         <Modal.Body>
           {/* FORMULÁRIO */}
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
-             <Row>
-          <Col>
+            <Row>
+              <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="admissao">Admissão</Form.Label>
                   <Form.Control
@@ -102,8 +102,21 @@ function ModalCreateUser({ reload, setReload }) {
                     antes.
                   </Form.Control.Feedback>
                 </Form.Group>
-              </Col> 
-          </Row> 
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label htmlFor="foto">Adicione foto</Form.Label>
+                  <Form.Control
+                    id="foto"
+                    type="url"
+                    placeholder="Insira a url da foto de perfil"
+                    name="foto"
+                    value={form.foto}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
@@ -236,29 +249,21 @@ function ModalCreateUser({ reload, setReload }) {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label htmlFor="fusoHorario">Fuso Horário</Form.Label>
-                  <Form.Control
-                    id="fusoHorario"
-                    type="number"
-                    placeholder="Insira fuso horário"
-                    name="fusoHorario"
-                    value={form.fusoHorario}
-                    min="0"
+                  <Form.Label htmlFor="habilidades">Habilidades</Form.Label>
+                  <Form.Select
+                    id="habilidades"
+                    name="habilidades"
                     onChange={handleChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group>
-                  <Form.Label htmlFor="foto">Adicione foto</Form.Label>
-                  <Form.Control
-                    id="foto"
-                    type="url"
-                    placeholder="Insira a url da foto de perfil"
-                    name="foto"
-                    value={form.foto}
-                    onChange={handleChange}
-                  />
+                  >
+                    <option>Selecione uma opção</option>
+                    <option value="relatorios">Relatórios</option>
+                    <option value="planilhas">Planilhas</option>
+                    <option value="dashboards">Dashboards</option>
+                    <option value="comunicacao">Comunicação</option>
+                    <option value="programacao">Programação</option>
+                    <option value="planejamento">Planejamento</option>
+                    <option value="indicadores">Indicadores</option>
+                  </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
@@ -269,7 +274,7 @@ function ModalCreateUser({ reload, setReload }) {
             Cancelar
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Salvar Funcionário
+            Salvar Servidor
           </Button>
         </Modal.Footer>
       </Modal>
