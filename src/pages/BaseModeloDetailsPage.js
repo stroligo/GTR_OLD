@@ -10,8 +10,6 @@ import {
   Col,
   Form,
   Spinner,
-  Offcanvas,
-  ListGroup,
 } from "react-bootstrap";
 
 function BaseModeloDetailsPage() {
@@ -36,7 +34,7 @@ function BaseModeloDetailsPage() {
     habilidades: [],
   });
 
-  const habilidade = [
+  /* const habilidades = [
     "Relatórios",
     "Planilhas",
     "Dashboards",
@@ -44,19 +42,16 @@ function BaseModeloDetailsPage() {
     "Programação",
     "Planejamento",
     "Indicadores",
-  ];
+  ]; */
 
   const [isLoading, setIsLoading] = useState(true);
   const [reload, setReload] = useState(false);
-  const [showTasks, setShowTasks] = useState(false);
-
-  console.log("pagdetalhe");
 
   useEffect(() => {
     async function fetchUser() {
       try {
         const response = await axios.get(
-          `https://ironrest.cyclic.app/findOne/gtr_user?_id=${userID}`
+          `https://ironrest.cyclic.app/gtr_user/${userID}`
         );
         console.log(response);
         setUser(response.data);
@@ -75,15 +70,11 @@ function BaseModeloDetailsPage() {
     };
   }, [reload, userID]);
 
-  function handleChange(e) {
-    if (e.target.name === "active") {
-      setForm({ ...form, active: e.target.checked });
-      return;
-    }
-
-    setForm({ ...form, [e.target.name]: e.target.value });
+  function handleChange({ target }) {
+    setForm({ ...form, [target.name]: target.value });
   }
 
+  /* 
   async function handleDelete(e) {
     try {
       await axios.delete(`https://ironrest.cyclic.app/gtr_user/${userID}`);
@@ -95,7 +86,7 @@ function BaseModeloDetailsPage() {
       console.log(error);
       toast.error("Algo deu errado ao deletar esse usuário.");
     }
-  }
+  } */
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -124,33 +115,6 @@ function BaseModeloDetailsPage() {
       }
   }
 
-  async function handlehabilidade(e) {
-    //console.log(e.target.checked); -> está clicado ou não
-    //console.log(e.target.name); -> qual o nome da tech
-    // toda vez que o checkbox é alterado, enviamos essa alteração pra API
-    try {
-      const clone = { ...user };
-      delete clone._id;
-
-      // let newuser = filter: clone = clone.filter( el => el !== e.target.name);
-
-      if (e.target.checked === true) {
-        clone.habilidade.push(e.target.name);
-      }
-
-      if (e.target.checked === false) {
-        const index = clone.habilidade.indexOf(e.target.name); //acho o index do elemento que eu cliquei
-        clone.habilidade.splice(index, 1); //retiro o elemento da array
-      }
-
-      await axios.put(`https://ironrest.cyclic.app/gtr_user/${userID}`, clone);
-      setReload(!reload);
-    } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado. Tente novamente.");
-    }
-  }
-
   console.log(form);
 
   return (
@@ -162,10 +126,14 @@ function BaseModeloDetailsPage() {
             {showEdit === false && (
               <Card className="text-center" bg="light">
                 <Card.Header>
-                  <Card.Title>{user.nome}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    Matrícula: {user.matricula}
-                  </Card.Subtitle>
+                  <Row>
+                    <Col>
+                      <Card.Title>{user.nome}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        Matrícula: {user.matricula}
+                      </Card.Subtitle>
+                    </Col>
+                  </Row>
                 </Card.Header>
                 <Card.Body>
                   <Row>
@@ -175,21 +143,25 @@ function BaseModeloDetailsPage() {
 
                       <Card.Title>Cargo</Card.Title>
                       <Card.Text>{user.cargo}</Card.Text>
+
+                      <Card.Title>Status</Card.Title>
+                      <Card.Text>{user.status}</Card.Text>
+
+                      <Card.Title>Jornada</Card.Title>
+                      <Card.Text>{user.jornada}</Card.Text>
                     </Col>
                     <Col>
-                      <Card.Title>Telefone</Card.Title>
-                      <Card.Text>{user.telefone}</Card.Text>
+                      <Card.Title>Foto</Card.Title>
+                      <Card.Text>{user.foto}</Card.Text>
 
                       <Card.Title>Departamento</Card.Title>
                       <Card.Text>{user.departamento}</Card.Text>
-                    </Col>
-                    <Col className="col-3">
-                      <img
-                        src={user.foto}
-                        alt="pequena foto de perfil do usuário"
-                        height={150}
-                        style={{ borderRadius: "15px" }}
-                      />
+
+                      <Card.Title>Habilidades</Card.Title>
+                      <Card.Text>{user.habilidades}</Card.Text>
+
+                      <Card.Title>Telefone</Card.Title>
+                      <Card.Text>{user.telefone}</Card.Text>
                     </Col>
                   </Row>
                 </Card.Body>
@@ -198,16 +170,24 @@ function BaseModeloDetailsPage() {
                     <Col>
                       <Button
                         variant="outline-secondary"
+                        onClick={() => navigate("/modelo")}
+                      >
+                        Voltar
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        variant="outline-success"
                         onClick={() => setShowEdit(true)}
                       >
                         Editar Funcionário
                       </Button>
                     </Col>
-                    <Col>
+                    {/* <Col>
                       <Button variant="outline-danger" onClick={handleDelete}>
                         Excluir Funcionário
                       </Button>
-                    </Col>
+                    </Col> */}
                   </Row>
                 </Card.Footer>
               </Card>
@@ -288,46 +268,17 @@ function BaseModeloDetailsPage() {
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="cargo">Cargo</Form.Label>
+                          <Form.Label htmlFor="foto">Adicione foto</Form.Label>
                           <Form.Control
-                            id="cargo"
-                            type="text"
-                            placeholder="Insira o cargo do servidor"
-                            name="cargo"
-                            value={form.cargo}
-                            required
+                            id="foto"
+                            type="url"
+                            placeholder="Insira a url da foto de perfil"
+                            name="foto"
+                            value={form.foto}
                             onChange={handleChange}
-                            autoFocus
                           />
                         </Form.Group>
                       </Col>
-                      <Col>
-                        <Form.Group className="mb-3">
-                          <Form.Label htmlFor="departamento">
-                            Departamento
-                          </Form.Label>
-                          <Form.Select
-                            id="departamento"
-                            name="departamento"
-                            onChange={handleChange}
-                          >
-                            <option>Selecione uma opção</option>
-                            <option value="Financeiro">Financeiro</option>
-                            <option value="RecurosHumanos">
-                              Recursos Humanos
-                            </option>
-                            <option value="Ouvidoria">Ouvidoria</option>
-                            <option value="informática">
-                              Tecnologia da Informação
-                            </option>
-                            <option value="licitações">Licitações</option>
-                            <option value="comunicacao">Comunicação</option>
-                            <option value="areaTecnica">Área Técnica</option>
-                          </Form.Select>
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    <Row>
                       <Col>
                         <Form.Group className="mb-3">
                           <Form.Label htmlFor="status">Status</Form.Label>
@@ -343,7 +294,39 @@ function BaseModeloDetailsPage() {
                           </Form.Select>
                         </Form.Group>
                       </Col>
-
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="cargo">Cargo</Form.Label>
+                          <Form.Control
+                            id="cargo"
+                            type="text"
+                            placeholder="Insira o cargo do servidor"
+                            name="cargo"
+                            value={form.cargo}
+                            required
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col>
+                        <Form.Group className="mb-3">
+                          <Form.Label htmlFor="jornada">
+                            Departamento
+                          </Form.Label>
+                          <Form.Control
+                            id="departamento"
+                            type="text"
+                            placeholder="Insira departamento do servidor"
+                            name="departamento"
+                            value={form.departamento}
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
                       <Col>
                         <Form.Group className="mb-3">
                           <Form.Label htmlFor="jornada">Jornada</Form.Label>
@@ -358,33 +341,15 @@ function BaseModeloDetailsPage() {
                           />
                         </Form.Group>
                       </Col>
-                    </Row>
-                    <Row>
                       <Col>
                         <Form.Group className="mb-3">
-                          <Form.Label htmlFor="fusoHorario">
-                            Fuso Horário
-                          </Form.Label>
+                          <Form.Label htmlFor="jornada">Habilidades</Form.Label>
                           <Form.Control
-                            id="fusoHorario"
-                            type="number"
-                            placeholder="Insira fuso horário"
-                            name="fusoHorario"
-                            value={form.fusoHorario}
-                            min="0"
-                            onChange={handleChange}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col>
-                        <Form.Group>
-                          <Form.Label htmlFor="foto">Adicione foto</Form.Label>
-                          <Form.Control
-                            id="foto"
-                            type="url"
-                            placeholder="Insira a url da foto de perfil"
-                            name="foto"
-                            value={form.foto}
+                            id="habilidades"
+                            type="text"
+                            placeholder="Insira Habilidades do servidor"
+                            name="habilidades"
+                            value={form.habilidades}
                             onChange={handleChange}
                           />
                         </Form.Group>
@@ -411,83 +376,6 @@ function BaseModeloDetailsPage() {
                 </Card.Footer>
               </Card>
             )}
-
-            <Row className="mt-3">
-              <Col className="col-md-3">
-                <Card bg="light">
-                  <Card.Header>
-                    <Card.Title>Habilidades</Card.Title>
-                  </Card.Header>
-                  <Card.Body>
-                    {habilidade.map((tech, index) => {
-                      return (
-                        <Form.Group
-                          htmlFor={tech}
-                          className="mb-3"
-                          key={`${index} - ${tech}`}
-                        >
-                          <Form.Check
-                            id={tech}
-                            type="checkbox"
-                            label={tech}
-                            name={tech}
-                            onChange={handlehabilidade}
-                          />
-                        </Form.Group>
-                      );
-                    })}
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col>
-                <Card bg="light">
-                  <Card.Header>
-                    <Card.Title>Disponibilidade</Card.Title>
-                  </Card.Header>
-                  <Card.Body>
-                    <Form.Group htmlFor="jornada" className="mb-3">
-                      <Form.Label htmlFor="jornada">Jornada</Form.Label>
-                      <Form.Control
-                        id="jornada"
-                        type="number"
-                        placeholder="Insira jornada do servidor"
-                        name="jornada"
-                        value={form.jornada}
-                        min="0"
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label htmlFor="fusoHorario">
-                        Fuso Horário
-                      </Form.Label>
-                      <Form.Control
-                        id="fusoHorario"
-                        type="number"
-                        placeholder="Insira fuso horário"
-                        name="fusoHorario"
-                        value={form.fusoHorario}
-                        min="0"
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-
-            <Offcanvas
-              show={showTasks}
-              onHide={() => setShowTasks(false)}
-              placement="end"
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Tasks Finalizadas</Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <ListGroup></ListGroup>
-              </Offcanvas.Body>
-            </Offcanvas>
           </>
         )}
 
