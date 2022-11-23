@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Table, Container, Button, Col, Row } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefasUsers";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export default function TasksParam(opcoes) {
   const [tasks, setTasks] = useState([]);
@@ -172,13 +172,12 @@ export default function TasksParam(opcoes) {
                 </td>
                 <td>{task.tags.join(", ")}</td>
                 <td>
-                  <Button
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={() => handleEditTask(task)}>
-                    Detalhes
-                  </Button>
-                </td>
+                      <Link to={`/task/${task._id}`}>
+                        <Button variant="outline-secondary" size="sm">
+                          Detalhes
+                        </Button>
+                      </Link>
+                    </td>
                 {showButton(task)}
 
               </tr>

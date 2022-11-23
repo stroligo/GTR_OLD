@@ -11,6 +11,7 @@ import Tasks from "./pages/Tasks";
 
 import BaseModelo from "./pages/BaseModelo";
 import BaseModeloDetailsPage from "./pages/BaseModeloDetailsPage";
+import TaskDetails from "./pages/TaskDetails";
 
 import TaskUser from "./pages/TaskUser";
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/about" element={<PageAbout />} />
         <Route path="/project" element={<PageProject />} />
         <Route path="/tasks" element={<Tasks />} />
+        <Route path="/tasks/:taskID" element={<TaskDetails />} />
 
         <Route path="/modelo" element={<BaseModelo />} />
         <Route
