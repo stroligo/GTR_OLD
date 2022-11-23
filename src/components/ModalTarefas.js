@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import CheckboxList from "./CheckboxList";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
-import { periodicity, week, taskObject } from "../const.js";
+import { periodicity, week, taskObject } from "./globalfns";
 
 function ModalTarefas({
   show,
@@ -209,7 +209,7 @@ function ModalTarefas({
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="tempoestimado">
-                    Minutos Estimados
+                    Tempo estimado
                   </Form.Label>
                   <Form.Control
                     type="time"

@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import CheckboxList from "./CheckboxList";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
-import { periodicity, week, taskObject } from "../const.js";
+import { periodicity, week, taskObject } from "./globalfns";
 
 function ModalTarefas({
   show,
@@ -15,13 +15,11 @@ function ModalTarefas({
   setReload,
   currentMembers,
   allMembers,
-  edit
+  edit,
 }) {
   const [members, setMembers] = useState(currentMembers);
   const [form, setForm] = useState({ ...taskObject, ...formObj });
   const [validated] = useState(false);
-
-
 
   function handleClose() {
     setShow(false);
@@ -68,7 +66,6 @@ function ModalTarefas({
   }
 
   function obrigatorio() {
-  
     if (edit === "rejeitada")
       return (
         <Row>
@@ -87,27 +84,26 @@ function ModalTarefas({
             </Form.Group>
           </Col>
         </Row>
-      )
-    else return (
-      <Row>
-        <Col>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="observacao">Observação</Form.Label>
-            <Form.Control
-              id="observacao"
-              as="textarea"
-              name="observacao"
-              placeholder="Escreva a observação"
-              value={form.observacao}
-              onChange={handleChange}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-    )
-
+      );
+    else
+      return (
+        <Row>
+          <Col>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="observacao">Observação</Form.Label>
+              <Form.Control
+                id="observacao"
+                as="textarea"
+                name="observacao"
+                placeholder="Escreva a observação"
+                value={form.observacao}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      );
   }
-
 
   async function handlePut() {
     try {
@@ -339,7 +335,6 @@ function ModalTarefas({
               </Col>
             </Row>
           </Form>
-
         </Modal.Body>
         <Modal.Footer>
           {!Object.keys(formObj).length ? (
@@ -362,7 +357,6 @@ function ModalTarefas({
             </>
           )}
         </Modal.Footer>
-
       </Modal>
     </div>
   );
