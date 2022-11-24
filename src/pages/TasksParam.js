@@ -14,6 +14,7 @@ export default function TasksParam(opcoes) {
   const [formObj, setFormObj] = useState({});
   const [modalKey, setModalKey] = useState(0);
   const [edit, setEdit] = useState(false);
+  const [atribuir, setAtribuir] = useState(false);
   const { matricula } = useParams();
   let titulo;
   let tarefas;
@@ -35,7 +36,7 @@ export default function TasksParam(opcoes) {
         toast.error("Algo deu errado ao carregar os membros.");
       }
     })();
-  }, [reload]);
+  }, []);
 
   function handleModal() {
     setMembers([]);
@@ -46,17 +47,26 @@ export default function TasksParam(opcoes) {
 
   function handleEditTask(task) {
     //setEdit(true);
-     setMembers(
+    setMembers(
       allMembers.filter((item) => task.membros.includes(item.matricula))
     );
+    console.log(members);
+
     setFormObj(task);
     setModalKey(modalKey + 1); // force modal reload
     setShowModal(true);
-    
+
   }
 
   function aceite() {
-    return (opcoes.op === 1) ? <th>Aceitar</th> : false
+    return (opcoes.op === 1) ? <th>Aceitar</th> : <th>Atribuir</th>
+  }
+
+  function atribuirse(task) {
+    setAtribuir(matricula)
+    task.membros = [matricula];
+    task.status = "Aceita";
+    handleEditTask(task)
   }
 
   function aceitar(task) {
@@ -71,7 +81,7 @@ export default function TasksParam(opcoes) {
     handleEditTask(task)
   }
   function showButton(task) {
-    if (opcoes.op === 1)
+    if (opcoes.op === 1 && task.status === "Ativo") {
 
       return (
         <td>
@@ -95,7 +105,21 @@ export default function TasksParam(opcoes) {
         </td>
 
       )
-
+    }
+    if (opcoes.op === 1 && task.status !== "Ativo") { return (<td></td>) }
+    if (opcoes.op === 2) {
+      return (<td>
+        <tr>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => atribuirse(task)}
+          >
+            Atribuir
+          </Button>
+        </tr>
+      </td>)
+    }
   }
   function botaoAdicionar(condicional) {
     if (condicional) {
@@ -118,7 +142,7 @@ export default function TasksParam(opcoes) {
   }
 
   if (opcoes.op === 2) {
-    titulo = "Tarefas do Grupo"
+    titulo = "Tarefas sem Atribuição"
     tarefas = tasks.filter((task) => {
       return (
         task.membros.length === 0
@@ -172,12 +196,12 @@ export default function TasksParam(opcoes) {
                 </td>
                 <td>{task.tags.join(", ")}</td>
                 <td>
-                      <Link to={`/task/${task._id}`}>
-                        <Button variant="outline-secondary" size="sm">
-                          Detalhes
-                        </Button>
-                      </Link>
-                    </td>
+                  <Link to={`/tasks/${task._id}`}>
+                    <Button variant="outline-secondary" size="sm">
+                      Detalhes
+                    </Button>
+                  </Link>
+                </td>
                 {showButton(task)}
 
               </tr>
@@ -196,6 +220,7 @@ export default function TasksParam(opcoes) {
           currentMembers={members}
           allMembers={allMembers}
           edit={edit}
+          atribuir={atribuir}
         />
       </Container>
     </div>
