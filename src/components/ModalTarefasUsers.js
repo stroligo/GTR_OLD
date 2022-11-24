@@ -11,10 +11,9 @@ import {
 
 } from "react-bootstrap";
 import { toast } from "react-hot-toast";
-import CheckboxList from "./CheckboxList";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
-import { periodicity, week, taskObject } from "./globalfns";
+import { taskObject } from "./globalfns";
 
 function ModalTarefasUsers({
   show,
@@ -30,26 +29,15 @@ function ModalTarefasUsers({
   const [members, setMembers] = useState(currentMembers);
   const [form, setForm] = useState({ ...taskObject, ...formObj });
   const [validated] = useState(false);
-  const [showRepeticao, setShowRepeticao] = useState(false);
-
+ 
   function handleClose() {
     setShow(false);
-  }
-
-  function callRepeticao() {
-    handleClose();
-    setShowRepeticao(true);
-  }
-
-  function handleRepeticao() {
-    setShowRepeticao(false);
   }
 
   /* CRUD */
   function handleSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
-    setShowRepeticao(false);
     if (formObj && Object.keys(formObj).length) handlePut();
     else handlePost();
     handleClose();
@@ -72,7 +60,6 @@ function ModalTarefasUsers({
     try {
       const clone = { ...form };
       delete clone._id;
-
       await axios.put(
         `https://ironrest.cyclic.app/gtr_task/${form._id}`,
         clone
@@ -87,24 +74,8 @@ function ModalTarefasUsers({
     }
   }
 
-  async function handleDelete(e) {
-    try {
-      await axios.delete(`https://ironrest.cyclic.app/gtr_task/${form._id}`);
-      toast.success("Tarefa deletada com sucesso");
-      setReload(!reload);
-      setShow(false);
-    } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado ao deletar essa tarefa.");
-    }
-  }
-
-  function handleChange({ target }) {
+   function handleChange({ target }) {
     setForm({ ...form, [target.name]: target.value });
-  }
-
-  function handleCheckbox(name, value) {
-    handleChange({ target: { name, value } });
   }
 
   function updateTags(tags) {
@@ -177,7 +148,7 @@ function ModalTarefasUsers({
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Header closeButton>
             <FloatingLabel
-              controlId="nome"
+              htmlFor="nome"
               label="Nome da tarefa"
               className="flex-grow-1">
               <Form.Control
@@ -261,14 +232,17 @@ function ModalTarefasUsers({
                </Row>
           </Modal.Body>
         </Form>
+       
+     
+       
         <Modal.Footer>
           {Object.keys(formObj).length ? (
             <>
               <Button variant="primary" onClick={handleSubmit}>
                 Salvar
               </Button>
-              <Button variant="primary" onClick={() => handleSubmit}>
-        
+              <Button variant="primary" 
+              onClick={handleSubmit}>
                 Concluir Tarefa
               </Button>
             </>
