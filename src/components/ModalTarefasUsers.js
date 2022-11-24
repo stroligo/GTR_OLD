@@ -7,7 +7,7 @@ import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
 import { periodicity, week, taskObject } from "./globalfns";
 
-function ModalTarefas({
+function ModalTarefasUsers({
   show,
   setShow,
   formObj,
@@ -16,10 +16,18 @@ function ModalTarefas({
   currentMembers,
   allMembers,
   edit,
+  atribuir
+
+
+
 }) {
   const [members, setMembers] = useState(currentMembers);
   const [form, setForm] = useState({ ...taskObject, ...formObj });
   const [validated] = useState(false);
+
+
+
+
 
   function handleClose() {
     setShow(false);
@@ -66,6 +74,7 @@ function ModalTarefas({
   }
 
   function obrigatorio() {
+
     if (edit === "rejeitada")
       return (
         <Row>
@@ -84,26 +93,27 @@ function ModalTarefas({
             </Form.Group>
           </Col>
         </Row>
-      );
-    else
-      return (
-        <Row>
-          <Col>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="observacao">Observação</Form.Label>
-              <Form.Control
-                id="observacao"
-                as="textarea"
-                name="observacao"
-                placeholder="Escreva a observação"
-                value={form.observacao}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-      );
+      )
+    else return (
+      <Row>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="observacao">Observação</Form.Label>
+            <Form.Control
+              id="observacao"
+              as="textarea"
+              name="observacao"
+              placeholder="Escreva a observação"
+              value={form.observacao}
+              onChange={handleChange}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+    )
+
   }
+
 
   async function handlePut() {
     try {
@@ -135,6 +145,16 @@ function ModalTarefas({
       toast.error("Algo deu errado ao deletar essa tarefa.");
     }
   }
+
+  function selecionar() {
+
+    if (atribuir) {
+      return ([allMembers.find(element => element.matricula === atribuir)])
+    }
+
+    return (allMembers)
+  }
+
 
   return (
     <div>
@@ -228,7 +248,7 @@ function ModalTarefas({
               <Col>
                 <MembersCheckbox
                   update={updateMember}
-                  allMembers={allMembers}
+                  allMembers={selecionar()}
                   selected={members}
                 />
                 {members.map((member) => (
@@ -335,6 +355,7 @@ function ModalTarefas({
               </Col>
             </Row>
           </Form>
+
         </Modal.Body>
         <Modal.Footer>
           {!Object.keys(formObj).length ? (
@@ -348,18 +369,17 @@ function ModalTarefas({
             </>
           ) : (
             <>
-              <Button variant="outline-danger" onClick={handleDelete}>
-                Excluir tarefa
-              </Button>
+
               <Button variant="primary" onClick={handlePut}>
                 Salvar
               </Button>
             </>
           )}
         </Modal.Footer>
+
       </Modal>
     </div>
   );
 }
 
-export default ModalTarefas;
+export default ModalTarefasUsers;

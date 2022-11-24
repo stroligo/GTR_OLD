@@ -21,7 +21,7 @@ function TaskDetails() {
   const [showEdit, setShowEdit] = useState(false); //controlar a visualização form // true -> form aparece
 
   const [form, setForm] = useState({
-    nome: "",    
+    nome: "",
   });
 
   /* const habilidades = [
@@ -120,7 +120,7 @@ function TaskDetails() {
                     <Col>
                       <Card.Title>Tarefa</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
-                        Matrícula: {task.nome}
+                        Nome: {task.nome}
                       </Card.Subtitle>
                     </Col>
                   </Row>
@@ -128,19 +128,19 @@ function TaskDetails() {
                 <Card.Body>
                   <Row>
                     <Col>
-                     
+
                       <Card.Title>Status</Card.Title>
                       <Card.Text>{task.status}</Card.Text>
 
-                      
+
                     </Col>
-                    
+
                   </Row>
                 </Card.Body>
                 <Card.Footer className="text-muted">
                   <Row>
-                    
-                    
+
+
                     {/* <Col>
                       <Button variant="outline-danger" onClick={handleDelete}>
                         Excluir Funcionário
@@ -150,7 +150,7 @@ function TaskDetails() {
                 </Card.Footer>
               </Card>
             )}
-            
+
           </>
         )}
 
