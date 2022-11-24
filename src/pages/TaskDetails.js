@@ -1,25 +1,18 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {
   Container,
   Card,
-  Button,
   Row,
   Col,
-  Form,
   Spinner,
 } from "react-bootstrap";
 
 function TaskDetails() {
-  const [validated, setValidated] = useState();
   const { taskID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
-  const navigate = useNavigate(); // instanciar o useNavigate()
-
   const [task, setTask] = useState({}); //informações do task que veio da minha API
-  const [showEdit, setShowEdit] = useState(false); //controlar a visualização form // true -> form aparece
-
   const [form, setForm] = useState({
     nome: "",
   });
@@ -35,7 +28,6 @@ function TaskDetails() {
   ]; */
 
   const [isLoading, setIsLoading] = useState(true);
-  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     async function fetchTask() {
@@ -46,7 +38,6 @@ function TaskDetails() {
         console.log(response);
         setTask(response.data);
         setForm(response.data);
-        setValidated(false);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -58,11 +49,7 @@ function TaskDetails() {
     return () => {
       console.log("vai rodar depois do useEffect");
     };
-  }, [reload, taskID]);
-
-  function handleChange({ target }) {
-    setForm({ ...form, [target.name]: target.value });
-  }
+  }, [taskID]);
 
   /* 
   async function handleDelete(e) {
@@ -78,33 +65,6 @@ function TaskDetails() {
     }
   } */
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setValidated(true);
-    if (
-      [...document.querySelectorAll("input")]
-        .map((element) => element.checkValidity())
-        .reduce((result, element) => result * element)
-    )
-      try {
-        //clonando o form para que possamos fazer as alterações necessárias
-        const clone = { ...form };
-        delete clone._id;
-
-        await axios.put(
-          `https://ironrest.cyclic.app/gtr_task/${taskID}`,
-          clone
-        );
-        setValidated(false);
-        toast.success("Alterações salvas");
-        setReload(!reload);
-        setShowEdit(false);
-      } catch (error) {
-        console.log(error);
-        toast.error("Algo deu errado. Tente novamente.");
-      }
-  }
-
   console.log(form);
 
   return (
@@ -113,7 +73,7 @@ function TaskDetails() {
         {isLoading === false && (
           <>
             {/* Card task */}
-            {showEdit === false && (
+            { (
               <Card className="text-center" bg="light">
                 <Card.Header>
                   <Row>
