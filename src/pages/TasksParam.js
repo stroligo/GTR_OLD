@@ -98,16 +98,16 @@ export default function TasksParam(opcoes) {
     if (opcoes.op === 1 && task.status === "Ativo") {
 
       return (
+        
         <td>
-          <tr><Button
+          <Button
             variant="success"
             size="sm"
             onClick={() => aceitar(task)}
           >
             Aceitar
           </Button>
-          </tr>
-          <tr>
+          
             <Button
               variant="danger"
               size="sm"
@@ -115,15 +115,15 @@ export default function TasksParam(opcoes) {
             >
               Rejeitar
             </Button>
-          </tr>
-        </td>
+          </td>
+     
 
       )
     }
     if (opcoes.op === 1 && task.status !== "Ativo") { return (<td></td>) }
     if (opcoes.op === 2) {
       return (<td>
-        <tr>
+       
           <Button
             variant="primary"
             size="sm"
@@ -131,7 +131,7 @@ export default function TasksParam(opcoes) {
           >
             Atribuir
           </Button>
-        </tr>
+      
       </td>)
     }
   }
@@ -252,7 +252,7 @@ export default function TasksParam(opcoes) {
                         Editar
                       </Button>
                       </td>)
-                      : (1==1)}
+                      : (1===1)}
                  
                 </tr>
               ))}
