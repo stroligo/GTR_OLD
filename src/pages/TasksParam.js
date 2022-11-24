@@ -199,7 +199,7 @@ export default function TasksParam(opcoes) {
               <th>Tags</th>
               <th>Detalhes</th>
               {aceite()}
-              {opcoes.op ===1 ? <th>Editar</th> : true===true}
+              {opcoes.op ===1 ? <th>Editar</th> : false}
             </tr>
           </thead>
           <tbody>
@@ -252,7 +252,7 @@ export default function TasksParam(opcoes) {
                         Editar
                       </Button>
                       </td>)
-                      : (1===1)}
+                      : (false)}
                  
                 </tr>
               ))}
