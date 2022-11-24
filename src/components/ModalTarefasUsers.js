@@ -148,7 +148,7 @@ function ModalTarefasUsers({
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Header closeButton>
             <FloatingLabel
-              controlId="nome"
+              htmlFor="nome"
               label="Nome da tarefa"
               className="flex-grow-1">
               <Form.Control
