@@ -1,12 +1,28 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Table, Container, Button, Col, Row } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Button,
+  Col,
+  Row,
+  FloatingLabel,
+  Form,
+} from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefasUsers";
 import { useParams, Link } from "react-router-dom";
+import { filterByKeys } from "../components/globalfns";
+
+const priorities = {
+  Alto: 2,
+  Médio: 1,
+  Baixo: 0,
+};
 
 export default function TasksParam(opcoes) {
   const [tasks, setTasks] = useState([]);
+  const [tasksSearch, setTaskSearch] = useState("");
   const [allMembers, setAllMembers] = useState([]);
   const [members, setMembers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -36,9 +52,10 @@ export default function TasksParam(opcoes) {
         toast.error("Algo deu errado ao carregar os membros.");
       }
     })();
-  }, []);
+  }, [reload]);
 
   function handleModal() {
+    setEdit("new")
     setMembers([]);
     setFormObj({});
     setModalKey(modalKey + 1); // force modal reload
@@ -46,16 +63,13 @@ export default function TasksParam(opcoes) {
   }
 
   function handleEditTask(task) {
-    //setEdit(true);
+    setEdit("editar");
     setMembers(
       allMembers.filter((item) => task.membros.includes(item.matricula))
     );
-    console.log(members);
-
     setFormObj(task);
     setModalKey(modalKey + 1); // force modal reload
     setShowModal(true);
-
   }
 
   function aceite() {
@@ -158,6 +172,18 @@ export default function TasksParam(opcoes) {
             <h3>{titulo}</h3>
           </Col>
         </Row>
+        <FloatingLabel
+          controlId="floatingInput"
+          label="Pesquise por status"
+          className="my-3">
+          <Form.Control
+            type="text"
+            placeholder="pesquise"
+            value={tasksSearch}
+            onChange={({ target }) => setTaskSearch(target.value)}
+          />
+        </FloatingLabel>
+
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -173,39 +199,63 @@ export default function TasksParam(opcoes) {
               <th>Tags</th>
               <th>Detalhes</th>
               {aceite()}
+              {opcoes.op ===1 ? <th>Editar</th> : true===true}
             </tr>
           </thead>
           <tbody>
-            {tarefas.map((task) => (
-              <tr key={task._id}>
-                <td>{task.status}</td>
-                <td>{task.nome}</td>
-                <td>{task.prioridade}</td>
-                <td>{task.periodicidade}</td>
-                <td>{task.Referencia}</td>
-                <td>
-                  {allMembers
-                    .filter((item) => task.membros.includes(item.matricula))
-                    .map((member) => member.nome)
-                    .join(", ")}
-                </td>
-                <td>{new Date(task.inicio + " 00:00").toLocaleDateString()}</td>
-                <td>{task.tempoestimado}</td>
-                <td>
-                  {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
-                </td>
-                <td>{task.tags.join(", ")}</td>
-                <td>
-                  <Link to={`/tasks/${task._id}`}>
-                    <Button variant="outline-secondary" size="sm">
-                      Detalhes
-                    </Button>
-                  </Link>
-                </td>
-                {showButton(task)}
+            {tarefas
+              .filter((task) => filterByKeys(task, ["status"], tasksSearch))
+              .sort((task1, task2) => {
+                let first =
+                  priorities[task2.prioridade] - priorities[task1.prioridade];
+                if (first !== 0) return first;
 
-              </tr>
-            ))}
+                let second = task1.prazoFinal.localeCompare(task2.prazoFinal);
+                if (second !== 0) return second;
+
+                return task1.inicio.localeCompare(task2.inicio);
+              })
+              .map((task) => (
+                <tr key={task._id}>
+                  <td>{task.status}</td>
+                  <td>{task.nome}</td>
+                  <td>{task.prioridade}</td>
+                  <td>{task.periodicidade}</td>
+                  <td>{task.Referencia}</td>
+                  <td>
+                    {allMembers
+                      .filter((item) => task.membros.includes(item.matricula))
+                      .map((member) => member.nome)
+                      .join(", ")}
+                  </td>
+                  <td>{new Date(task.inicio + " 00:00").toLocaleDateString()}</td>
+                  <td>{task.tempoestimado}</td>
+                  <td>
+                    {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
+                  </td>
+                  <td>{task.tags.join(", ")}</td>
+                  <td>
+                    <Link to={`/tasks/${task._id}`}>
+                      <Button variant="outline-secondary" size="sm">
+                        Detalhes
+                      </Button>
+                    </Link>
+                  </td>
+                  {showButton(task)}
+                  
+                    { (opcoes.op===1) ? (
+                      <td>
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => handleEditTask(task)}>
+                        Editar
+                      </Button>
+                      </td>)
+                      : (1==1)}
+                 
+                </tr>
+              ))}
           </tbody>
         </Table>
         {botaoAdicionar(opcoes.botaoAdicionar)}

@@ -118,28 +118,37 @@ function TaskDetails() {
                 <Card.Header>
                   <Row>
                     <Col>
-                      <Card.Title>Tarefa</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
-                        Nome: {task.nome}
-                      </Card.Subtitle>
+                      <Card.Title>{task.nome}</Card.Title>
+
                     </Col>
                   </Row>
                 </Card.Header>
                 <Card.Body>
                   <Row>
                     <Col>
+                      <Card.Title>Prioridade</Card.Title>
+                      <Card.Text>{task.prioridade}</Card.Text>
 
-                      <Card.Title>Status</Card.Title>
-                      <Card.Text>{task.status}</Card.Text>
+                      <Card.Title>Referencia</Card.Title>
+                      <Card.Text>{task.referencia}</Card.Text>
 
-
+                      <Card.Title>Inicio</Card.Title>
+                      <Card.Text>{task.inicio}</Card.Text>
                     </Col>
+                    <Col>
+                      <Card.Title>Tempo Estimado</Card.Title>
+                      <Card.Text>{task.tempoestimado}</Card.Text>
 
+                      <Card.Title>Inicio</Card.Title>
+                      <Card.Text>{task.inicio}</Card.Text>
+                    </Col>
                   </Row>
                 </Card.Body>
+
                 <Card.Footer className="text-muted">
                   <Row>
-
+                    <Card.Title>Prazo Final</Card.Title>
+                    <Card.Text>{task.prazoFinal}</Card.Text>
 
                     {/* <Col>
                       <Button variant="outline-danger" onClick={handleDelete}>
