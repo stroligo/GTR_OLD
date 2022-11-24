@@ -252,8 +252,7 @@ export default function TasksParam(opcoes) {
                         Editar
                       </Button>
                       </td>)
-                      : (false)}
-                 
+                      : (false)}                 
                 </tr>
               ))}
           </tbody>
