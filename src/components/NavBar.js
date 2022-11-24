@@ -23,7 +23,7 @@ export default function NavBar() {
           <div
             style={{
               borderRadius: "50%",
-              border: "1px solid rgba(0, 0, 0, 0.2)",
+
               display: "inline-flex",
               cursor: "pointer",
               fontSize: "1.5rem",
