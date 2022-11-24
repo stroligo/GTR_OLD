@@ -4,7 +4,7 @@ import axios from "axios";
 import ModalCreateUser from "../components/ModalCreateUser";
 import { Link } from "react-router-dom";
 
-function BaseModelo() {
+function PageUser() {
   const [users, setUsers] = useState([]);
 
   const [reload, setReload] = useState(false);
@@ -30,7 +30,8 @@ function BaseModelo() {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome / departamento / cargo"
-          className="my-3">
+          className="my-3"
+        >
           <Form.Control
             type="text"
             placeholder="pesquise"
@@ -68,7 +69,7 @@ function BaseModelo() {
                     <td>{user.status}</td>
                     <td>{user.departamento}</td>
                     <td>
-                      <Link to={`/modelo/user/${user._id}`}>
+                      <Link to={`/user/${user._id}`}>
                         <Button variant="outline-secondary" size="sm">
                           Detalhes
                         </Button>
@@ -86,4 +87,4 @@ function BaseModelo() {
   );
 }
 
-export default BaseModelo;
+export default PageUser;

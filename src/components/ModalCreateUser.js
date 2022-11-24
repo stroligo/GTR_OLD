@@ -78,7 +78,7 @@ function ModalCreateUser({ reload, setReload }) {
   return (
     <div>
       <Button variant="success" onClick={handleShow}>
-        + Inserir Novo Servidor
+        + Novo Servidor
       </Button>
 
       <Modal show={show} onHide={handleClose} size="xl">
@@ -203,7 +203,8 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Select
                     id="departamento"
                     name="departamento"
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                  >
                     <option>Selecione uma opção</option>
                     <option value="Financeiro">Financeiro</option>
                     <option value="RecurosHumanos">Recursos Humanos</option>
@@ -225,7 +226,8 @@ function ModalCreateUser({ reload, setReload }) {
                   <Form.Select
                     id="status"
                     name="status"
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                  >
                     <option>Selecione uma opção</option>
                     <option value="Ativo">Ativo</option>
                     <option value="Férias">Férias</option>

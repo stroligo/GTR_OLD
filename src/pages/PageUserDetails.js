@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import Tags from "../components/Tags";
 
-function BaseModeloDetailsPage() {
+function PageUserDetails() {
   const [validated, setValidated] = useState();
   const { userID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
   const navigate = useNavigate(); // instanciar o useNavigate()
@@ -127,65 +127,88 @@ function BaseModeloDetailsPage() {
       <Container className="my-4">
         {isLoading === false && (
           <>
+            <Button variant="" onClick={() => navigate("/user")}>
+              Voltar
+            </Button>
             {/* Card User */}
             {showEdit === false && (
               <Card className="text-center" bg="light">
                 <Card.Header>
                   <Row>
-                    <Col>
-                      <Card.Title>{user.nome}</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
-                        Matrícula: {user.matricula}
-                      </Card.Subtitle>
+                    <Col xs={10} className="left">
+                      <h3>{user.nome}</h3>
+                    </Col>
+                    <Col xs={2} className="right">
+                      <Button
+                        variant="success"
+                        onClick={() => setShowEdit(true)}
+                      >
+                        Editar
+                      </Button>
                     </Col>
                   </Row>
                 </Card.Header>
                 <Card.Body>
                   <Row>
-                    <Col>
-                      <Card.Title>Email</Card.Title>
-                      <Card.Text>{user.email}</Card.Text>
-
-                      <Card.Title>Cargo</Card.Title>
-                      <Card.Text>{user.cargo}</Card.Text>
-
+                    <Col xs={2}>
+                      <Card.Text>
+                        <Card.Img src={user.foto} alt={user.nome} />
+                      </Card.Text>
+                    </Col>
+                    <Col xs={3}>
+                      <Card.Text className="mb-2 text-muted">
+                        <div>
+                          <b>Matricula:</b> {user.matricula}
+                        </div>
+                        <div>
+                          <b>Cargo:</b> {user.cargo}
+                        </div>
+                        <div>
+                          <b>Setor:</b> {user.departamento}
+                        </div>
+                        <div>
+                          <b>Horas: </b>
+                          {user.jornada} hrs / mês
+                        </div>
+                      </Card.Text>
+                    </Col>
+                    <Col xs={3}>
+                      <Card.Text className="mb-2 text-muted">
+                        <div>
+                          <b>Email:</b> {user.email}
+                        </div>
+                        <div>
+                          <b>Telefone:</b> {user.telefone}
+                        </div>
+                      </Card.Text>
+                    </Col>
+                    <Col xs={3}>
                       <Card.Title>Status</Card.Title>
                       <Card.Text>{user.status}</Card.Text>
-
-                      <Card.Title>Jornada</Card.Title>
-                      <Card.Text>{user.jornada}</Card.Text>
-                    </Col>
-                    <Col>
-                      <Card.Title>Foto</Card.Title>
-                      <Card.Text>{user.foto}</Card.Text>
-
-                      <Card.Title>Departamento</Card.Title>
-                      <Card.Text>{user.departamento}</Card.Text>
-
                       <Card.Title>Habilidades</Card.Title>
-                      <Card.Text>{user.habilidades}</Card.Text>
-
-                      <Card.Title>Telefone</Card.Title>
-                      <Card.Text>{user.telefone}</Card.Text>
+                      <Card.Text>
+                        {user.habilidades.map((habilidade) => {
+                          <h3>{habilidade}</h3>;
+                        })}
+                      </Card.Text>
+                      <Card.Text className="mb-2 text-muted">
+                        <div>
+                          <b>Email:</b> {user.email}
+                        </div>
+                        <div>
+                          <b>Telefone:</b> {user.telefone}
+                        </div>
+                      </Card.Text>
                     </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={2}></Col>
+                    <Col xs={10}></Col>
                   </Row>
                 </Card.Body>
                 <Card.Footer className="text-muted">
                   <Row>
-                    <Col>
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => navigate("/modelo")}>
-                        Voltar
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Button
-                        variant="outline-success"
-                        onClick={() => setShowEdit(true)}>
-                        Editar Funcionário
-                      </Button>
-                    </Col>
+                    <Col></Col>
                     {/* <Col>
                       <Button variant="outline-danger" onClick={handleDelete}>
                         Excluir Funcionário
@@ -203,7 +226,8 @@ function BaseModeloDetailsPage() {
                   <Form
                     noValidate
                     validated={validated}
-                    onSubmit={handleSubmit}>
+                    onSubmit={handleSubmit}
+                  >
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
@@ -287,7 +311,8 @@ function BaseModeloDetailsPage() {
                           <Form.Select
                             id="status"
                             name="status"
-                            onChange={handleChange}>
+                            onChange={handleChange}
+                          >
                             <option>Selecione uma opção</option>
                             <option value="Ativo">Ativo</option>
                             <option value="Férias">Férias</option>
@@ -359,7 +384,8 @@ function BaseModeloDetailsPage() {
                     <Col>
                       <Button
                         variant="outline-danger"
-                        onClick={() => setShowEdit(false)}>
+                        onClick={() => setShowEdit(false)}
+                      >
                         Voltar
                       </Button>
                     </Col>
@@ -385,4 +411,4 @@ function BaseModeloDetailsPage() {
   );
 }
 
-export default BaseModeloDetailsPage;
+export default PageUserDetails;
