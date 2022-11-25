@@ -23,7 +23,8 @@ export default function MembersCheckbox({ update, selected, allMembers }) {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome / habilidades"
-          className="my-3">
+          className="my-3"
+        >
           <Form.Control
             type="text"
             placeholder="pesquise"
@@ -38,7 +39,8 @@ export default function MembersCheckbox({ update, selected, allMembers }) {
           .map((member) => (
             <Dropdown.Item
               key={member._id}
-              onClick={() => handleChange(member)}>
+              onClick={() => handleChange(member)}
+            >
               <Form.Check
                 name="members"
                 inline
@@ -50,9 +52,9 @@ export default function MembersCheckbox({ update, selected, allMembers }) {
                   return { key: member._id + exists, checked: exists };
                 })()}
               />
-              <Form.Label>
+              <span className="name-interno">
                 {member.nome} - {member.matricula}
-              </Form.Label>
+              </span>
             </Dropdown.Item>
           ))}
       </Dropdown.Menu>

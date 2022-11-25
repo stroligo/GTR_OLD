@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import Tags from "../components/Tags";
+import { BsFillArrowLeftSquareFill } from "react-icons/bs";
 
 function PageUserDetails() {
   const [validated, setValidated] = useState();
@@ -127,8 +128,8 @@ function PageUserDetails() {
       <Container className="my-4">
         {isLoading === false && (
           <>
-            <Button variant="" onClick={() => navigate("/user")}>
-              Voltar
+            <Button variant="voltar" onClick={() => navigate("/user")}>
+              <BsFillArrowLeftSquareFill /> <span>voltar</span>
             </Button>
             {/* Card User */}
             {showEdit === false && (
@@ -140,7 +141,7 @@ function PageUserDetails() {
                     </Col>
                     <Col xs={2} className="right">
                       <Button
-                        variant="success"
+                        variant="primary"
                         onClick={() => setShowEdit(true)}
                       >
                         Editar
@@ -183,16 +184,13 @@ function PageUserDetails() {
                       </Card.Text>
                     </Col>
                     <Col xs={3}>
-                      <Card.Title>Status</Card.Title>
-                      <Card.Text>{user.status}</Card.Text>
-                      <Card.Title>Habilidades</Card.Title>
-                      <Card.Text>{user.habilidades}</Card.Text>
                       <Card.Text className="mb-2 text-muted">
                         <div>
-                          <b>Email:</b> {user.email}
+                          <b>Status:</b> {user.status}
                         </div>
                         <div>
-                          <b>Telefone:</b> {user.telefone}
+                          <b>Habilidades:</b>
+                          {user.habilidades}
                         </div>
                       </Card.Text>
                     </Col>
@@ -378,15 +376,7 @@ function PageUserDetails() {
                 <Card.Footer className="text-muted">
                   <Row>
                     <Col>
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => setShowEdit(false)}
-                      >
-                        Voltar
-                      </Button>
-                    </Col>
-                    <Col>
-                      <Button variant="outline-success" onClick={handleSubmit}>
+                      <Button variant="primary" onClick={handleSubmit}>
                         Salvar Alterações
                       </Button>
                     </Col>

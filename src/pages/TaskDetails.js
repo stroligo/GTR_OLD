@@ -2,13 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {
-  Container,
-  Card,
-  Row,
-  Col,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Card, Row, Col, Spinner } from "react-bootstrap";
 
 function TaskDetails() {
   const { taskID } = useParams(); //mesmo nome do parametro de ROTA (app.js)
@@ -73,13 +67,12 @@ function TaskDetails() {
         {isLoading === false && (
           <>
             {/* Card task */}
-            { (
+            {
               <Card className="text-center" bg="light">
                 <Card.Header>
                   <Row>
                     <Col>
                       <Card.Title>{task.nome}</Card.Title>
-
                     </Col>
                   </Row>
                 </Card.Header>
@@ -118,8 +111,7 @@ function TaskDetails() {
                   </Row>
                 </Card.Footer>
               </Card>
-            )}
-
+            }
           </>
         )}
 

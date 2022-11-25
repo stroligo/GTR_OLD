@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import ModalTarefas from "../components/ModalTarefasUsers";
 import { useParams, Link } from "react-router-dom";
 import { filterByKeys } from "../components/globalfns";
+import { BsFillPencilFill } from "react-icons/bs";
 
 const priorities = {
   Alto: 2,
@@ -151,7 +152,7 @@ export default function TasksParam(opcoes) {
       <Container>
         <Row>
           <Col>
-            <h3>{titulo}</h3>
+            <h4>{titulo}</h4>
           </Col>
         </Row>
         <FloatingLabel
@@ -170,15 +171,16 @@ export default function TasksParam(opcoes) {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Status</th>
               <th>Nome</th>
+              <th>Status</th>
+
               <th>Prioridade</th>
               <th>Periodicidade</th>
               <th>Referência</th>
               <th>Membros</th>
-              <th>Início</th>
-              <th>Minutos Estimados</th>
-              <th>Prazo Final</th>
+              {/*  <th>Início</th> */}
+              {/*   <th>Estimativa</th> */}
+              <th>Prazo</th>
               <th>Tags</th>
               <th>Detalhes</th>
               {aceite()}
@@ -200,8 +202,9 @@ export default function TasksParam(opcoes) {
               })
               .map((task) => (
                 <tr key={task._id}>
-                  <td>{task.status}</td>
                   <td>{task.nome}</td>
+                  <td>{task.status}</td>
+
                   <td>{task.prioridade}</td>
                   <td>{task.periodicidade}</td>
                   <td>{task.Referencia}</td>
@@ -211,11 +214,11 @@ export default function TasksParam(opcoes) {
                       .map((member) => member.nome)
                       .join(", ")}
                   </td>
+
+                  {/*   <td>{task.tempoestimado}</td> */}
                   <td>
-                    {new Date(task.inicio + " 00:00").toLocaleDateString()}
-                  </td>
-                  <td>{task.tempoestimado}</td>
-                  <td>
+                    {new Date(task.inicio + " 00:00").toLocaleDateString()}{" "}
+                    <br />
                     {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
                   </td>
                   <td>{task.tags.join(", ")}</td>
@@ -230,13 +233,10 @@ export default function TasksParam(opcoes) {
 
                   {opcoes.op === 1 ? (
                     <td>
-                      <Button
-                        variant="outline-secondary"
-                        size="sm"
+                      <BsFillPencilFill
                         onClick={() => handleEditTask(task)}
-                      >
-                        Editar
-                      </Button>
+                        className="editar"
+                      />
                     </td>
                   ) : (
                     false

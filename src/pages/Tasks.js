@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BsFillPencilFill } from "react-icons/bs";
+
 import {
   Table,
   Container,
@@ -69,7 +71,7 @@ export default function Tasks() {
       <Container>
         <Row>
           <Col>
-            <h3>Tarefas abertas</h3>
+            <h4>Tarefas abertas</h4>
           </Col>
           <Col md="auto">
             <Button onClick={handleModal}>Adicionar</Button>
@@ -88,20 +90,20 @@ export default function Tasks() {
           />
         </FloatingLabel>
 
-        <Table striped bordered hover>
+        <Table bordered hover>
           <thead>
             <tr>
+              <th className="col-md-4">Atividade</th>
+              <th>Atribuido</th>
               <th>Status</th>
-              <th>Nome</th>
-              <th>Prioridade</th>
+              {/*  <th>Prioridade</th> */}
               <th>Periodicidade</th>
-              <th>Referência</th>
-              <th>Membros</th>
-              <th>Início</th>
-              <th>Minutos Estimados</th>
-              <th>Prazo Final</th>
+              {/* <th>Referência</th> */}
+
+              {/*  <th>Estimativa</th> */}
               <th>Tags</th>
-              <th>Detalhes</th>
+              <th>Prazo</th>
+              {/*  <th>Detalhes</th> */}
               <th>Editar</th>
             </tr>
           </thead>
@@ -120,38 +122,38 @@ export default function Tasks() {
               })
               .map((task) => (
                 <tr key={task._id}>
-                  <td>{task.status}</td>
-                  <td>{task.nome}</td>
-                  <td>{task.prioridade}</td>
-                  <td>{task.periodicidade}</td>
-                  <td>{task.Referencia}</td>
+                  <td>
+                    <b>{task.nome}</b>
+                  </td>
                   <td>
                     {allMembers
                       .filter((item) => task.membros.includes(item.matricula))
                       .map((member) => member.nome)
                       .join(", ")}
                   </td>
+                  <td>{task.status}</td>
+                  <td>{task.prioridade}</td>
+                  {/*   <td>{task.periodicidade}</td> */}
+                  {/* <td>{task.Referencia}</td> */}
+
+                  {/*   <td>{task.tempoestimado}</td> */}
+                  <td>{task.tags.join(" / ")}</td>
                   <td>
-                    {new Date(task.inicio + " 00:00").toLocaleDateString()}
-                  </td>
-                  <td>{task.tempoestimado}</td>
-                  <td>
+                    {new Date(task.inicio + " 00:00").toLocaleDateString()}{" "}
+                    <br />
                     {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
                   </td>
-                  <td>{task.tags.join(", ")}</td>
-                  <td>
+
+                  {/*   <td>
                     <Button variant="outline-secondary" size="sm">
                       Detalhes
                     </Button>
-                  </td>
+                  </td> */}
                   <td>
-                    <Button
-                      variant="outline-secondary"
-                      size="sm"
+                    <BsFillPencilFill
                       onClick={() => handleEditTask(task)}
-                    >
-                      Editar
-                    </Button>
+                      className="editar"
+                    />
                   </td>
                 </tr>
               ))}

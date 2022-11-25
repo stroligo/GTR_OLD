@@ -8,17 +8,29 @@ $amarelo: #ffca3b;
 $cinza: #6e7678;
 $cinza-2: #282c34;
 
-.btn-success {
+.btn-primary {
+  font-size: 14px;
   background: $azul;
   border: none;
   &:hover {
     background: $cinza;
   }
 }
+.btn-secondary {
+  font-size: 14px;
+  background: $cinza-2;
+  border: none;
+  &:hover {
+    background: $cinza;
+  }
+}
+.btn {
+  font-size: 14px;
+}
 
 body {
   font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
 }
 h1,
 h2,
@@ -109,6 +121,19 @@ section {
   text-align: left;
   color: $azul;
 }
+.form-label {
+  font-family: "Bebas Neue", sans-serif !important;
+  color: $azul !important;
+  margin: 0;
+  padding-left: 2px;
+  text-align: left !important;
+  display: flex;
+}
+.form-control,
+.form-select {
+  font-size: 14px;
+  border: 1px solid #115163;
+}
 a {
   color: $azul !important;
 }
@@ -135,9 +160,7 @@ a {
   flex-wrap: nowrap;
   align-items: center;
 }
-.nav {
-  background: red;
-}
+
 .menu {
   min-height: 100vh;
   height: 100%;
@@ -163,8 +186,6 @@ a {
   margin-top: 2rem;
 }
 .menu-collapse {
-  background: red !important;
-
   margin: 0;
   position: absolute;
   top: 0.5rem;
@@ -172,4 +193,86 @@ a {
 }
 .givneN {
   border-right: none !important;
+}
+.row {
+  padding: 0.5rem;
+}
+.btn-voltar {
+  color: #ff9b3a;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.btn-voltar:hover {
+  color: #ffca3b;
+}
+.btn-voltar span {
+  margin-left: 0.5rem !important;
+}
+.modal-header {
+  padding-left: 0.5rem;
+  background: #115163;
+}
+.modal-header {
+  padding-left: 0.5rem;
+  background: #115163;
+}
+.modal-header h4 {
+  color: #ebebeb !important;
+  padding-left: 1rem;
+}
+
+.modal-header .form-control {
+  margin-left: 1rem;
+  width: 80%;
+}
+.modal-header label {
+  margin-left: 1rem;
+}
+.btn-close {
+  color: #ff9b3a !important;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+
+#floatingInput {
+  //background: red;
+}
+.editar {
+  cursor: pointer;
+  color: #ff9b3a;
+  width: 100%;
+  height: 14px;
+}
+.tags {
+  background: #ff9b3a !important;
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+}
+.dropdown-menu.show {
+}
+.form-check-input {
+  background: #ff9b3a;
+}
+.modal-botoes {
+  display: flex;
+  height: fit-content;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: auto;
+}
+.modal-botoes .btn {
+  margin-left: 1rem;
+}
+.area-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.area-cards .card {
+  max-width: 32%;
 }

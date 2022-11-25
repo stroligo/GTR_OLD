@@ -1,4 +1,11 @@
-import { Table, Container, Button, FloatingLabel, Form } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  FloatingLabel,
+  Form,
+  Row,
+  Col,
+} from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ModalCreateUser from "../components/ModalCreateUser";
@@ -27,10 +34,18 @@ function PageUser() {
   return (
     <section>
       <Container>
-        <h3>Cadastro de Usuários</h3>
+        <Row>
+          <Col xs={8} className="left">
+            <h4>Cadastro de Usuários</h4>
+          </Col>
+          <Col xs={4} className="right">
+            <ModalCreateUser reload={reload} setReload={setReload} />
+          </Col>
+        </Row>
+
         <FloatingLabel
           controlId="floatingInput"
-          label="Pesquise por nome / departamento / cargo"
+          label="Pesquise por nome ou setor "
           className="my-3"
         >
           <Form.Control
@@ -40,15 +55,13 @@ function PageUser() {
             onChange={handleSearch}
           />
         </FloatingLabel>
-
-        <Table striped bordered hover>
+        <Table bordered hover size="sm">
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Matrícula</th>
+              <th>Usuario cadastrado</th>
+              <th>Setor</th>
               <th>Status</th>
-              <th>Departamento</th>
-              <th>Detalhes</th>
+              <th colSpan={4}></th>
             </tr>
           </thead>
           <tbody>
@@ -65,24 +78,19 @@ function PageUser() {
               .map((user) => {
                 return (
                   <tr key={user._id}>
-                    <td>{user.nome}</td>
-                    <td>{user.matricula}</td>
-                    <td>{user.status}</td>
-                    <td>{user.departamento}</td>
                     <td>
-                      <Link to={`/user/${user._id}`}>
-                        <Button variant="outline-secondary" size="sm">
-                          Detalhes
-                        </Button>
-                      </Link>
+                      <b> {user.nome}</b> ({user.matricula})
+                    </td>
+                    <td>{user.departamento}</td>
+                    <td>{user.status}</td>
+                    <td className="center">
+                      <Link to={`/user/${user._id}`}>Ver detalhes</Link>
                     </td>
                   </tr>
                 );
               })}
           </tbody>
         </Table>
-
-        <ModalCreateUser reload={reload} setReload={setReload} />
       </Container>
     </section>
   );

@@ -125,7 +125,8 @@ function ModalTarefas({
             <FloatingLabel
               controlId="nome"
               label="Nome da tarefa"
-              className="flex-grow-1">
+              className="flex-grow-1"
+            >
               <Form.Control
                 type="text"
                 id="nome"
@@ -140,38 +141,7 @@ function ModalTarefas({
           <Modal.Body>
             <Row>
               <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label htmlFor="prioridade">Prioridade</Form.Label>
-                  <Form.Select
-                    id="prioridade"
-                    name="prioridade"
-                    aria-label="prioridade"
-                    value={form.prioridade}
-                    onChange={handleChange}>
-                    <option value="Baixo">Baixo</option>
-                    <option value="Médio">Médio</option>
-                    <option value="Alto">Alto</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <MembersCheckbox
-                  update={updateMember}
-                  allMembers={allMembers}
-                  selected={members}
-                />
-                {members.map((member) => (
-                  <Badge key={member._id} bg="secondary">
-                    {member.nome}
-                  </Badge>
-                ))}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group className="mb-3">
+                <Form.Group className="">
                   <Form.Label htmlFor="descrição">Descrição</Form.Label>
                   <Form.Control
                     id="descrição"
@@ -184,9 +154,40 @@ function ModalTarefas({
                 </Form.Group>
               </Col>
             </Row>
+
             <Row>
               <Col>
-                <Form.Group className="mb-3">
+                <MembersCheckbox
+                  update={updateMember}
+                  allMembers={allMembers}
+                  selected={members}
+                />
+                {members.map((member) => (
+                  <Badge key={member._id} className="tags">
+                    {member.nome}
+                  </Badge>
+                ))}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={3}>
+                <Form.Group className="">
+                  <Form.Label htmlFor="prioridade">Prioridade</Form.Label>
+                  <Form.Select
+                    id="prioridade"
+                    name="prioridade"
+                    aria-label="prioridade"
+                    value={form.prioridade}
+                    onChange={handleChange}
+                  >
+                    <option value="Baixo">Baixo</option>
+                    <option value="Médio">Médio</option>
+                    <option value="Alto">Alto</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col xs={3}>
+                <Form.Group className="">
                   <Form.Label htmlFor="referencia">Referências</Form.Label>
                   <Form.Control
                     type="text"
@@ -198,14 +199,15 @@ function ModalTarefas({
                   />
                 </Form.Group>
               </Col>
-              <Col>
+              <Col xs={6}>
                 <Form.Label htmlFor="tags">Tags</Form.Label>
                 <Tags update={updateTags} selected={form.tags} />
               </Col>
             </Row>
+
             <Row>
-              <Col>
-                <Form.Group className="mb-3">
+              <Col xs={3}>
+                <Form.Group className="">
                   <Form.Label htmlFor="tempoestimado">
                     Tempo estimado
                   </Form.Label>
@@ -217,11 +219,12 @@ function ModalTarefas({
                     onChange={handleChange}
                     min="00:00"
                     max="08:00"
-                    placeholder="Tempo estimado para concluir a tarefa"></Form.Control>
+                    placeholder="Tempo estimado para concluir a tarefa"
+                  ></Form.Control>
                 </Form.Group>
               </Col>
-              <Col>
-                <Form.Group className="mb-3">
+              <Col xs={3}>
+                <Form.Group className="">
                   <Form.Label htmlFor="prazoFinal">Prazo Final</Form.Label>
                   <Form.Control
                     type="date"
@@ -236,40 +239,40 @@ function ModalTarefas({
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
+              <Col xs={6} className="modal-botoes">
+                {Object.keys(formObj).length ? (
+                  <>
+                    <Button variant="outline-danger" onClick={handleDelete}>
+                      Excluir tarefa
+                    </Button>
+                    <Button variant="primary" onClick={callRepeticao}>
+                      Salvar
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Cancelar
+                    </Button>
+                    <Button variant="primary" onClick={callRepeticao}>
+                      Adicionar tarefa
+                    </Button>
+                  </>
+                )}
+              </Col>
             </Row>
           </Modal.Body>
         </Form>
-        <Modal.Footer>
-          {Object.keys(formObj).length ? (
-            <>
-              <Button variant="outline-danger" onClick={handleDelete}>
-                Excluir tarefa
-              </Button>
-              <Button variant="primary" onClick={callRepeticao}>
-                Salvar
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="secondary" onClick={handleClose}>
-                Cancelar
-              </Button>
-              <Button variant="primary" onClick={callRepeticao}>
-                Adicionar tarefa
-              </Button>
-            </>
-          )}
-        </Modal.Footer>
       </Modal>
 
       {/* MODAL REPETIÇÕES */}
       <Modal show={showRepeticao} onHide={handleRepeticao} size="lg" centered>
         <Modal.Header closeButton>
-          <Modal.Title>Formulário de criação de tarefas</Modal.Title>
+          <Modal.Title>Repetições</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>Periodicidade</Form.Label>
+          <p>Quantidade de vezes que essa tarefa será repetida.</p>
+          <Form.Group className="">
             <Row>
               <Col>
                 <CheckboxList
@@ -299,7 +302,7 @@ function ModalTarefas({
               )}
               {form.periodicidade === "mensal" && (
                 <Col>
-                  <Form.Group as={Row} className="mb-3">
+                  <Form.Group as={Row} className="">
                     <Form.Label column sm="2" htmlFor="detalhesPeriodicidade">
                       Dia
                     </Form.Label>

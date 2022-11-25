@@ -4,7 +4,7 @@ import {
   BsFillFilePersonFill,
   BsClipboardData,
   BsFillBriefcaseFill,
-  BsThreeDots,
+  BsBoxArrowInLeft,
 } from "react-icons/bs";
 import logo from "../assets/logo2.png";
 
@@ -20,13 +20,13 @@ export default function NavBar() {
             alignItems: "center",
           }}
         >
-          <BsThreeDots
-            style={{ color: "rgba(0,0,0,0.6)" }}
+          <BsBoxArrowInLeft
             onClick={() => collapseSidebar()}
             className="menu-collapse"
           />
-
-          <img src={logo} alt="Logo" className="logo" />
+          <Link to="/">
+            <img src={logo} alt="Logo" className="logo" />
+          </Link>
         </div>
         <MenuItem
           icon={<BsFillFilePersonFill />}
