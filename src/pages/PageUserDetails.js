@@ -142,8 +142,7 @@ function PageUserDetails() {
                     <Col xs={2} className="right">
                       <Button
                         variant="primary"
-                        onClick={() => setShowEdit(true)}
-                      >
+                        onClick={() => setShowEdit(true)}>
                         Editar
                       </Button>
                     </Col>
@@ -189,8 +188,8 @@ function PageUserDetails() {
                           <b>Status:</b> {user.status}
                         </div>
                         <div>
-                          <b>Habilidades:</b>
-                          {user.habilidades}
+                          <b>Habilidades: </b>
+                          {user.habilidades.join(" / ")}
                         </div>
                       </Card.Text>
                     </Col>
@@ -220,8 +219,7 @@ function PageUserDetails() {
                   <Form
                     noValidate
                     validated={validated}
-                    onSubmit={handleSubmit}
-                  >
+                    onSubmit={handleSubmit}>
                     <Row>
                       <Col>
                         <Form.Group className="mb-3">
@@ -305,8 +303,7 @@ function PageUserDetails() {
                           <Form.Select
                             id="status"
                             name="status"
-                            onChange={handleChange}
-                          >
+                            onChange={handleChange}>
                             <option>Selecione uma opção</option>
                             <option value="Ativo">Ativo</option>
                             <option value="Férias">Férias</option>

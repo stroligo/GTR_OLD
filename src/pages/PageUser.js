@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ModalCreateUser from "../components/ModalCreateUser";
 import { Link } from "react-router-dom";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 
 function PageUser() {
   const [users, setUsers] = useState([]);
@@ -46,8 +47,7 @@ function PageUser() {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome ou setor "
-          className="my-3"
-        >
+          className="my-3">
           <Form.Control
             type="text"
             placeholder="pesquise"
@@ -59,6 +59,7 @@ function PageUser() {
           <thead>
             <tr>
               <th>Usuario cadastrado</th>
+              <th>Acessar painel</th>
               <th>Setor</th>
               <th>Status</th>
               <th colSpan={4}></th>
@@ -79,7 +80,14 @@ function PageUser() {
                 return (
                   <tr key={user._id}>
                     <td>
-                      <b> {user.nome}</b> ({user.matricula})
+                      <b> {user.nome}</b> ({user.matricula}) &nbsp;
+                    </td>
+                    <td style={{ width: "5rem" }}>
+                      <Link
+                        to={`/taskuser/${user.matricula}`}
+                        style={{ "vertical-align": "text-bottom" }}>
+                        <BsBoxArrowUpRight />
+                      </Link>
                     </td>
                     <td>{user.departamento}</td>
                     <td>{user.status}</td>

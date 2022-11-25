@@ -158,8 +158,7 @@ export default function TasksParam(opcoes) {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por status"
-          className="my-3"
-        >
+          className="my-3">
           <Form.Control
             type="text"
             placeholder="pesquise"
@@ -221,7 +220,7 @@ export default function TasksParam(opcoes) {
                     <br />
                     {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
                   </td>
-                  <td>{task.tags.join(", ")}</td>
+                  <td>{task.tags.join(" / ")}</td>
                   <td>
                     <Link to={`/tasks/${task._id}`}>
                       <Button variant="outline-secondary" size="sm">

@@ -7,8 +7,7 @@ import {
   Row,
   Col,
   Form,
-  FloatingLabel
-
+  FloatingLabel,
 } from "react-bootstrap";
 import { toast } from "react-hot-toast";
 import MembersCheckbox from "./MembersCheckbox.js";
@@ -24,12 +23,12 @@ function ModalTarefasUsers({
   currentMembers,
   allMembers,
   edit,
-  atribuir
+  atribuir,
 }) {
   const [members, setMembers] = useState(currentMembers);
   const [form, setForm] = useState({ ...taskObject, ...formObj });
   const [validated] = useState(false);
- 
+
   function handleClose() {
     setShow(false);
   }
@@ -74,7 +73,7 @@ function ModalTarefasUsers({
     }
   }
 
-   function handleChange({ target }) {
+  function handleChange({ target }) {
     setForm({ ...form, [target.name]: target.value });
   }
 
@@ -93,7 +92,6 @@ function ModalTarefasUsers({
   }
 
   function obrigatorio() {
-
     if (edit === "rejeitada")
       return (
         <Row>
@@ -112,35 +110,34 @@ function ModalTarefasUsers({
             </Form.Group>
           </Col>
         </Row>
-      )
-    else return (
-      <Row>
-        <Col>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="observacao">Observação</Form.Label>
-            <Form.Control
-              id="observacao"
-              as="textarea"
-              name="observacao"
-              placeholder="Escreva a observação"
-              value={form.observacao}
-              onChange={handleChange}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-    )
+      );
+    else
+      return (
+        <Row>
+          <Col>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="observacao">Observação</Form.Label>
+              <Form.Control
+                id="observacao"
+                as="textarea"
+                name="observacao"
+                placeholder="Escreva a observação"
+                value={form.observacao}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      );
   }
 
   function selecionar() {
     if (atribuir) {
-      return ([allMembers.find(element => element.matricula === atribuir)])
+      return [allMembers.find((element) => element.matricula === atribuir)];
     }
 
-    return (allMembers)
+    return allMembers;
   }
-  
-
 
   return (
     <div>
@@ -163,7 +160,7 @@ function ModalTarefasUsers({
             </FloatingLabel>
           </Modal.Header>
           <Modal.Body>
-                      <Row>
+            <Row>
               <Col>
                 <MembersCheckbox
                   update={updateMember}
@@ -171,7 +168,7 @@ function ModalTarefasUsers({
                   selected={members}
                 />
                 {members.map((member) => (
-                  <Badge key={member._id} bg="secondary">
+                  <Badge key={member._id} className="tags">
                     {member.nome}
                   </Badge>
                 ))}
@@ -229,20 +226,17 @@ function ModalTarefasUsers({
                     placeholder="Tempo estimado para concluir a tarefa"></Form.Control>
                 </Form.Group>
               </Col>
-               </Row>
+            </Row>
           </Modal.Body>
         </Form>
-       
-     
-       
+
         <Modal.Footer>
           {Object.keys(formObj).length ? (
             <>
               <Button variant="primary" onClick={handleSubmit}>
                 Salvar
               </Button>
-              <Button variant="primary" 
-              onClick={handleSubmit}>
+              <Button variant="primary" onClick={handleSubmit}>
                 Concluir Tarefa
               </Button>
             </>
@@ -257,9 +251,7 @@ function ModalTarefasUsers({
             </>
           )}
         </Modal.Footer>
-    </Modal>
-
-    
+      </Modal>
     </div>
   );
 }
