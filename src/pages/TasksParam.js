@@ -39,6 +39,9 @@ export default function TasksParam(opcoes) {
    if ( {atribuir}===3)
  console.log("ok")
 
+ if ( {atribuir}===3)
+ console.log("ok")
+
   useEffect(() => {
     (async () => {
       try {
