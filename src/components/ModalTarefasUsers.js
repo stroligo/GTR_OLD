@@ -132,9 +132,9 @@ function ModalTarefasUsers({
   }
 
   function selecionar() {
-    if (atribuir) {
+    
       return [allMembers.find((element) => element.matricula === atribuir)];
-    }
+    
 
     return allMembers;
   }
@@ -236,9 +236,10 @@ function ModalTarefasUsers({
               <Button variant="primary" onClick={handleSubmit}>
                 Salvar
               </Button>
-              <Button variant="primary" onClick={handleSubmit}>
-                Concluir Tarefa
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
               </Button>
+              
             </>
           ) : (
             <>

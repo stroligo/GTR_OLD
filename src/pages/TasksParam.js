@@ -63,7 +63,8 @@ export default function TasksParam(opcoes) {
     setShowModal(true);
   }
 
-  function handleEditTask(task) {
+  function handleEditTask(task, status) {
+    task.status = status
     setEdit("editar");
     setMembers(
       allMembers.filter((item) => task.membros.includes(item.matricula))
@@ -74,14 +75,18 @@ export default function TasksParam(opcoes) {
   }
 
   function aceite() {
-    return opcoes.op === 1 ? <th>Aceitar</th> : <th>Atribuir</th>;
+    return (opcoes.op === 1) ? <th>Aceitar</th> : <th colSpan="3">Atribuir</th>
   }
+
+  function encerrar(task){
+    handleEditTask(task, "Concluida")
+ }
 
   function atribuirse(task) {
     setAtribuir(matricula);
     task.membros = [matricula];
     task.status = "Aceita";
-    handleEditTask(task);
+    handleEditTask(task, "Aceita")
   }
 
   function aceitar(task) {
@@ -93,7 +98,7 @@ export default function TasksParam(opcoes) {
   function rejeitar(task) {
     setEdit("rejeitada");
     task.status = "Rejeitada";
-    handleEditTask(task);
+    handleEditTask(task, "Rejeitada")
   }
   function showButton(task) {
     if (opcoes.op === 1 && task.status === "Ativo") {
@@ -126,7 +131,7 @@ export default function TasksParam(opcoes) {
     if (condicional) {
       return (
         <Col md="auto">
-          <Button onClick={handleModal}>Adicionar</Button>
+          <Button onClick={handleModal}>Adicionar2</Button>
         </Col>
       );
     }
@@ -184,6 +189,7 @@ export default function TasksParam(opcoes) {
               <th>Detalhes</th>
               {aceite()}
               {opcoes.op === 1 ? <th>Editar</th> : false}
+              {opcoes.op === 1 ? <th>Finalizar</th> : false}
             </tr>
           </thead>
           <tbody>
@@ -230,7 +236,7 @@ export default function TasksParam(opcoes) {
                   </td>
                   {showButton(task)}
 
-                  {opcoes.op === 1 ? (
+                  {opcoes.op === 1 && task.status === "Aceita" ? (
                     <td>
                       <BsFillPencilFill
                         onClick={() => handleEditTask(task)}
@@ -238,8 +244,20 @@ export default function TasksParam(opcoes) {
                       />
                     </td>
                   ) : (
-                    false
+                    <td></td>
                   )}
+                  {(opcoes.op === 1 && task.status === "Aceita" ) ? (
+                    <td>
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => encerrar(task)}>
+                           Encerrar
+                      </Button>
+                      
+                    </td>)
+                    
+                    : (<td></td>)}
                 </tr>
               ))}
           </tbody>
@@ -256,7 +274,7 @@ export default function TasksParam(opcoes) {
           currentMembers={members}
           allMembers={allMembers}
           edit={edit}
-          atribuir={atribuir}
+          atribuir={matricula}
         />
       </Container>
     </section>
