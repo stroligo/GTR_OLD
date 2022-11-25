@@ -5,6 +5,7 @@ import {
   BsClipboardData,
   BsFillBriefcaseFill,
   BsBoxArrowInLeft,
+  BsFillExclamationDiamondFill,
 } from "react-icons/bs";
 import logo from "../assets/logo2.png";
 
@@ -42,6 +43,13 @@ export default function NavBar() {
           routerLink={<Link to="/taskuser/1212125" />}
         >
           Minhas Tarefas
+        </MenuItem>
+
+        <MenuItem
+          icon={<BsFillExclamationDiamondFill />}
+          routerLink={<Link to="/project" />}
+        >
+          <b>Quem fez?</b>
         </MenuItem>
       </Menu>
     </Sidebar>
