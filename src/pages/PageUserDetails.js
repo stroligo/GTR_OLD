@@ -186,11 +186,7 @@ function PageUserDetails() {
                       <Card.Title>Status</Card.Title>
                       <Card.Text>{user.status}</Card.Text>
                       <Card.Title>Habilidades</Card.Title>
-                      <Card.Text>
-                        {user.habilidades.map((habilidade) => {
-                          <h3>{habilidade}</h3>;
-                        })}
-                      </Card.Text>
+                      <Card.Text>{user.habilidades}</Card.Text>
                       <Card.Text className="mb-2 text-muted">
                         <div>
                           <b>Email:</b> {user.email}
