@@ -1,22 +1,16 @@
-import {
-  Container,
-  Card,
-  Button,
-  Row,
-  Col,
-  Form,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Card, Row, Col } from "react-bootstrap";
+import img1 from "../assets/image1.png";
 
 function PageHome() {
   return (
     <div>
-      <section>
-        <h4>
+      <section className="mb-4">
+        <h4 className="mb-4">
           A cada dia o trabalho remoto se torna mais comum, graças aos avanços
           da tecnologia.
         </h4>
-        <p>
+        <p className="mb-4">
+          <img src={img1} alt="Img1" className="img-home" />
           Porém, embora a opção de trabalhar a partir de casa seja um grande
           benefício, é importante que você e a sua equipe tenham a ferramenta de
           software adequada para assegurar que os objetivos da empresa serão
@@ -26,11 +20,11 @@ function PageHome() {
           difícil manter todos cientes, organizados e engajados no que precisa
           ser feito.
         </p>
-        <h5>
+        <h5 className="mb-4">
           Com o GTR você poderá realizar tudo isso e ter toda a gestão dos seus
           projetos em desenvolvimento à distancia de alguns cliques!
         </h5>
-        <p>
+        <p className="mb-4">
           Isto significa que mesmo que esteja gerenciando suas equipes de forma
           remota, você poderá saber quais tarefas estão sendo atribuídas a quem,
           qual tempo está sendo gasto para serem iniciadas e finalizadas, entre
@@ -39,8 +33,10 @@ function PageHome() {
         </p>
       </section>
       <section>
-        <h4>5 razões para gerenciar funcionários que trabalham em casa </h4>
-        <h6>
+        <h4 className="mb-4">
+          5 razões para gerenciar funcionários que trabalham em casa{" "}
+        </h4>
+        <h6 className="mb-4">
           Se você confia em seus funcionários, pode relutar em monitorar suas
           atividades. Mas o gerenciamento do trabalho remoto tem uma variedade
           de efeitos positivos!
