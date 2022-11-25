@@ -168,7 +168,7 @@ export default function TasksParam(opcoes) {
           />
         </FloatingLabel>
 
-        <Table striped bordered hover>
+        <Table bordered hover>
           <thead>
             <tr>
               <th>Nome</th>
