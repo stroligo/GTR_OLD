@@ -9,6 +9,7 @@ import {
   Form,
   FloatingLabel,
 } from "react-bootstrap";
+
 import { toast } from "react-hot-toast";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
@@ -64,7 +65,7 @@ function ModalTarefasUsers({
         clone
       );
 
-      toast.success("Alterações salvas");
+      toast.success("Alterações salvas.");
       setReload(!reload);
     } catch (error) {
       setShow(true);
@@ -132,11 +133,9 @@ function ModalTarefasUsers({
   }
 
   function selecionar() {
-    if (atribuir) {
+    
       return [allMembers.find((element) => element.matricula === atribuir)];
-    }
-
-    return allMembers;
+    
   }
 
   return (
@@ -236,9 +235,10 @@ function ModalTarefasUsers({
               <Button variant="primary" onClick={handleSubmit}>
                 Salvar
               </Button>
-              <Button variant="primary" onClick={handleSubmit}>
-                Concluir Tarefa
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
               </Button>
+              
             </>
           ) : (
             <>
