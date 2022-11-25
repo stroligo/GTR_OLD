@@ -1,5 +1,5 @@
 import michela from "../assets/michela.jpeg";
-import arash from "../assets/arash.png";
+import arash from "../assets/arash.jpeg";
 import anderson from "../assets/anderson.png";
 import gabriel from "../assets/gabriel.jpeg";
 
@@ -28,17 +28,22 @@ function PageProject() {
         <h4> Arash Kaffashi</h4>
         <img src={arash} alt="Arash" className="img-perfil" />
         <p>
-          Arash Cipriano Cardoso Kaffashi, 27 anos, Oficial de Justiça em
-          Tangará da Serra - MT, apaixonado por tecnologia e desenvolvimento de
-          software.
+          Possui graduação em direito pela UNEMAT e atua como Oficial de Justiça
+          Avaliador há 09 anos, reside em Tangará da Serra - MT, é apaixonado
+          por desenvolvimento de software, informática, investimentos,
+          tecnologia e viagens.
         </p>
         <div> https://github.com/Arash-kaffashi</div>
+        <div>
+          {" "}
+          https://www.linkedin.com/in/arash-cipriano-cardoso-kaffashi-7873a9166/
+        </div>
       </div>
       <div className="profile">
         <h4>Anderson Moro</h4>
         <img src={anderson} alt="Anderson" className="img-perfil" />
         <p>
-          Possue mestrado em Gestão nas organizações pela Universidade Federal
+          Possui mestrado em Gestão nas organizações pela Universidade Federal
           da Paraíba (2021), graduação em Sistemas de Informação pela
           Universidade Federal de Santa Maria (2015) e graduação em Sistemas
           para Internet pela Universidade Federal de Santa Maria (2014).
