@@ -97,7 +97,7 @@ export default function Tasks() {
               <th>Atribuido</th>
               <th>Status</th>
               {/*  <th>Prioridade</th> */}
-              <th>Periodicidade</th>
+              <th>Prioridade</th>
               {/* <th>Referência</th> */}
 
               {/*  <th>Estimativa</th> */}
