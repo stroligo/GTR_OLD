@@ -31,7 +31,7 @@ export default function TasksParam(opcoes) {
   const [formObj, setFormObj] = useState({});
   const [modalKey, setModalKey] = useState(0);
   const [edit, setEdit] = useState(false);
-  const [atribuir, setAtribuir] = useState(false);
+  const [setAtribuir] = useState(false);
   const { matricula } = useParams();
   let titulo;
   let tarefas;
@@ -131,7 +131,7 @@ export default function TasksParam(opcoes) {
     if (condicional) {
       return (
         <Col md="auto">
-          <Button onClick={handleModal}>Adicionar2</Button>
+          <Button onClick={handleModal}>Adicionar</Button>
         </Col>
       );
     }

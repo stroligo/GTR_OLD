@@ -9,6 +9,7 @@ import {
   Form,
   FloatingLabel,
 } from "react-bootstrap";
+
 import { toast } from "react-hot-toast";
 import MembersCheckbox from "./MembersCheckbox.js";
 import Tags from "./Tags.js";
@@ -64,7 +65,7 @@ function ModalTarefasUsers({
         clone
       );
 
-      toast.success("Alterações salvas");
+      toast.success("Alterações salvas.");
       setReload(!reload);
     } catch (error) {
       setShow(true);
@@ -135,8 +136,6 @@ function ModalTarefasUsers({
     
       return [allMembers.find((element) => element.matricula === atribuir)];
     
-
-    return allMembers;
   }
 
   return (
