@@ -27,6 +27,7 @@ function PageUser() {
   return (
     <section>
       <Container>
+        <h3>Cadastro de Usuários</h3>
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por nome / departamento / cargo"

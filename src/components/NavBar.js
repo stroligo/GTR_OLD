@@ -6,11 +6,12 @@ import {
   BsFillBriefcaseFill,
   BsThreeDots,
 } from "react-icons/bs";
+import logo from "../assets/logo2.png";
 
 export default function NavBar() {
   const { collapseSidebar } = useProSidebar();
   return (
-    <Sidebar width="270px" collapsedWidth="100px" transitionDuration={1000}>
+    <Sidebar width="270px" collapsedWidth="70px" transitionDuration={500}>
       <Menu>
         <div
           style={{
@@ -19,21 +20,13 @@ export default function NavBar() {
             alignItems: "center",
           }}
         >
-          <MenuItem routerLink={<Link to="/" />}>GTR</MenuItem>
-          <div
-            style={{
-              borderRadius: "50%",
+          <BsThreeDots
+            style={{ color: "rgba(0,0,0,0.6)" }}
+            onClick={() => collapseSidebar()}
+            className="menu-collapse"
+          />
 
-              display: "inline-flex",
-              cursor: "pointer",
-              fontSize: "1.5rem",
-            }}
-          >
-            <BsThreeDots
-              style={{ color: "rgba(0,0,0,0.6)" }}
-              onClick={() => collapseSidebar()}
-            />
-          </div>
+          <img src={logo} alt="Logo" className="logo" />
         </div>
         <MenuItem
           icon={<BsFillFilePersonFill />}

@@ -65,7 +65,7 @@ export default function Tasks() {
   }
 
   return (
-    <div>
+    <section>
       <Container>
         <Row>
           <Col>
@@ -78,7 +78,8 @@ export default function Tasks() {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por status"
-          className="my-3">
+          className="my-3"
+        >
           <Form.Control
             type="text"
             placeholder="pesquise"
@@ -147,7 +148,8 @@ export default function Tasks() {
                     <Button
                       variant="outline-secondary"
                       size="sm"
-                      onClick={() => handleEditTask(task)}>
+                      onClick={() => handleEditTask(task)}
+                    >
                       Editar
                     </Button>
                   </td>
@@ -167,6 +169,6 @@ export default function Tasks() {
           allMembers={allMembers}
         />
       </Container>
-    </div>
+    </section>
   );
 }

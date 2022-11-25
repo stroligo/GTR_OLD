@@ -28,8 +28,8 @@ function App() {
         <Route
           element={
             <div style={{ display: "flex" }}>
-              <NavBar />
-              <div style={{ "flex-grow": "1" }}>
+              <NavBar className="nav" />
+              <div style={{ "flex-grow": "1" }} className="main">
                 <Outlet />
               </div>
             </div>

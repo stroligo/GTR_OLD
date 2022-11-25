@@ -55,7 +55,7 @@ export default function TasksParam(opcoes) {
   }, [reload]);
 
   function handleModal() {
-    setEdit("new")
+    setEdit("new");
     setMembers([]);
     setFormObj({});
     setModalKey(modalKey + 1); // force modal reload
@@ -73,66 +73,52 @@ export default function TasksParam(opcoes) {
   }
 
   function aceite() {
-    return (opcoes.op === 1) ? <th>Aceitar</th> : <th>Atribuir</th>
+    return opcoes.op === 1 ? <th>Aceitar</th> : <th>Atribuir</th>;
   }
 
   function atribuirse(task) {
-    setAtribuir(matricula)
+    setAtribuir(matricula);
     task.membros = [matricula];
     task.status = "Aceita";
-    handleEditTask(task)
+    handleEditTask(task);
   }
 
   function aceitar(task) {
-    setEdit("aceita")
+    setEdit("aceita");
     task.status = "Aceita";
-    handleEditTask(task)
+    handleEditTask(task);
   }
 
   function rejeitar(task) {
-    setEdit("rejeitada")
+    setEdit("rejeitada");
     task.status = "Rejeitada";
-    handleEditTask(task)
+    handleEditTask(task);
   }
   function showButton(task) {
     if (opcoes.op === 1 && task.status === "Ativo") {
-
       return (
-        
         <td>
-          <Button
-            variant="success"
-            size="sm"
-            onClick={() => aceitar(task)}
-          >
+          <Button variant="success" size="sm" onClick={() => aceitar(task)}>
             Aceitar
           </Button>
-          
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={() => rejeitar(task)}
-            >
-              Rejeitar
-            </Button>
-          </td>
-     
 
-      )
+          <Button variant="danger" size="sm" onClick={() => rejeitar(task)}>
+            Rejeitar
+          </Button>
+        </td>
+      );
     }
-    if (opcoes.op === 1 && task.status !== "Ativo") { return (<td></td>) }
+    if (opcoes.op === 1 && task.status !== "Ativo") {
+      return <td></td>;
+    }
     if (opcoes.op === 2) {
-      return (<td>
-       
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => atribuirse(task)}
-          >
+      return (
+        <td>
+          <Button variant="primary" size="sm" onClick={() => atribuirse(task)}>
             Atribuir
           </Button>
-      
-      </td>)
+        </td>
+      );
     }
   }
   function botaoAdicionar(condicional) {
@@ -143,29 +129,25 @@ export default function TasksParam(opcoes) {
         </Col>
       );
     }
-    return (false);
+    return false;
   }
 
   if (opcoes.op === 1) {
-    titulo = "Tarefas Atribuidas"
+    titulo = "Tarefas Atribuidas";
     tarefas = tasks.filter((task) => {
-      return (
-        task.membros.includes(matricula)
-      );
-    })
+      return task.membros.includes(matricula);
+    });
   }
 
   if (opcoes.op === 2) {
-    titulo = "Tarefas sem Atribuição"
+    titulo = "Tarefas sem Atribuição";
     tarefas = tasks.filter((task) => {
-      return (
-        task.membros.length === 0
-      );
-    })
+      return task.membros.length === 0;
+    });
   }
 
   return (
-    <div>
+    <section>
       <Container>
         <Row>
           <Col>
@@ -175,7 +157,8 @@ export default function TasksParam(opcoes) {
         <FloatingLabel
           controlId="floatingInput"
           label="Pesquise por status"
-          className="my-3">
+          className="my-3"
+        >
           <Form.Control
             type="text"
             placeholder="pesquise"
@@ -199,7 +182,7 @@ export default function TasksParam(opcoes) {
               <th>Tags</th>
               <th>Detalhes</th>
               {aceite()}
-              {opcoes.op ===1 ? <th>Editar</th> : false}
+              {opcoes.op === 1 ? <th>Editar</th> : false}
             </tr>
           </thead>
           <tbody>
@@ -228,7 +211,9 @@ export default function TasksParam(opcoes) {
                       .map((member) => member.nome)
                       .join(", ")}
                   </td>
-                  <td>{new Date(task.inicio + " 00:00").toLocaleDateString()}</td>
+                  <td>
+                    {new Date(task.inicio + " 00:00").toLocaleDateString()}
+                  </td>
                   <td>{task.tempoestimado}</td>
                   <td>
                     {new Date(task.prazoFinal + " 00:00").toLocaleDateString()}
@@ -242,17 +227,20 @@ export default function TasksParam(opcoes) {
                     </Link>
                   </td>
                   {showButton(task)}
-                  
-                    { (opcoes.op===1) ? (
-                      <td>
+
+                  {opcoes.op === 1 ? (
+                    <td>
                       <Button
                         variant="outline-secondary"
                         size="sm"
-                        onClick={() => handleEditTask(task)}>
+                        onClick={() => handleEditTask(task)}
+                      >
                         Editar
                       </Button>
-                      </td>)
-                      : (false)}                 
+                    </td>
+                  ) : (
+                    false
+                  )}
                 </tr>
               ))}
           </tbody>
@@ -272,6 +260,6 @@ export default function TasksParam(opcoes) {
           atribuir={atribuir}
         />
       </Container>
-    </div>
+    </section>
   );
 }
