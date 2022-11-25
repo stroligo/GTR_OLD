@@ -69,8 +69,7 @@ export default function TasksParam(opcoes) {
     setShowModal(true);
   }
 
-  function handleEditTask(task, status) {
-    task.status = status
+  function handleEditTask(task) {
     setEdit("editar");
     setMembers(
       allMembers.filter((item) => task.membros.includes(item.matricula))
@@ -85,26 +84,29 @@ export default function TasksParam(opcoes) {
   }
 
   function encerrar(task){
-    handleEditTask(task, "Concluida")
+    task.status="Concluida";
+    handleEditTask(task)
  }
 
   function atribuirse(task) {
     setAtribuir(matricula);
     task.membros = [matricula];
     task.status = "Aceita";
-    handleEditTask(task, "Aceita")
+    handleEditTask(task)
   }
 
   function aceitar(task) {
-    setEdit("aceita");
     task.status = "Aceita";
+    alert(task.status)
+    setEdit("aceita");    
     handleEditTask(task);
+    
   }
 
   function rejeitar(task) {
     setEdit("rejeitada");
     task.status = "Rejeitada";
-    handleEditTask(task, "Rejeitada")
+    handleEditTask(task)
   }
   function showButton(task) {
     if (opcoes.op === 1 && task.status === "Ativo") {
