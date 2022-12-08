@@ -1,7 +1,7 @@
-@import "../../node_modules/bootstrap/scss/bootstrap";
-
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap");
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 
 $azul: #115163;
 $larajna: #ff9b3a;
 $amarelo: #ffca3b;
@@ -291,3 +291,4 @@ a {
 
   margin-bottom: 2rem;
 }
+ */

@@ -5,6 +5,8 @@ function PageHome() {
   return (
     <div>
       <section className="mb-4">
+        <h1 className="text-4xl font-bold underline">TailWind Instalado</h1>
+
         <h4 className="mb-4">
           A cada dia o trabalho remoto se torna mais comum, graças aos avanços
           da tecnologia.
